@@ -13,7 +13,7 @@ public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
-    private String userId;
+    private Long userId;
 
     @Column(length = 20, nullable = false)
     private String name;
@@ -32,6 +32,6 @@ public class User extends BaseEntity {
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 1)
+    @Column(length = 10, nullable = false)
     private Role role;
 }
