@@ -16,11 +16,11 @@ public class ChatRoom {
     private Long chatRoomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false, referencedColumnName = "user_id")
     private User member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false, referencedColumnName = "user_id")
     private User owner;
 }
 

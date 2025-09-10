@@ -3,6 +3,8 @@ package konkuk.chacall.domain.foodtruck.domain;
 import jakarta.persistence.*;
 import konkuk.chacall.domain.foodtruck.domain.value.*;
 import konkuk.chacall.domain.user.User;
+import konkuk.chacall.global.common.converter.MenuCategoryListConverter;
+import konkuk.chacall.global.common.converter.PhotoUrlListConverter;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,11 +36,11 @@ public class FoodTruck extends BaseEntity {
     @Column(nullable = false)
     private boolean timeDiscussRequired;
 
-    @Convert(converter = PhotoUrlList.class)
+    @Convert(converter = PhotoUrlListConverter.class)
     @Column(nullable = false)
     private PhotoUrlList foodTruckPhotoList;
 
-    @Convert(converter = MenuCategoryList.class)
+    @Convert(converter = MenuCategoryListConverter.class)
     @Column(nullable = false)
     private MenuCategoryList menuCategoryList;
 
