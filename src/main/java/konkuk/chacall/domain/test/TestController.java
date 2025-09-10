@@ -84,7 +84,7 @@ public class TestController {
 
     // DTO 내부 유효성 검증용 클래스
     @Getter
-    public static class UserRequest {
+    private static class UserRequest {
         @NotBlank(message = "이름은 필수 값입니다.")
         private String name;
 
