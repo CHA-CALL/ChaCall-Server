@@ -50,7 +50,7 @@ jobs:
       - name: 🚀 deploy to server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EC2_HOST_DEV }}
+          host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.EC2_PORT }}
