@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.user;
+package konkuk.chacall.domain.user.domain.model;
 
 import lombok.Getter;
 
