@@ -3,11 +3,15 @@ package konkuk.chacall.domain.owner.domain.model;
 import jakarta.persistence.*;
 import konkuk.chacall.domain.user.domain.model.User;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "bank_accounts")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class BankAccount {
 
     @Id
