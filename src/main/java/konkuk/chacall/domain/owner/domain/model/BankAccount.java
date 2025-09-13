@@ -27,7 +27,7 @@ public class BankAccount {
     @Column(length = 30, nullable = false)
     private String accountNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 }
