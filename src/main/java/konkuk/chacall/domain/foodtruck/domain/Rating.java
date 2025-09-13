@@ -1,7 +1,7 @@
 package konkuk.chacall.domain.foodtruck.domain;
 
 import jakarta.persistence.*;
-import konkuk.chacall.domain.user.User;
+import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
