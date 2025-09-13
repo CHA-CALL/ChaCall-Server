@@ -15,4 +15,7 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
 
     // 사장님 ID 기반 계좌 조회
     Optional<BankAccount> findByOwner_UserId(Long userId);
+
+    // 계좌 ID와 사장님 ID로 계좌 조회
+    Optional<BankAccount> findByBankAccountIdAndOwner_UserId(Long bankAccountId, Long ownerId);
 }

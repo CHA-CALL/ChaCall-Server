@@ -41,5 +41,12 @@ public class OwnerService {
         bankAccountService.updateBankAccount(ownerId, bankAccountId, request);
     }
 
+    public void deleteBankAccount(Long ownerId, Long bankAccountId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 계좌 삭제 로직 호출
+        bankAccountService.deleteBankAccount(ownerId, bankAccountId);
+    }
 
 }

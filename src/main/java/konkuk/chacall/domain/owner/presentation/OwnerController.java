@@ -42,4 +42,13 @@ public class OwnerController {
         ownerService.updateBankAccount(1L, bankAccountId, request);
         return BaseResponse.ok(null);
     }
+
+    @DeleteMapping("/me/bank-accounts/{bankAccountId}")
+    public BaseResponse<Void> deleteBankAccount(
+            @PathVariable Long bankAccountId
+    ) {
+        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
+        ownerService.deleteBankAccount(1L, bankAccountId);
+        return BaseResponse.ok(null);
+    }
 }
