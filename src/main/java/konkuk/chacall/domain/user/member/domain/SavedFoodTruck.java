@@ -2,7 +2,7 @@ package konkuk.chacall.domain.user.member.domain;
 
 import jakarta.persistence.*;
 import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
-import konkuk.chacall.domain.user.User;
+import konkuk.chacall.domain.user.domain.User;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package konkuk.chacall.domain.user.owner.domain;
 
 import jakarta.persistence.*;
-import konkuk.chacall.domain.user.User;
+import konkuk.chacall.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
