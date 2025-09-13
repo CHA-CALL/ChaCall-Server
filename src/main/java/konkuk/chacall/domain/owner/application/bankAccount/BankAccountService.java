@@ -3,11 +3,13 @@ package konkuk.chacall.domain.owner.application.bankAccount;
 import konkuk.chacall.domain.owner.domain.model.BankAccount;
 import konkuk.chacall.domain.owner.domain.repository.BankAccountRepository;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
 import konkuk.chacall.global.common.domain.BaseStatus;
+import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
@@ -62,5 +64,32 @@ public class BankAccountService {
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.BANK_ACCOUNT_NOT_FOUND));
 
         return BankAccountResponse.from(bankAccount);
+    }
+
+
+    @Transactional
+    public void updateBankAccount(Long ownerId, Long bankAccountId, UpdateBankAccountRequest request) {
+
+        if (!userRepository.existsByUserIdAndRoleAndStatus(ownerId, Role.OWNER, BaseStatus.ACTIVE)) {
+            throw new EntityNotFoundException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // 계좌 존재 여부 재검증
+        BankAccount bankAccount = bankAccountRepository.findById(bankAccountId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.BANK_ACCOUNT_NOT_FOUND));
+
+        // 수정하려는 계좌번호가 현재와 다를 경우에만, 시스템 전체에서 중복되는지 검증
+        if (!bankAccount.getAccountNumber().equals(request.accountNumber())) {
+            if (bankAccountRepository.existsByAccountNumber(request.accountNumber())) {
+                throw new DomainRuleException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS);
+            }
+        }
+
+        // 엔티티의 update 메서드를 호출하여 정보를 수정
+        bankAccount.update(
+                request.bankName(),
+                request.accountHolderName(),
+                request.accountNumber()
+        );
     }
 }

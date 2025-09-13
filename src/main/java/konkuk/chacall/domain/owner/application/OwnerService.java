@@ -2,6 +2,7 @@ package konkuk.chacall.domain.owner.application;
 
 import konkuk.chacall.domain.owner.application.bankAccount.BankAccountService;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,9 @@ public class OwnerService {
 
     public BankAccountResponse getBankAccount(Long ownerId) {
         return bankAccountService.getBankAccount(ownerId);
+    }
+
+    public void updateBankAccount(Long ownerId, Long bankAccountId, UpdateBankAccountRequest request) {
+        bankAccountService.updateBankAccount(ownerId, bankAccountId, request);
     }
 }
