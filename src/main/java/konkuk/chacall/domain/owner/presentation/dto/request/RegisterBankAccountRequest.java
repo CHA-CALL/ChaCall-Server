@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.owner.presentation.dto;
+package konkuk.chacall.domain.owner.presentation.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 
