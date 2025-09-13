@@ -1,12 +1,16 @@
-package konkuk.chacall.domain.user;
+package konkuk.chacall.domain.user.domain;
 
 import jakarta.persistence.*;
+import konkuk.chacall.domain.user.domain.value.Gender;
+import konkuk.chacall.domain.user.domain.value.Role;
 import konkuk.chacall.global.common.domain.BaseEntity;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Getter
 @Entity
+@Builder
 @Table(name = "users")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
@@ -34,4 +38,14 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 10, nullable = false)
     private Role role;
+
+    public static User createNewUser(String name, String profileImageUrl, String kakaoId, String email) {
+        return User.builder()
+                .name(name)
+                .profileImageUrl(profileImageUrl)
+                .kakaoId(kakaoId)
+                .email(email)
+                .role(Role.NON_SELECTED)
+                .build();
+    }
 }
