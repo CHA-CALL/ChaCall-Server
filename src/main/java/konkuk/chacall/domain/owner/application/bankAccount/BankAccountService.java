@@ -6,6 +6,7 @@ import konkuk.chacall.domain.owner.presentation.dto.RegisterBankAccountRequest;
 import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
+import konkuk.chacall.global.common.domain.BaseStatus;
 import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
@@ -24,11 +25,16 @@ public class BankAccountService {
     @Transactional
     public void registerBankAccount(RegisterBankAccountRequest request, Long ownerId) {
         // 존재 여부 및 역할 검증 동시에
-        User owner = userRepository.findByUserIdAndRole(ownerId, Role.OWNER).orElseThrow(
+        User owner = userRepository.findByUserIdAndRoleAndStatus(ownerId, Role.OWNER, BaseStatus.ACTIVE).orElseThrow(
                 () -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
 
+        // 해당 유저의 계좌가 이미 있는지 확인
+        if (bankAccountRepository.existsByOwner_UserId(ownerId)) {
+            throw new DomainRuleException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS_FOR_USER);
+        }
+
         // 중복 계좌 검증
-        if (bankAccountRepository.existsByOwner_UserIdAndAccountNumber(ownerId, request.accountNumber())) {
+        if (bankAccountRepository.existsByAccountNumber(request.accountNumber())) {
             throw new DomainRuleException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS);
         }
 

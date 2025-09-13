@@ -36,7 +36,8 @@ public enum ErrorCode implements ResponseCode {
      * BankAccount
      */
     BANK_ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, 70001, "계좌를 찾을 수 없습니다."),
-    BANK_ACCOUNT_ALREADY_EXISTS(HttpStatus.CONFLICT, 70002, "이미 존재하는 계좌입니다.")
+    BANK_ACCOUNT_ALREADY_EXISTS(HttpStatus.CONFLICT, 70002, "이미 존재하는 계좌입니다."),
+    BANK_ACCOUNT_ALREADY_EXISTS_FOR_USER(HttpStatus.CONFLICT, 70003, "해당 유저에게 이미 등록된 계좌가 존재합니다.")
     ;
 
     private final HttpStatus httpStatus;
