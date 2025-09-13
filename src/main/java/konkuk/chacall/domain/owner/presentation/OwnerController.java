@@ -20,7 +20,7 @@ public class OwnerController {
 
     @PostMapping("/me/bank-accounts")
     public BaseResponse<Void> registerBankAccount(
-            @Valid RegisterBankAccountRequest registerBankAccountRequest
+            @RequestBody @Valid RegisterBankAccountRequest registerBankAccountRequest
     ) {
         // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
         ownerService.registerBankAccount(registerBankAccountRequest, 1L);

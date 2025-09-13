@@ -22,11 +22,11 @@ public class BankAccount {
     @Column(length = 20, nullable = false)
     private String accountHolderName;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = false, unique = true)
     private String accountNumber;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User owner;
 
     public void update(String bankName, String accountHolderName, String accountNumber) {
