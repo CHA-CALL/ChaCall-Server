@@ -38,7 +38,6 @@ public class OwnerController {
     public BaseResponse<Void> updateBankAccount(
             @PathVariable Long bankAccountId,
             @RequestBody @Valid UpdateBankAccountRequest request) {
-
         // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
         ownerService.updateBankAccount(1L, bankAccountId, request);
         return BaseResponse.ok(null);

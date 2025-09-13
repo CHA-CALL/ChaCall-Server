@@ -3,10 +3,12 @@ package konkuk.chacall.domain.user.domain.model;
 import jakarta.persistence.*;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 

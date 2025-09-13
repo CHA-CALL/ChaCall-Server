@@ -22,17 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class BankAccountService {
 
-    private final UserRepository userRepository;
     private final BankAccountRepository bankAccountRepository;
 
     @Transactional
-    public void registerBankAccount(RegisterBankAccountRequest request, Long ownerId) {
-        // 존재 여부 및 역할 검증 동시에
-        User owner = userRepository.findByUserIdAndRoleAndStatus(ownerId, Role.OWNER, BaseStatus.ACTIVE).orElseThrow(
-                () -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
+    public void registerBankAccount(RegisterBankAccountRequest request, User owner) {
 
         // 해당 유저의 계좌가 이미 있는지 확인
-        if (bankAccountRepository.existsByOwner_UserId(ownerId)) {
+        if (bankAccountRepository.existsByOwner_UserId(owner.getUserId())) {
             throw new DomainRuleException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS_FOR_USER);
         }
 
@@ -53,12 +49,6 @@ public class BankAccountService {
 
 
     public BankAccountResponse getBankAccount(Long ownerId) {
-
-        // 존재 여부 및 역할 검증 동시에
-        if (!userRepository.existsByUserIdAndRoleAndStatus(ownerId, Role.OWNER, BaseStatus.ACTIVE)) {
-            throw new EntityNotFoundException(ErrorCode.USER_NOT_FOUND);
-        }
-
         // 계좌 조회
         BankAccount bankAccount = bankAccountRepository.findByOwner_UserId(ownerId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.BANK_ACCOUNT_NOT_FOUND));
@@ -69,11 +59,6 @@ public class BankAccountService {
 
     @Transactional
     public void updateBankAccount(Long ownerId, Long bankAccountId, UpdateBankAccountRequest request) {
-
-        if (!userRepository.existsByUserIdAndRoleAndStatus(ownerId, Role.OWNER, BaseStatus.ACTIVE)) {
-            throw new EntityNotFoundException(ErrorCode.USER_NOT_FOUND);
-        }
-
         // 계좌 존재 여부 재검증
         BankAccount bankAccount = bankAccountRepository.findById(bankAccountId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.BANK_ACCOUNT_NOT_FOUND));
