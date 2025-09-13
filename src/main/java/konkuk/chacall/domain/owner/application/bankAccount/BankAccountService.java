@@ -2,7 +2,8 @@ package konkuk.chacall.domain.owner.application.bankAccount;
 
 import konkuk.chacall.domain.owner.domain.model.BankAccount;
 import konkuk.chacall.domain.owner.domain.repository.BankAccountRepository;
-import konkuk.chacall.domain.owner.presentation.dto.RegisterBankAccountRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
+import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
@@ -46,5 +47,20 @@ public class BankAccountService {
                 .build();
 
         bankAccountRepository.save(bankAccount);
+    }
+
+
+    public BankAccountResponse getBankAccount(Long ownerId) {
+
+        // 존재 여부 및 역할 검증 동시에
+        if (!userRepository.existsByUserIdAndRoleAndStatus(ownerId, Role.OWNER, BaseStatus.ACTIVE)) {
+            throw new EntityNotFoundException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // 계좌 조회
+        BankAccount bankAccount = bankAccountRepository.findByOwner_UserId(ownerId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.BANK_ACCOUNT_NOT_FOUND));
+
+        return BankAccountResponse.from(bankAccount);
     }
 }
