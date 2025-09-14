@@ -19,7 +19,46 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 logging:
   level:
     org.hibernate.sql: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+---
+server:
+  port: 8080
+  web-domain-url: http://localhost:8080
+
+---
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-name: kakao
+            client-id: abcd1234efgh5678ijkl90mnopqrstu
+            client-secret: abcdefghij1234567890klmnopqrstuv
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+---
+jwt:
+  secret: abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456
+  access-expiration: 2592000000 # 30일
