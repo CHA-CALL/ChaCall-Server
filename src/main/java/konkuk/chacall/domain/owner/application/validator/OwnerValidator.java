@@ -1,15 +1,16 @@
-package konkuk.chacall.domain.owner.application.util;
+package konkuk.chacall.domain.owner.application.validator;
 
 import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
+import konkuk.chacall.global.common.annotation.HelperService;
 import konkuk.chacall.global.common.domain.BaseStatus;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component
+@HelperService
 @RequiredArgsConstructor
 public class OwnerValidator {
 

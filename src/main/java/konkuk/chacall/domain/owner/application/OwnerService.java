@@ -1,7 +1,7 @@
 package konkuk.chacall.domain.owner.application;
 
 import konkuk.chacall.domain.owner.application.bankAccount.BankAccountService;
-import konkuk.chacall.domain.owner.application.util.OwnerValidator;
+import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
