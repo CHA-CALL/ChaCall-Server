@@ -49,7 +49,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                         )
                 ))
                 .orElseGet(() -> {
-                    User newUser = userRepository.save(User.createNewUser(email, nickname, profileImage, kakaoId));
+                    User newUser = userRepository.save(User.createNewUser(nickname, profileImage, kakaoId, email));
                     return new CustomOAuth2User(LoginUser.createLoginUser(kakaoId, newUser.getUserId(), newUser.getRole()));
                 });
 
