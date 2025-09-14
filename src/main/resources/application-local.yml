@@ -38,7 +38,10 @@ spring:
 ---
 server:
   port: 8080
-  web-domain-url: http://localhost:8080
+  web-domain-urls:
+    - "http://localhost:5173"
+    - "https://chacall.co.kr"
+    - "http://localhost:8000"
 
 ---
 spring:
