@@ -6,6 +6,7 @@ import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountR
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.domain.user.domain.model.User;
+import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
@@ -27,12 +28,12 @@ public class BankAccountService {
 
         // 해당 유저의 계좌가 이미 있는지 확인
         if (bankAccountRepository.existsByOwner_UserId(owner.getUserId())) {
-            throw new DomainRuleException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS_FOR_USER);
+            throw new BusinessException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS_FOR_USER);
         }
 
         // 중복 계좌 검증
         if (bankAccountRepository.existsByAccountNumber(request.accountNumber())) {
-            throw new DomainRuleException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS);
+            throw new BusinessException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS);
         }
 
         BankAccount bankAccount = BankAccount.builder()
@@ -64,7 +65,7 @@ public class BankAccountService {
         // 수정하려는 계좌번호가 현재와 다를 경우에만, 시스템 전체에서 중복되는지 검증
         if (!bankAccount.getAccountNumber().equals(request.accountNumber())) {
             if (bankAccountRepository.existsByAccountNumber(request.accountNumber())) {
-                throw new DomainRuleException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS);
+                throw new BusinessException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS);
             }
         }
 
