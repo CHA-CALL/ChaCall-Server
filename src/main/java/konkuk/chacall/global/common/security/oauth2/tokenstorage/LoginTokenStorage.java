@@ -16,15 +16,6 @@ public interface LoginTokenStorage {
      */
     Entry consume(String key);
 
-    @Getter
-    @NoArgsConstructor
-    final class Entry {
-        private Role role;
-        private String token;
-
-        public Entry(Role role, String token) {
-            this.role = role;
-            this.token = token;
-        }
+    record Entry(Role role, String token) {
     }
 }
