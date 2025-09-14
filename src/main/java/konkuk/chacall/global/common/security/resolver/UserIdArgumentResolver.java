@@ -1,4 +1,4 @@
-package konkuk.chacall.global.common.security.argument_resolver;
+package konkuk.chacall.global.common.security.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
 import konkuk.chacall.global.common.exception.AuthException;
@@ -12,6 +12,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import static konkuk.chacall.global.common.exception.code.ErrorCode.AUTH_TOKEN_NOT_FOUND;
+import static konkuk.chacall.global.common.security.constant.AuthParameters.JWT_ACCESS_TOKEN_KEY;
 
 
 @Component
@@ -30,7 +31,7 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) {
 
-        Object userId = ((HttpServletRequest) webRequest.getNativeRequest()).getAttribute("userId");
+        Object userId = ((HttpServletRequest) webRequest.getNativeRequest()).getAttribute(JWT_ACCESS_TOKEN_KEY.getValue());
         if (userId == null) {
             throw new AuthException(AUTH_TOKEN_NOT_FOUND);
         }
