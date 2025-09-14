@@ -26,8 +26,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private final LoginTokenStorage loginTokenStorage;
 
-    @Value("${server.web-redirect-domain}")
-    private String webRedirectUrlDomain;
+    @Value("${server.web-domain-url}")
+    private String webDomainUrl;
 
     private final JwtUtil jwtUtil;
 
@@ -47,17 +47,17 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (oAuth2User.roleNonSelected()) { // 아직 유저 역할을 선택하지 않은 경우
             // 유저 역할 정하는 화면으로 리다이렉트
             loginTokenStorage.put(loginTokenKey, Role.NON_SELECTED, accessToken, Duration.ofMinutes(5));      // ttl 5분
-            getRedirectStrategy().sendRedirect(request, response, webRedirectUrlDomain + REDIRECT_ROLE_SELECT_URL.getValue() + "?loginTokenKey=" + loginTokenKey);
+            getRedirectStrategy().sendRedirect(request, response, webDomainUrl + REDIRECT_ROLE_SELECT_URL.getValue() + "?loginTokenKey=" + loginTokenKey);
         } else { // 유저 역할까지 선택한 기존 유저인 경우
             if(loginUser.role() == Role.MEMBER) {
                 // 일반 유저 홈 화면으로 리다이렉트
                 loginTokenStorage.put(loginTokenKey, Role.MEMBER, accessToken, Duration.ofMinutes(5));      // ttl 5분
-                getRedirectStrategy().sendRedirect(request, response, webRedirectUrlDomain + REDIRECT_MEMBER_HOME_URL.getValue() + "?loginTokenKey=" + loginTokenKey);
+                getRedirectStrategy().sendRedirect(request, response, webDomainUrl + REDIRECT_MEMBER_HOME_URL.getValue() + "?loginTokenKey=" + loginTokenKey);
                 return;
             }
             // 사장님 유저 홈 화면으로 리다이렉트
             loginTokenStorage.put(loginTokenKey, Role.OWNER, accessToken, Duration.ofMinutes(5));      // ttl 5분
-            getRedirectStrategy().sendRedirect(request, response, webRedirectUrlDomain + REDIRECT_OWNER_HOME_URL.getValue() + "?loginTokenKey=" + loginTokenKey);
+            getRedirectStrategy().sendRedirect(request, response, webDomainUrl + REDIRECT_OWNER_HOME_URL.getValue() + "?loginTokenKey=" + loginTokenKey);
         }
     }
 }

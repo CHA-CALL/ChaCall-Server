@@ -20,8 +20,8 @@ public class JwtUtil {
 
     private final SecretKey secretKey;
 
-    //todo 확정 후 환경변수로 변경
-    private final long tokenExpiredMs = 2592000000L; // 30일
+    @Value("${jwt.access-expiration}")
+    private long tokenExpiredMs;
 
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
