@@ -36,7 +36,7 @@ public class User extends BaseEntity {
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10, nullable = false)
+    @Column(length = 15, nullable = false)
     private Role role;
 
     public static User createNewUser(String name, String profileImageUrl, String kakaoId, String email) {
