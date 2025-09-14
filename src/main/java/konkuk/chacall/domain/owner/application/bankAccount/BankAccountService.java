@@ -44,7 +44,7 @@ public class BankAccountService {
 
     public BankAccountResponse getBankAccount(Long ownerId) {
         // 계좌 조회
-        Optional<BankAccount> bankAccountOptional = bankAccountRepository.findByOwner_UserId(ownerId);
+        Optional<BankAccount> bankAccountOptional = bankAccountRepository.findByOwnerId(ownerId);
 
         return bankAccountOptional
                 .map(BankAccountResponse::from)       // 계좌가 존재하면 DTO 로 변환

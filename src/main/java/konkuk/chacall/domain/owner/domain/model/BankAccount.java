@@ -2,6 +2,7 @@ package konkuk.chacall.domain.owner.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.domain.user.domain.model.User;
+import konkuk.chacall.global.common.domain.BaseEntity;
 import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.*;
@@ -12,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Builder
-public class BankAccount {
+public class BankAccount extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

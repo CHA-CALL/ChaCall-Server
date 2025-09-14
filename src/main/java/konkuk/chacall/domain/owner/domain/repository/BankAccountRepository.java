@@ -2,6 +2,8 @@ package konkuk.chacall.domain.owner.domain.repository;
 
 import konkuk.chacall.domain.owner.domain.model.BankAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -14,8 +16,6 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
     boolean existsByOwner_UserId(Long userId);
 
     // 사장님 ID 기반 계좌 조회
-    Optional<BankAccount> findByOwner_UserId(Long userId);
-
-    // 계좌 ID와 사장님 ID로 계좌 조회
-    Optional<BankAccount> findByBankAccountIdAndOwner_UserId(Long bankAccountId, Long ownerId);
+    @Query("SELECT ba FROM BankAccount ba WHERE ba.owner.userId = :ownerId")
+    Optional<BankAccount> findByOwnerId(@Param("ownerId") Long ownerId);
 }
