@@ -1,5 +1,6 @@
 package konkuk.chacall.global.common.security.oauth2.auth;
 
+import jakarta.validation.Valid;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
 import konkuk.chacall.global.common.dto.BaseResponse;
 import konkuk.chacall.global.common.exception.AuthException;
@@ -32,20 +33,16 @@ public class AuthController {
      */
     @PostMapping("/token")
     public BaseResponse<AuthTokenResponse> getToken(
-            @RequestBody AuthTokenRequest request
+            @RequestBody @Valid AuthTokenRequest request
     ) {
         String loginTokenKey = request.loginTokenKey();
-        if (loginTokenKey == null || loginTokenKey.isBlank()) {
-            throw new AuthException(API_INVALID_PARAM,
-                    new IllegalArgumentException("loginTokenKey는 필수 파라미터입니다."));
-        }
 
         LoginTokenStorage.Entry entry = loginTokenStorage.consume(loginTokenKey);
         if (entry == null) {
             throw new AuthException(AUTH_INVALID_LOGIN_TOKEN_KEY);
         }
 
-        String token = entry.getToken();
+        String token = entry.token();
         return BaseResponse.ok(AuthTokenResponse.of(token));
     }
 }
