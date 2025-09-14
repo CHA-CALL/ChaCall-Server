@@ -2,6 +2,8 @@ package konkuk.chacall.domain.owner.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.domain.user.domain.model.User;
+import konkuk.chacall.global.common.exception.DomainRuleException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.*;
 
 @Entity
@@ -43,4 +45,11 @@ public class BankAccount {
         this.accountHolderName = accountHolderName;
         this.accountNumber = accountNumber;
     }
+
+    public void verifyOwner(Long ownerId) {
+        if (!this.owner.getUserId().equals(ownerId)) {
+            throw new DomainRuleException(ErrorCode.BANK_ACCOUNT_FORBIDDEN);
+        }
+    }
+
 }

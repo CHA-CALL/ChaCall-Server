@@ -82,8 +82,14 @@ public class BankAccountService {
     }
 
     private BankAccount findBankAccountAndVerifyOwner(Long ownerId, Long bankAccountId) {
-        return bankAccountRepository.findByBankAccountIdAndOwner_UserId(bankAccountId, ownerId)
+        BankAccount bankAccount = bankAccountRepository.findById(bankAccountId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.BANK_ACCOUNT_NOT_FOUND));
+
+        // 실제 소유주 여부 검증
+        bankAccount.verifyOwner(ownerId);
+
+        return bankAccount;
+
     }
 
 }
