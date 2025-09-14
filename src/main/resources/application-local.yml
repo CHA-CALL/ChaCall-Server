@@ -71,10 +71,3 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
   access-expiration: 2592000000 # 30일
-
----
-spring:
-  web:
-    resources:
-      static-locations: classpath:/static/,classpath:/public/
-      add-mappings: true
