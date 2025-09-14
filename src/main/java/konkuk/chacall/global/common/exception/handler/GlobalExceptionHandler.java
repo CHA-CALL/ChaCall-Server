@@ -3,10 +3,8 @@ package konkuk.chacall.global.common.exception.handler;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import konkuk.chacall.global.common.dto.ErrorResponse;
-import konkuk.chacall.global.common.exception.AuthException;
-import konkuk.chacall.global.common.exception.BusinessException;
-import konkuk.chacall.global.common.exception.DomainRuleException;
-import konkuk.chacall.global.common.exception.EntityNotFoundException;
+import konkuk.chacall.global.common.exception.*;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
@@ -165,6 +163,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(e.getErrorCode().getHttpStatus())
                 .body(ErrorResponse.of(e.getErrorCode(), detail));
+    }
+
+    // JSON 파싱 예외 처리
+    @ExceptionHandler(JsonParsingException.class)
+    public ResponseEntity<ErrorResponse> jsonParsingExceptionHandler(JsonParsingException e) {
+        ErrorCode jsonErrorCode = e.getErrorCode();
+        log.error("[JsonParsingException] {}", jsonErrorCode.getMessage());
+        return ResponseEntity
+                .status(jsonErrorCode.getHttpStatus())
+                .body(ErrorResponse.of(jsonErrorCode));
     }
 
     // 서버 내부 오류 예외 처리
