@@ -29,6 +29,15 @@ public class BankAccount {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User owner;
 
+    public static BankAccount of(String bankName, String accountHolderName, String accountNumber, User owner) {
+        return BankAccount.builder()
+                .bankName(bankName)
+                .accountHolderName(accountHolderName)
+                .accountNumber(accountNumber)
+                .owner(owner)
+                .build();
+    }
+
     public void update(String bankName, String accountHolderName, String accountNumber) {
         this.bankName = bankName;
         this.accountHolderName = accountHolderName;

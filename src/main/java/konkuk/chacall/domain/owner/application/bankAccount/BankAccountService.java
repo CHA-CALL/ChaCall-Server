@@ -36,12 +36,7 @@ public class BankAccountService {
             throw new BusinessException(ErrorCode.BANK_ACCOUNT_ALREADY_EXISTS);
         }
 
-        BankAccount bankAccount = BankAccount.builder()
-                .bankName(request.bankName())
-                .accountHolderName(request.accountHolderName())
-                .accountNumber(request.accountNumber())
-                .owner(owner)
-                .build();
+        BankAccount bankAccount = BankAccount.of(request.bankName(), request.accountHolderName(), request.accountNumber(), owner);
 
         bankAccountRepository.save(bankAccount);
     }
