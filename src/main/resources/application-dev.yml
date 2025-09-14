@@ -37,6 +37,7 @@ spring:
 ---
 server:
   port: 8000
+  web-domain-url: http://localhost:8000
 
 ---
 spring:
@@ -61,3 +62,8 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+
+---
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiration: 2592000000 # 30일

@@ -45,7 +45,7 @@ public class SecurityConfig {
             "/login/oauth2/code/**", "/actuator/health",
             "/auth/users", "/auth/token",
 
-            "/api/test/**",  // for test
+            "/index.html", "/static/**",   // for test
     };
 
     @Bean
