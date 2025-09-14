@@ -4,8 +4,9 @@ import konkuk.chacall.global.common.security.filter.JwtAuthenticationEntryPoint;
 import konkuk.chacall.global.common.security.filter.JwtAuthenticationFilter;
 import konkuk.chacall.global.common.security.oauth2.CustomOAuth2UserService;
 import konkuk.chacall.global.common.security.oauth2.CustomSuccessHandler;
+import konkuk.chacall.global.common.security.property.ServerWebProperties;
+import konkuk.chacall.global.common.security.resolver.CustomAuthorizationRequestResolver;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -31,13 +34,13 @@ import static konkuk.chacall.global.common.security.constant.AuthParameters.JWT_
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Value("${server.web-domain-url}")
-    private String webDomainUrl;
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
+
+    private final ClientRegistrationRepository clientRegistrationRepository;
+    private final ServerWebProperties serverWebProperties;
 
     private static final String[] WHITELIST = {
             "/swagger-ui/**", "/api-docs/**", "/swagger-ui.html",
@@ -45,11 +48,21 @@ public class SecurityConfig {
             "/login/oauth2/code/**", "/actuator/health",
             "/auth/users", "/auth/token",
 
-            "/index.html", "/static/**",   // for test
+            "/index.html", "/static/**" // for test
     };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        // redirect_uri(origin) → additionalParameters.return_to 저장
+        var resolver = new CustomAuthorizationRequestResolver(
+                clientRegistrationRepository,
+                "/oauth2/authorization",
+                serverWebProperties
+        );
+
+        // 세션 저장소
+        var authReqRepo = new HttpSessionOAuth2AuthorizationRequestRepository();
 
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -58,25 +71,21 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login((oauth2) -> oauth2
-                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService)
+                        .authorizationEndpoint(ep -> ep
+                                .authorizationRequestResolver(resolver)
+                                .authorizationRequestRepository(authReqRepo)
                         )
-                        .successHandler(customSuccessHandler) // OAuth2 로그인 성공 시 처리
+                        .userInfoEndpoint(u -> u.userService(customOAuth2UserService))
+                        .successHandler(customSuccessHandler)
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITELIST).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        ;
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -84,19 +93,15 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    // CORS 설정
+    // CORS: server.web-domain-urls 사용
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                webDomainUrl
-        ));
+        config.setAllowedOrigins(serverWebProperties.getWebDomainUrls());
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(Collections.singletonList("*"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
-
         config.setExposedHeaders(Collections.singletonList(JWT_HEADER_KEY.getValue()));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -104,5 +109,4 @@ public class SecurityConfig {
 
         return source;
     }
-
 }
