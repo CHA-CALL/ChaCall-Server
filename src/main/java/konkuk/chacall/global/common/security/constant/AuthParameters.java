@@ -10,7 +10,7 @@ public enum AuthParameters {
     KAKAO_PROVIDER_ID_KEY("id"),
     JWT_ACCESS_TOKEN_KEY("userId"),
     JWT_TOKEN_ATTRIBUTE("token"),
-    REDIRECT_ROLE_SELECT_URL("/oauth2/role-select"),
+    REDIRECT_ROLE_SELECT_URL("/index.html"),
     REDIRECT_MEMBER_HOME_URL("/member"),
     REDIRECT_OWNER_HOME_URL("/owner"),
 
