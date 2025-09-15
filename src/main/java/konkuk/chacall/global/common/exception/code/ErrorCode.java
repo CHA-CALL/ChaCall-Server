@@ -45,7 +45,16 @@ public enum ErrorCode implements ResponseCode {
     /**
      * ChatTemplate
      */
-    CHAT_TEMPLATE_NOT_FOUND(HttpStatus.NOT_FOUND, 80001, "자주 쓰는 채팅을 찾을 수 없습니다.");
+    CHAT_TEMPLATE_NOT_FOUND(HttpStatus.NOT_FOUND, 80001, "자주 쓰는 채팅을 찾을 수 없습니다."),
+
+
+    /**
+     * FoodTruck
+     */
+    FOOD_TRUCK_NOT_FOUND(HttpStatus.NOT_FOUND, 90001, "푸드트럭을 찾을 수 없습니다."),
+    FOOD_TRUCK_ALREADY_SAVED(HttpStatus.CONFLICT, 90002, "이미 저장된 푸드트럭입니다."),
+    FOOD_TRUCK_NOT_SAVED(HttpStatus.CONFLICT, 90003, "저장되지 않은 푸드트럭입니다."),
+
     ;
 
     private final HttpStatus httpStatus;
