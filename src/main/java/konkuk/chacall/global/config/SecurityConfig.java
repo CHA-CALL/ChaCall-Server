@@ -78,10 +78,13 @@ public class SecurityConfig {
                         .userInfoEndpoint(u -> u.userService(customOAuth2UserService))
                         .successHandler(customSuccessHandler)
                 )
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(WHITELIST).permitAll()
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(auth -> auth   // 개발시동안 임시로 모든 경로 허용
+                        .requestMatchers("/**").permitAll()
                 )
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers(WHITELIST).permitAll()
+//                        .anyRequest().authenticated()
+//                )
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
