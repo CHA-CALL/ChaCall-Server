@@ -1,5 +1,6 @@
 package konkuk.chacall.domain.owner.application.reservation;
 
+import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationDetailResponse;
 import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationHistoryResponse;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
@@ -9,6 +10,8 @@ import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
 import konkuk.chacall.global.common.domain.BaseStatus;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
+import konkuk.chacall.global.common.exception.EntityNotFoundException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -41,6 +44,15 @@ public class OwnerReservationService {
         Long nextCursor = responses.isEmpty() ? null : responses.get(responses.size() - 1).reservationId();
 
         return CursorPagingResponse.of(responses, nextCursor, ownerReservationSlice.hasNext());
+    }
+
+    public OwnerReservationDetailResponse getReservationDetail(Long reservationId) {
+        // ID로 예약 정보와 연관된 모든 데이터 한 번에 조회
+        Reservation reservation = reservationRepository.findByIdWithDetails(reservationId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        // DTO 로 변환하여 반환
+        return OwnerReservationDetailResponse.of(reservation, reservation.getMember());
     }
 
     /**
