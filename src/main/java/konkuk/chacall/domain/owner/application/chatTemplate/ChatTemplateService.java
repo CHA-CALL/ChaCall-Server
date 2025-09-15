@@ -30,7 +30,7 @@ public class ChatTemplateService {
     }
 
     public List<ChatTemplateResponse> getChatTemplates(Long ownerId) {
-        List<ChatTemplate> chatTemplateList = chatTemplateRepository.findAllByOwnerUserId(ownerId);
+        List<ChatTemplate> chatTemplateList = chatTemplateRepository.findAllByOwnerId(ownerId);
 
         return chatTemplateList.stream()
                 .map(ChatTemplateResponse::from)
