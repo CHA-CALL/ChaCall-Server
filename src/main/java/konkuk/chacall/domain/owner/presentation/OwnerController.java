@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.owner.application.OwnerService;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.RegisterChatTemplateRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
@@ -80,6 +81,17 @@ public class OwnerController {
             @Parameter(hidden = true) @UserId final Long ownerId
     ) {
         ownerService.deleteBankAccount(ownerId, bankAccountId);
+        return BaseResponse.ok(null);
+    }
+
+
+    @PostMapping("/me/chat-templates")
+    public BaseResponse<Void> registerChatTemplate(
+            @RequestBody @Valid RegisterChatTemplateRequest request
+    ) {
+        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
+        ownerService.registerChatTemplate(request, 1L);
+
         return BaseResponse.ok(null);
     }
 }
