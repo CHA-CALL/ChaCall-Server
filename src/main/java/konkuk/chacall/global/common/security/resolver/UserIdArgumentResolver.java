@@ -33,7 +33,8 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
 
         Object userId = ((HttpServletRequest) webRequest.getNativeRequest()).getAttribute(JWT_ACCESS_TOKEN_KEY.getValue());
         if (userId == null) {
-            throw new AuthException(AUTH_TOKEN_NOT_FOUND);
+            return 1L; // 개발동안만 임시로 1L 반환
+            // throw new AuthException(AUTH_TOKEN_NOT_FOUND);
         }
         return (Long) userId;
     }
