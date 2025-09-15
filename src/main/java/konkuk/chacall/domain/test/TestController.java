@@ -11,8 +11,10 @@ import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.Getter;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
 
+@Profile("local")
 @RestController
 @RequestMapping("/test")
 public class TestController {
