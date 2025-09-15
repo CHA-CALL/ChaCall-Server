@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "Owner API", description = "사장님 관련 API")
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/owners")
@@ -87,6 +86,10 @@ public class OwnerController {
     }
 
 
+    @Operation(
+            summary = "자주 쓰는 채팅 등록",
+            description = "사장님이 자주 쓰는 채팅을 등록합니다."
+    )
     @PostMapping("/me/chat-templates")
     public BaseResponse<Void> registerChatTemplate(
             @RequestBody @Valid final RegisterChatTemplateRequest request,
@@ -97,6 +100,10 @@ public class OwnerController {
         return BaseResponse.ok(null);
     }
 
+    @Operation(
+            summary = "자주 쓰는 채팅 조회",
+            description = "사장님이 자주 쓰는 채팅을 조회합니다."
+    )
     @GetMapping("/me/chat-templates")
     public BaseResponse<List<ChatTemplateResponse>> getChatTemplates(
             @Parameter(hidden = true) @UserId final Long ownerId
@@ -104,6 +111,10 @@ public class OwnerController {
         return BaseResponse.ok(ownerService.getChatTemplates(ownerId));
     }
 
+    @Operation(
+            summary = "자주 쓰는 채팅 수정",
+            description = "사장님이 자주 쓰는 채팅을 수정합니다."
+    )
     @PatchMapping("/me/chat-templates/{chatTemplateId}")
     public BaseResponse<Void> updateChatTemplate(
             @PathVariable final Long chatTemplateId,
@@ -114,6 +125,10 @@ public class OwnerController {
         return BaseResponse.ok(null);
     }
 
+    @Operation(
+            summary = "자주 쓰는 채팅 삭제",
+            description = "사장님이 자주 쓰는 채팅을 삭제합니다."
+    )
     @DeleteMapping("/me/chat-templates/{chatTemplateId}")
     public BaseResponse<Void> deleteChatTemplate(
             @PathVariable final Long chatTemplateId,
