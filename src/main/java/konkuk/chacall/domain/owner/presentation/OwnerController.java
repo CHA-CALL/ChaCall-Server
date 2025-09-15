@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import konkuk.chacall.domain.owner.application.OwnerService;
 import konkuk.chacall.domain.owner.presentation.dto.request.*;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
+import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationDetailResponse;
 import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationHistoryResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
@@ -142,7 +143,9 @@ public class OwnerController {
         return BaseResponse.ok(null);
     }
 
-    @Operation(summary = "사장님 예약 내역 목록 조회 (무한 스크롤)")
+    @Operation(
+            summary = "사장님 예약 내역 목록 조회 (무한 스크롤)",
+            description = "사장님의 예약 내역 목록을 조회합니다.")
     @GetMapping("/me/reservations")
     public BaseResponse<CursorPagingResponse<OwnerReservationHistoryResponse>> getOwnerReservations(
             @Valid @ParameterObject final GetReservationHistoryRequest request,
@@ -151,5 +154,18 @@ public class OwnerController {
         return BaseResponse.ok(ownerService.getOwnerReservations(
                 request,
                 ownerId));
+    }
+
+    @Operation(
+            summary = "예약 상세 조회",
+            description = "예약 ID로 예약 상세 정보를 조회합니다.")
+    @GetMapping("me/reservations/{reservationId}")
+    public BaseResponse<OwnerReservationDetailResponse> getReservationDetail(
+            @PathVariable final Long reservationId,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(ownerService.getReservationDetail(
+                ownerId,
+                reservationId));
     }
 }

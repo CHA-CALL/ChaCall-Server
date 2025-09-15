@@ -7,6 +7,7 @@ import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
 import konkuk.chacall.domain.owner.presentation.dto.request.*;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.domain.owner.presentation.dto.response.ChatTemplateResponse;
+import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationDetailResponse;
 import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationHistoryResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
@@ -97,5 +98,13 @@ public class OwnerService {
 
         // 사장님 예약 내역 조회 로직 호출
         return ownerReservationService.getOwnerReservations(ownerId, request.status(), request.getCursorOrDefault(), request.getPageSizeOrDefault());
+    }
+
+    public OwnerReservationDetailResponse getReservationDetail(Long ownerId, Long reservationId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 예약 내역 상세 조회 로직 호출
+        return ownerReservationService.getReservationDetail(reservationId);
     }
 }
