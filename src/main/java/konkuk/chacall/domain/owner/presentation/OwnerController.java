@@ -90,6 +90,7 @@ public class OwnerController {
             summary = "자주 쓰는 채팅 등록",
             description = "사장님이 자주 쓰는 채팅을 등록합니다."
     )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_REGISTER_CHAT_TEMPLATE)
     @PostMapping("/me/chat-templates")
     public BaseResponse<Void> registerChatTemplate(
             @RequestBody @Valid final RegisterChatTemplateRequest request,
@@ -104,6 +105,7 @@ public class OwnerController {
             summary = "자주 쓰는 채팅 조회",
             description = "사장님이 자주 쓰는 채팅을 조회합니다."
     )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_GET_CHAT_TEMPLATE)
     @GetMapping("/me/chat-templates")
     public BaseResponse<List<ChatTemplateResponse>> getChatTemplates(
             @Parameter(hidden = true) @UserId final Long ownerId
@@ -115,6 +117,7 @@ public class OwnerController {
             summary = "자주 쓰는 채팅 수정",
             description = "사장님이 자주 쓰는 채팅을 수정합니다."
     )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_UPDATE_CHAT_TEMPLATE)
     @PatchMapping("/me/chat-templates/{chatTemplateId}")
     public BaseResponse<Void> updateChatTemplate(
             @PathVariable final Long chatTemplateId,
@@ -129,6 +132,7 @@ public class OwnerController {
             summary = "자주 쓰는 채팅 삭제",
             description = "사장님이 자주 쓰는 채팅을 삭제합니다."
     )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_DELETE_CHAT_TEMPLATE)
     @DeleteMapping("/me/chat-templates/{chatTemplateId}")
     public BaseResponse<Void> deleteChatTemplate(
             @PathVariable final Long chatTemplateId,
