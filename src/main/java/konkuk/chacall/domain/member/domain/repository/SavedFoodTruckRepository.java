@@ -13,6 +13,6 @@ public interface SavedFoodTruckRepository extends JpaRepository<SavedFoodTruck, 
     boolean existsByMemberIdAndFoodTruckId(Long memberId, Long foodTruckId);
 
     @Query("SELECT s FROM SavedFoodTruck s " +
-            "WHERE s.member.userId = :userId AND s.foodTruck.foodTruckId = :foodTruckId")
-    Optional<SavedFoodTruck> findByUserIdAndFoodTruckId(Long userId, Long foodTruckId);
+            "WHERE s.member.userId = :memberId AND s.foodTruck.foodTruckId = :foodTruckId")
+    Optional<SavedFoodTruck> findByMemberIdAndFoodTruckId(Long memberId, Long foodTruckId);
 }
