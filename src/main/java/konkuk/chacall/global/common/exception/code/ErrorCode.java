@@ -10,6 +10,7 @@ public enum ErrorCode implements ResponseCode {
     API_NOT_FOUND(HttpStatus.NOT_FOUND, 40400, "요청한 API를 찾을 수 없습니다."),
     API_METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, 40500, "허용되지 않는 HTTP 메소드입니다."),
     API_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 50000, "서버 내부 오류입니다."),
+    JSON_PARSING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 50001, "JSON 파싱에 실패했습니다."),
 
     API_BAD_REQUEST(HttpStatus.BAD_REQUEST, 40000, "잘못된 요청입니다."),
     API_MISSING_PARAM(HttpStatus.BAD_REQUEST, 40001, "필수 파라미터가 없습니다."),
@@ -23,6 +24,7 @@ public enum ErrorCode implements ResponseCode {
     AUTH_LOGIN_FAILED(HttpStatus.UNAUTHORIZED, 40104, "로그인에 실패했습니다."),
     AUTH_UNSUPPORTED_SOCIAL_LOGIN(HttpStatus.UNAUTHORIZED, 40105, "지원하지 않는 소셜 로그인입니다."),
     AUTH_INVALID_LOGIN_TOKEN_KEY(HttpStatus.UNAUTHORIZED, 40106, "유효하지 않은 로그인 토큰 키입니다."),
+    AUTH_WEB_ORIGIN_EMPTY(HttpStatus.UNAUTHORIZED, 40107, "웹 오리진 리스트가 비어있습니다."),
 
     /* 60000부터 비즈니스 예외 */
     /**

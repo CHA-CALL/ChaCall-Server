@@ -4,10 +4,13 @@ import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.domain.BaseStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByKakaoId(String kakaoId);
 
     Optional<User> findByUserIdAndRoleAndStatus(Long userId, Role role, BaseStatus status);
 
