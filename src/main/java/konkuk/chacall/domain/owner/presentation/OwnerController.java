@@ -89,34 +89,36 @@ public class OwnerController {
 
     @PostMapping("/me/chat-templates")
     public BaseResponse<Void> registerChatTemplate(
-            @RequestBody @Valid RegisterChatTemplateRequest request
+            @RequestBody @Valid final RegisterChatTemplateRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
     ) {
-        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
-        ownerService.registerChatTemplate(request, 1L);
+        ownerService.registerChatTemplate(request, ownerId);
 
         return BaseResponse.ok(null);
     }
 
     @GetMapping("/me/chat-templates")
-    public BaseResponse<List<ChatTemplateResponse>> getChatTemplates() {
-        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
-        return BaseResponse.ok(ownerService.getChatTemplates(1L));
+    public BaseResponse<List<ChatTemplateResponse>> getChatTemplates(
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(ownerService.getChatTemplates(ownerId));
     }
 
     @PatchMapping("/me/chat-templates/{chatTemplateId}")
     public BaseResponse<Void> updateChatTemplate(
-            @PathVariable Long chatTemplateId,
-            @RequestBody @Valid UpdateChatTemplateRequest request) {
-        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
-        ownerService.updateChatTemplate(request, 1L, chatTemplateId);
+            @PathVariable final Long chatTemplateId,
+            @RequestBody @Valid final UpdateChatTemplateRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        ownerService.updateChatTemplate(request, ownerId, chatTemplateId);
         return BaseResponse.ok(null);
     }
 
     @DeleteMapping("/me/chat-templates/{chatTemplateId}")
     public BaseResponse<Void> deleteChatTemplate(
-            @PathVariable Long chatTemplateId) {
-        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
-        ownerService.deleteChatTemplate(1L, chatTemplateId);
+            @PathVariable final Long chatTemplateId,
+            @Parameter(hidden = true) @UserId final Long ownerId) {
+        ownerService.deleteChatTemplate(ownerId, chatTemplateId);
         return BaseResponse.ok(null);
     }
 }
