@@ -37,4 +37,10 @@ public class ReservationInfo {
 
     @Column(length = 1000)
     private String etcRequest; // 기타 요청 사항
+
+    public List<String> getFormattedDateTimeInfos() {
+        return this.reservationDate.getDates().stream()
+                .map(date -> date.toString() + " " + this.operationHour)
+                .toList();
+    }
 }
