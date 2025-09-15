@@ -19,8 +19,7 @@ public enum SwaggerResponseDescription {
 
     ))),
     ISSUE_TOKEN(new LinkedHashSet<>(Set.of(
-            AUTH_INVALID_LOGIN_TOKEN_KEY,
-            USER_NOT_FOUND
+            AUTH_INVALID_LOGIN_TOKEN_KEY
     ))),
 
     // Owner
