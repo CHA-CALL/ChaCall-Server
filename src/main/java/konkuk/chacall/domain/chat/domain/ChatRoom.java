@@ -1,7 +1,7 @@
 package konkuk.chacall.domain.chat.domain;
 
 import jakarta.persistence.*;
-import konkuk.chacall.domain.user.domain.User;
+import konkuk.chacall.domain.user.domain.model.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

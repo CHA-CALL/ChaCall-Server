@@ -34,6 +34,13 @@ public enum ErrorCode implements ResponseCode {
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, 60002, "이미 존재하는 사용자입니다."),
     USER_NICKNAME_DUPLICATION(HttpStatus.CONFLICT, 60003, "이미 존재하는 닉네임입니다."),
 
+    /**
+     * BankAccount
+     */
+    BANK_ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, 70001, "계좌를 찾을 수 없습니다."),
+    BANK_ACCOUNT_ALREADY_EXISTS(HttpStatus.CONFLICT, 70002, "이미 존재하는 계좌입니다."),
+    BANK_ACCOUNT_ALREADY_EXISTS_FOR_USER(HttpStatus.CONFLICT, 70003, "해당 유저에게 이미 등록된 계좌가 존재합니다."),
+    BANK_ACCOUNT_FORBIDDEN(HttpStatus.CONFLICT, 70004, "계좌에 대한 권한이 없습니다.")
     ;
 
     private final HttpStatus httpStatus;
