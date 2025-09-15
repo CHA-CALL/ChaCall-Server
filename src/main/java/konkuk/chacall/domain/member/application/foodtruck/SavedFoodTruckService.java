@@ -25,10 +25,10 @@ public class SavedFoodTruckService {
     private final FoodTruckRepository foodTruckRepository;
 
     @Transactional
-    public SavedFoodTruckStatusResponse updateFoodTruckSaveStatus(UpdateFoodTruckSaveStatusRequest request, Long foodTruckId, Long userId) {
+    public SavedFoodTruckStatusResponse updateFoodTruckSaveStatus(UpdateFoodTruckSaveStatusRequest request, Long foodTruckId, Long memberId) {
 
         // 유저 존재 여부 확인
-        User user = userRepository.findById(userId)
+        User member = userRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // 푸드트럭 존재 여부 확인
@@ -37,14 +37,14 @@ public class SavedFoodTruckService {
 
         if (request.isSavedRequest()) { // 저장 요청
             // 이미 저장된 푸드트럭인지 확인
-            if(savedFoodTruckRepository.existsByMemberIdAndFoodTruckId(userId, foodTruckId)) {
+            if(savedFoodTruckRepository.existsByMemberIdAndFoodTruckId(memberId, foodTruckId)) {
                 throw new BusinessException(ErrorCode.FOOD_TRUCK_ALREADY_SAVED);
             }
 
-            SavedFoodTruck savedFoodTruck = SavedFoodTruck.of(user, foodTruck);
+            SavedFoodTruck savedFoodTruck = SavedFoodTruck.of(member, foodTruck);
             savedFoodTruckRepository.save(savedFoodTruck);
         } else { // 저장 취소 요청
-            SavedFoodTruck savedFoodTruck = savedFoodTruckRepository.findByUserIdAndFoodTruckId(userId, foodTruckId)
+            SavedFoodTruck savedFoodTruck = savedFoodTruckRepository.findByMemberIdAndFoodTruckId(memberId, foodTruckId)
                     .orElseThrow(() -> new BusinessException(ErrorCode.FOOD_TRUCK_NOT_SAVED));
 
             savedFoodTruckRepository.delete(savedFoodTruck);
