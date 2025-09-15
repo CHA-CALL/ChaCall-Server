@@ -19,6 +19,26 @@ public enum SwaggerResponseDescription {
 
     ))),
 
+    // Owner
+    OWNER_REGISTER_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            BANK_ACCOUNT_ALREADY_EXISTS_FOR_USER,
+            BANK_ACCOUNT_ALREADY_EXISTS
+    ))),
+    OWNER_GET_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
+    ))),
+    OWNER_UPDATE_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            BANK_ACCOUNT_NOT_FOUND,
+            BANK_ACCOUNT_ALREADY_EXISTS,
+            BANK_ACCOUNT_FORBIDDEN
+    ))),
+    OWNER_DELETE_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            BANK_ACCOUNT_NOT_FOUND,
+            BANK_ACCOUNT_FORBIDDEN
+    ))),
+
   ;
     private final Set<ErrorCode> errorCodeList;
     SwaggerResponseDescription(Set<ErrorCode> errorCodeList) {
