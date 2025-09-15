@@ -7,9 +7,12 @@ import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountR
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterChatTemplateRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
+import konkuk.chacall.domain.owner.presentation.dto.response.ChatTemplateResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -60,6 +63,14 @@ public class OwnerService {
 
         // 자주 쓰는 채팅 등록 로직 호출
         chatTemplateService.registerChatTemplate(request, owner);
+    }
+
+    public List<ChatTemplateResponse> getChatTemplates(Long ownerId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 자주 쓰는 채팅 목록 조회 로직 호출
+        return chatTemplateService.getChatTemplates(ownerId);
     }
 
 }

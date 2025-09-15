@@ -3,7 +3,6 @@ package konkuk.chacall.domain.owner.presentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.owner.application.OwnerService;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
@@ -12,14 +11,16 @@ import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountReq
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
+import konkuk.chacall.domain.owner.presentation.dto.response.ChatTemplateResponse;
 import konkuk.chacall.global.common.dto.BaseResponse;
 import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @Tag(name = "Owner API", description = "사장님 관련 API")
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/owners")
@@ -93,5 +94,11 @@ public class OwnerController {
         ownerService.registerChatTemplate(request, 1L);
 
         return BaseResponse.ok(null);
+    }
+
+    @GetMapping("/me/chat-templates")
+    public BaseResponse<List<ChatTemplateResponse>> getChatTemplates() {
+        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
+        return BaseResponse.ok(ownerService.getChatTemplates(1L));
     }
 }
