@@ -1,15 +1,24 @@
 package konkuk.chacall.domain.owner.presentation;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.owner.application.OwnerService;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
+import konkuk.chacall.global.common.annotation.ExceptionDescription;
+import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
+import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Owner API", description = "사장님 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/owners")
@@ -18,37 +27,59 @@ public class OwnerController {
 
     private final OwnerService ownerService;
 
+    @Operation(
+            summary = "은행 계좌 등록",
+            description = "사장님이 자신의 은행 계좌를 등록합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_REGISTER_BANK_ACCOUNT)
     @PostMapping("/me/bank-accounts")
     public BaseResponse<Void> registerBankAccount(
-            @RequestBody @Valid RegisterBankAccountRequest registerBankAccountRequest
+            @RequestBody @Valid final RegisterBankAccountRequest registerBankAccountRequest,
+            @Parameter(hidden = true) @UserId final Long ownerId
     ) {
-        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
-        ownerService.registerBankAccount(registerBankAccountRequest, 1L);
+        ownerService.registerBankAccount(registerBankAccountRequest, ownerId);
 
         return BaseResponse.ok(null);
     }
 
+    @Operation(
+            summary = "은행 계좌 조회",
+            description = "사장님이 자신의 은행 계좌를 조회합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_GET_BANK_ACCOUNT)
     @GetMapping("/me/bank-accounts")
-    public BaseResponse<BankAccountResponse> getBankAccount() {
-        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
-        return BaseResponse.ok(ownerService.getBankAccount(1L));
+    public BaseResponse<BankAccountResponse> getBankAccount(
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(ownerService.getBankAccount(ownerId));
     }
 
+    @Operation(
+            summary = "은행 계좌 수정",
+            description = "사장님이 자신의 은행 계좌를 수정합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_UPDATE_BANK_ACCOUNT)
     @PatchMapping("/me/bank-accounts/{bankAccountId}")
     public BaseResponse<Void> updateBankAccount(
-            @PathVariable Long bankAccountId,
-            @RequestBody @Valid UpdateBankAccountRequest request) {
-        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
-        ownerService.updateBankAccount(1L, bankAccountId, request);
+            @PathVariable final Long bankAccountId,
+            @RequestBody @Valid final UpdateBankAccountRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+            ) {
+        ownerService.updateBankAccount(ownerId, bankAccountId, request);
         return BaseResponse.ok(null);
     }
 
+    @Operation(
+            summary = "은행 계좌 삭제",
+            description = "사장님이 자신의 은행 계좌를 삭제합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_DELETE_BANK_ACCOUNT)
     @DeleteMapping("/me/bank-accounts/{bankAccountId}")
     public BaseResponse<Void> deleteBankAccount(
-            @PathVariable Long bankAccountId
+            @PathVariable final Long bankAccountId,
+            @Parameter(hidden = true) @UserId final Long ownerId
     ) {
-        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
-        ownerService.deleteBankAccount(1L, bankAccountId);
+        ownerService.deleteBankAccount(ownerId, bankAccountId);
         return BaseResponse.ok(null);
     }
 }

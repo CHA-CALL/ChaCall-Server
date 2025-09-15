@@ -2,7 +2,7 @@ package konkuk.chacall.global.common.security.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
 import konkuk.chacall.global.common.exception.AuthException;
-import konkuk.chacall.global.common.security.annotation.UserId;
+import konkuk.chacall.global.common.annotation.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

@@ -32,6 +32,8 @@ logging:
 ---
 server:
   port: 8080
+  profile: test
+  http-url: http://localhost:8080
   web-domain-urls:
     - "http://localhost:5173"
     - "https://chacall.co.kr"
