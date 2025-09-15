@@ -37,13 +37,26 @@ public class User extends BaseEntity {
     @Column(length = 15, nullable = false)
     private Role role;
 
+    // 약관 동의 여부 컬럼
+    @Column(nullable = false)
+    private boolean termsAgreed;
+
     public static User createNewUser(String name, String profileImageUrl, String kakaoId, String email) {
         return User.builder()
                 .name(name)
                 .profileImageUrl(profileImageUrl)
                 .kakaoId(kakaoId)
                 .email(email)
+                .termsAgreed(false)
                 .role(Role.NON_SELECTED)
                 .build();
+    }
+
+    public void update(String name, String profileImageUrl, String email, String genderStr, boolean termsAgreed) {
+        this.name = name;
+        this.profileImageUrl = profileImageUrl;
+        this.email = email;
+        this.gender = Gender.from(genderStr);
+        this.termsAgreed = termsAgreed;
     }
 }
