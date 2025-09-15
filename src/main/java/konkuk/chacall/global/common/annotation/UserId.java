@@ -1,4 +1,4 @@
-package konkuk.chacall.global.common.security.annotation;
+package konkuk.chacall.global.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
