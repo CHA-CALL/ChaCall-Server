@@ -65,6 +65,12 @@ public enum SwaggerResponseDescription {
             FOOD_TRUCK_NOT_FOUND,
             FOOD_TRUCK_ALREADY_SAVED,
             FOOD_TRUCK_NOT_SAVED
+    ))),
+    MEMBER_RATING(new LinkedHashSet<>(Set.of(
+            FOOD_TRUCK_NOT_FOUND,
+            RATING_NOT_FOUND,
+            RATING_INVALID_SCORE,
+            RATING_ALREADY_REGISTERED
     )))
   ;
     private final Set<ErrorCode> errorCodeList;

@@ -55,6 +55,13 @@ public enum ErrorCode implements ResponseCode {
     FOOD_TRUCK_ALREADY_SAVED(HttpStatus.CONFLICT, 90002, "이미 저장된 푸드트럭입니다."),
     FOOD_TRUCK_NOT_SAVED(HttpStatus.CONFLICT, 90003, "저장되지 않은 푸드트럭입니다."),
 
+    /**
+     * Rating
+     */
+    RATING_NOT_FOUND(HttpStatus.NOT_FOUND, 100001, "평점을 매길 수 없는 푸드트럭입니다."),
+    RATING_INVALID_SCORE(HttpStatus.BAD_REQUEST, 100002, "유효하지 않은 평점 값입니다."),
+    RATING_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, 100003, "이미 평점이 등록된 상태입니다."),
+
     ;
 
     private final HttpStatus httpStatus;
