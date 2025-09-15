@@ -5,7 +5,7 @@ import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.member.domain.SavedFoodTruck;
 import konkuk.chacall.domain.member.domain.repository.SavedFoodTruckRepository;
 import konkuk.chacall.domain.member.presentation.dto.request.UpdateFoodTruckSaveStatusRequest;
-import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckResponse;
+import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckStatusResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
 import konkuk.chacall.global.common.exception.BusinessException;
@@ -25,7 +25,7 @@ public class SavedFoodTruckService {
     private final FoodTruckRepository foodTruckRepository;
 
     @Transactional
-    public SavedFoodTruckResponse updateFoodTruckSaveStatus(UpdateFoodTruckSaveStatusRequest request, Long foodTruckId, Long userId) {
+    public SavedFoodTruckStatusResponse updateFoodTruckSaveStatus(UpdateFoodTruckSaveStatusRequest request, Long foodTruckId, Long userId) {
 
         // 유저 존재 여부 확인
         User user = userRepository.findById(userId)
@@ -50,6 +50,6 @@ public class SavedFoodTruckService {
             savedFoodTruckRepository.delete(savedFoodTruck);
         }
 
-        return new SavedFoodTruckResponse(request.isSavedRequest());
+        return new SavedFoodTruckStatusResponse(request.isSavedRequest());
     }
 }

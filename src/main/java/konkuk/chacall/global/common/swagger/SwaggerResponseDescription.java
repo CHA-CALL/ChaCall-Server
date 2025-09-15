@@ -56,6 +56,15 @@ public enum SwaggerResponseDescription {
     OWNER_DELETE_CHAT_TEMPLATE(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
             CHAT_TEMPLATE_NOT_FOUND
+    ))),
+
+
+    // Member
+    MEMBER_SAVED_FOOD_TRUCK(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            FOOD_TRUCK_NOT_FOUND,
+            FOOD_TRUCK_ALREADY_SAVED,
+            FOOD_TRUCK_NOT_SAVED
     )))
   ;
     private final Set<ErrorCode> errorCodeList;
