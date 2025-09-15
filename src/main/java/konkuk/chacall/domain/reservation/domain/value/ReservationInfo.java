@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.apache.catalina.LifecycleState;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
@@ -39,8 +40,11 @@ public class ReservationInfo {
     private String etcRequest; // 기타 요청 사항
 
     public List<String> getFormattedDateTimeInfos() {
-        return this.reservationDate.getDates().stream()
-                .map(date -> date.toString() + " " + this.operationHour)
+        DateTimeFormatter DOT = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
+        return this.reservationDate.getRanges().stream()
+                .map(date -> date.startDate().format(DOT) + " ~ " + date.endDate().format(DOT)
+                        + " " + this.operationHour)
                 .toList();
     }
 }
