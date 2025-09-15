@@ -23,7 +23,6 @@ public record UpdateUserInfoRequest(
         String gender,
 
         @Schema(description = "약관 동의 여부", example = "true")
-        @NotBlank(message = "약관 동의 여부는 비어 있을 수 없습니다.")
         boolean termAgreed
 ) {
 }
