@@ -18,6 +18,10 @@ public enum SwaggerResponseDescription {
     LOGOUT(new LinkedHashSet<>(Set.of(
 
     ))),
+    ISSUE_TOKEN(new LinkedHashSet<>(Set.of(
+            AUTH_INVALID_LOGIN_TOKEN_KEY,
+            USER_NOT_FOUND
+    ))),
 
     // Owner
     OWNER_REGISTER_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
