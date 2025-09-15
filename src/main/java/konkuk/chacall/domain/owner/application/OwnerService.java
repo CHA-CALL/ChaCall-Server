@@ -97,7 +97,7 @@ public class OwnerService {
         ownerValidator.validateAndGetOwner(ownerId);
 
         // 사장님 예약 내역 조회 로직 호출
-        return ownerReservationService.getOwnerReservations(ownerId, request.status(), request.getCursorOrDefault(), request.getPageSizeOrDefault());
+        return ownerReservationService.getOwnerReservations(ownerId, request.status(), request.pagingRequest().getCursorOrDefault(), request.pagingRequest().getSizeOrDefault());
     }
 
     public OwnerReservationDetailResponse getReservationDetail(Long ownerId, Long reservationId) {
