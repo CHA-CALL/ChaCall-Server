@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.reservation.domain;
+package konkuk.chacall.domain.reservation.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.domain.reservation.domain.value.ReservationInfo;

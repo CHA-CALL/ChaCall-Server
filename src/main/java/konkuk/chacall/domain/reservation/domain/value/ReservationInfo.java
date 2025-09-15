@@ -21,7 +21,7 @@ public class ReservationInfo {
 
     @Convert(converter = ReservationDateListConverter.class)
     @Column(nullable = false)
-    private List<LocalDate> reservationDate; // 예약 일정
+    private ReservationDateList reservationDate; // 예약 일정
 
     @Column(nullable = false, length = 50)
     private String operationHour; // 운영 시간대
