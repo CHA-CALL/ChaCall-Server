@@ -13,18 +13,13 @@ public record OwnerReservationHistoryResponse(
         List<String> dateTimeInfo
 ) {
 
-    public static OwnerReservationHistoryResponse of(Reservation reservation) {
-        User customer = reservation.getMember();
-
-        // Embedded 객체 내부의 필드에 접근
-        List<String> dateTimeList = reservation.getReservationInfo().getReservationDate().getDates().stream()
-                .map(date -> date.toString() + " " + reservation.getReservationInfo().getOperationHour())
-                .toList();
+    public static OwnerReservationHistoryResponse of(Reservation reservation, User member) {
+        List<String> dateTimeList = reservation.getReservationInfo().getFormattedDateTimeInfos();
 
         return new OwnerReservationHistoryResponse(
                 reservation.getReservationId(),
-                customer.getProfileImageUrl(),
-                customer.getName(),
+                member.getProfileImageUrl(),
+                member.getName(),
                 reservation.getReservationInfo().getReservationAddress(),
                 dateTimeList
         );
