@@ -10,7 +10,7 @@ import static konkuk.chacall.global.common.exception.code.ErrorCode.*;
 
 @Getter
 public enum SwaggerResponseDescription {
-//
+    //
     //Auth
     LOGIN(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND
@@ -56,9 +56,18 @@ public enum SwaggerResponseDescription {
     OWNER_DELETE_CHAT_TEMPLATE(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
             CHAT_TEMPLATE_NOT_FOUND
+    ))),
+    OWNER_GET_RESERVATION_HISTORY(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND
+    ))),
+    OWNER_GET_RESERVATION_DETAIL(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            RESERVATION_NOT_FOUND
     )))
-  ;
+    ;
+
     private final Set<ErrorCode> errorCodeList;
+
     SwaggerResponseDescription(Set<ErrorCode> errorCodeList) {
         // 공통 에러
         errorCodeList.addAll(new LinkedHashSet<>(Set.of(

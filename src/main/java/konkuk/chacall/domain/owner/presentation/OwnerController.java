@@ -146,6 +146,7 @@ public class OwnerController {
     @Operation(
             summary = "사장님 예약 내역 목록 조회 (무한 스크롤)",
             description = "사장님의 예약 내역 목록을 조회합니다.")
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_GET_RESERVATION_HISTORY)
     @GetMapping("/me/reservations")
     public BaseResponse<CursorPagingResponse<OwnerReservationHistoryResponse>> getOwnerReservations(
             @Valid @ParameterObject final GetReservationHistoryRequest request,
@@ -157,8 +158,9 @@ public class OwnerController {
     }
 
     @Operation(
-            summary = "예약 상세 조회",
+            summary = "사장님 예약 상세 조회",
             description = "예약 ID로 예약 상세 정보를 조회합니다.")
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_GET_RESERVATION_DETAIL)
     @GetMapping("me/reservations/{reservationId}")
     public BaseResponse<OwnerReservationDetailResponse> getReservationDetail(
             @PathVariable final Long reservationId,
