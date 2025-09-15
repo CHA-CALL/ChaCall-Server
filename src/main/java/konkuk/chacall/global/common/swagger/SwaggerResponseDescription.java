@@ -22,6 +22,14 @@ public enum SwaggerResponseDescription {
             AUTH_INVALID_LOGIN_TOKEN_KEY
     ))),
 
+    // User
+    GET_USER_INFO(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND
+    ))),
+    UPDATE_USER_INFO(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND
+    ))),
+
     // Owner
     OWNER_REGISTER_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
