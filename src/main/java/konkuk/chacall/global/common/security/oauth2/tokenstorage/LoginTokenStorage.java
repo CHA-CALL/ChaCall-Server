@@ -1,8 +1,6 @@
 package konkuk.chacall.global.common.security.oauth2.tokenstorage;
 
-import konkuk.chacall.domain.user.domain.value.Role;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import konkuk.chacall.domain.user.domain.model.Role;
 
 import java.time.Duration;
 

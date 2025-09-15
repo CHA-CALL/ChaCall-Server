@@ -3,7 +3,7 @@ package konkuk.chacall.global.common.security.oauth2;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import konkuk.chacall.domain.user.domain.value.Role;
+import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.global.common.exception.AuthException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import konkuk.chacall.global.common.security.oauth2.tokenstorage.LoginTokenStorage;

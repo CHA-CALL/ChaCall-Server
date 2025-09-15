@@ -1,8 +1,6 @@
 package konkuk.chacall.domain.user.domain.model;
 
 import jakarta.persistence.*;
-import konkuk.chacall.domain.user.domain.value.Gender;
-import konkuk.chacall.domain.user.domain.value.Role;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import lombok.*;
 

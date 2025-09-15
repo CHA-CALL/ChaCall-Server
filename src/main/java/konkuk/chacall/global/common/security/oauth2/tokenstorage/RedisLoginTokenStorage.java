@@ -1,6 +1,6 @@
 package konkuk.chacall.global.common.security.oauth2.tokenstorage;
 
-import konkuk.chacall.domain.user.domain.value.Role;
+import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.global.common.exception.JsonParsingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

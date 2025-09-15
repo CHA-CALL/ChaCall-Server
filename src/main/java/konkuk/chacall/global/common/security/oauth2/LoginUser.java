@@ -1,6 +1,6 @@
 package konkuk.chacall.global.common.security.oauth2;
 
-import konkuk.chacall.domain.user.domain.value.Role;
+import konkuk.chacall.domain.user.domain.model.Role;
 
 public record LoginUser(
     String kakaoId,

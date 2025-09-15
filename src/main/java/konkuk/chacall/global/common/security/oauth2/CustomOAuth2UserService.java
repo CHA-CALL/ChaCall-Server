@@ -1,6 +1,6 @@
 package konkuk.chacall.global.common.security.oauth2;
 
-import konkuk.chacall.domain.user.domain.User;
+import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
 import konkuk.chacall.global.common.exception.AuthException;
 import lombok.RequiredArgsConstructor;

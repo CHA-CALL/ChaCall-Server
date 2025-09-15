@@ -1,6 +1,5 @@
 package konkuk.chacall.global.common.security.oauth2;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static konkuk.chacall.global.common.security.constant.AuthParameters.KAKAO;
