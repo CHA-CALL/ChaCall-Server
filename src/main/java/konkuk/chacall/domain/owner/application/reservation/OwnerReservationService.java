@@ -40,16 +40,15 @@ public class OwnerReservationService {
 
         Long nextCursor = responses.isEmpty() ? null : responses.get(responses.size() - 1).reservationId();
 
-        return CursorPagingResponse.of(responses, pageSize, nextCursor, ownerReservationSlice.hasNext());
+        return CursorPagingResponse.of(responses, nextCursor, ownerReservationSlice.hasNext());
     }
 
     /**
      * 예약 목록 조회
      */
     private Slice<Reservation> findReservations(Long ownerId, ReservationStatus status, Long lastCursor, int pageSize) {
-        Long currentCursor = (lastCursor == null) ? Long.MAX_VALUE : lastCursor;
         return reservationRepository
-                .findOwnerReservationsByStatusWithCursor(ownerId, status, currentCursor, PageRequest.of(0, pageSize));
+                .findOwnerReservationsByStatusWithCursor(ownerId, status, lastCursor, PageRequest.of(0, pageSize));
     }
 
     /**
