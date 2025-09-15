@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Query("SELECT r FROM Reservation r " +
@@ -20,4 +22,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("status") ReservationStatus status,
             @Param("lastCursor") Long lastCursor,
             Pageable pageable);
+
+
+    @Query("SELECT r FROM Reservation r " +
+            "JOIN FETCH r.member m " +
+            "JOIN FETCH r.foodTruck ft " +
+            "JOIN FETCH ft.owner o " +
+            "WHERE r.reservationId = :reservationId")
+    Optional<Reservation> findByIdWithDetails(@Param("reservationId") Long reservationId);
 }
