@@ -33,6 +33,7 @@ public enum ErrorCode implements ResponseCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, 60001, "사용자를 찾을 수 없습니다."),
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, 60002, "이미 존재하는 사용자입니다."),
     USER_NICKNAME_DUPLICATION(HttpStatus.CONFLICT, 60003, "이미 존재하는 닉네임입니다."),
+    USER_GENDER_MISMATCH(HttpStatus.BAD_REQUEST, 60004, "일치하는 성별이 없습니다."),
 
     /**
      * BankAccount
