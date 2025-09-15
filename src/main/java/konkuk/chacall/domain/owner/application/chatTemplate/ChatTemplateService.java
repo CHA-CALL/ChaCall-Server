@@ -3,8 +3,12 @@ package konkuk.chacall.domain.owner.application.chatTemplate;
 import konkuk.chacall.domain.owner.domain.model.ChatTemplate;
 import konkuk.chacall.domain.owner.domain.repository.ChatTemplateRepository;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterChatTemplateRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.UpdateChatTemplateRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.ChatTemplateResponse;
 import konkuk.chacall.domain.user.domain.model.User;
+import konkuk.chacall.global.common.exception.BusinessException;
+import konkuk.chacall.global.common.exception.EntityNotFoundException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,4 +36,24 @@ public class ChatTemplateService {
                 .map(ChatTemplateResponse::from)
                 .toList();
     }
+
+    @Transactional
+    public void updateChatTemplate(UpdateChatTemplateRequest request, Long chatTemplateId) {
+        ChatTemplate chatTemplate = chatTemplateRepository.findById(chatTemplateId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CHAT_TEMPLATE_NOT_FOUND));
+
+        chatTemplate.update(
+                request.content()
+        );
+    }
+
+    @Transactional
+    public void deleteChatTemplate(Long chatTemplateId) {
+        if(!chatTemplateRepository.existsById(chatTemplateId)) {
+            throw new EntityNotFoundException(ErrorCode.CHAT_TEMPLATE_NOT_FOUND);
+        }
+
+        chatTemplateRepository.deleteById(chatTemplateId);
+    }
+
 }

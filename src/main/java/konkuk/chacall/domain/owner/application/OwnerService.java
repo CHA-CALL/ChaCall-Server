@@ -6,6 +6,7 @@ import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterChatTemplateRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.UpdateChatTemplateRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.domain.owner.presentation.dto.response.ChatTemplateResponse;
 import konkuk.chacall.domain.user.domain.model.User;
@@ -73,4 +74,19 @@ public class OwnerService {
         return chatTemplateService.getChatTemplates(ownerId);
     }
 
+    public void updateChatTemplate(UpdateChatTemplateRequest request, Long ownerId, Long chatTemplateId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 자주 쓰는 채팅 수정 로직 호출
+        chatTemplateService.updateChatTemplate(request, chatTemplateId);
+    }
+
+    public void deleteChatTemplate(Long ownerId, Long chatTemplateId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 자주 쓰는 채팅 삭제 로직 호출
+        chatTemplateService.deleteChatTemplate(chatTemplateId);
+    }
 }

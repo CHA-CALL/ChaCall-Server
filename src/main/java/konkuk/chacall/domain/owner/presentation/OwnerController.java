@@ -8,6 +8,7 @@ import konkuk.chacall.domain.owner.application.OwnerService;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterChatTemplateRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.UpdateChatTemplateRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
@@ -100,5 +101,22 @@ public class OwnerController {
     public BaseResponse<List<ChatTemplateResponse>> getChatTemplates() {
         // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
         return BaseResponse.ok(ownerService.getChatTemplates(1L));
+    }
+
+    @PatchMapping("/me/chat-templates/{chatTemplateId}")
+    public BaseResponse<Void> updateChatTemplate(
+            @PathVariable Long chatTemplateId,
+            @RequestBody @Valid UpdateChatTemplateRequest request) {
+        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
+        ownerService.updateChatTemplate(request, 1L, chatTemplateId);
+        return BaseResponse.ok(null);
+    }
+
+    @DeleteMapping("/me/chat-templates/{chatTemplateId}")
+    public BaseResponse<Void> deleteChatTemplate(
+            @PathVariable Long chatTemplateId) {
+        // todo 추후에 토큰 추가될 시 id 값은 토큰에서 추출하여 전달
+        ownerService.deleteChatTemplate(1L, chatTemplateId);
+        return BaseResponse.ok(null);
     }
 }
