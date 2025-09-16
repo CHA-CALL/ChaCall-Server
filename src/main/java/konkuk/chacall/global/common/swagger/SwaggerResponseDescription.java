@@ -91,6 +91,10 @@ public enum SwaggerResponseDescription {
             SAVED_FOOD_TRUCK_ALREADY_EXIST,
             SAVED_FOOD_TRUCK_NOT_FOUND
     ))),
+    MEMBER_GET_SAVED_FOOD_TRUCKS(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN
+    ))),
     MEMBER_RATING(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
             USER_FORBIDDEN,

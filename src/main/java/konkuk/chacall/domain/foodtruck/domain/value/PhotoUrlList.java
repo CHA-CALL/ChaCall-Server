@@ -19,6 +19,13 @@ public class PhotoUrlList {
         return Collections.unmodifiableList(urls);
     }
 
+    public String getMainPhotoUrl() { // 대표 사진 URL 반환
+        if (isEmpty()) {
+            return null;
+        }
+        return urls.get(0);
+    }
+
     public boolean isEmpty() {
         return urls == null || urls.isEmpty();
     }

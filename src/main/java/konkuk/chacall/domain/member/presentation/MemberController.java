@@ -7,14 +7,17 @@ import jakarta.validation.Valid;
 import konkuk.chacall.domain.member.application.MemberService;
 import konkuk.chacall.domain.member.presentation.dto.request.RegisterRatingRequest;
 import konkuk.chacall.domain.member.presentation.dto.request.UpdateFoodTruckSaveStatusRequest;
-import konkuk.chacall.domain.member.presentation.dto.response.RatingResponse;
+import konkuk.chacall.domain.member.presentation.dto.response.ReservationForRatingResponse;
 import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckResponse;
 import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckStatusResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
+import konkuk.chacall.global.common.dto.CursorPagingResponse;
+import konkuk.chacall.global.common.dto.PagingRequest;
 import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Member API", description = "일반 유저 관련 API")
@@ -37,10 +40,13 @@ public class MemberController {
     }
 
     @Operation(summary = "저장한 푸드트럭 목록 조회", description = "저장한 푸드트럭 목록을 조회합니다.")
+    @ExceptionDescription(SwaggerResponseDescription.MEMBER_GET_SAVED_FOOD_TRUCKS)
     @GetMapping("/me/food-trucks")
-    public BaseResponse<SavedFoodTruckResponse> getSavedFoodTrucks() {
-        //todo 커서 페이징 util 완성되면 구현
-        return BaseResponse.ok(null);
+    public BaseResponse<CursorPagingResponse<SavedFoodTruckResponse>> getSavedFoodTrucks(
+            @ParameterObject @Valid final PagingRequest pagingRequest,
+            @Parameter(hidden = true) @UserId final Long memberId
+    ) {
+        return BaseResponse.ok(memberService.getSavedFoodTrucks(pagingRequest, memberId));
     }
 
     @Operation(summary = "평점 등록", description = "지난 예약에 대한 푸드트럭 평점을 남깁니다.")
@@ -56,11 +62,10 @@ public class MemberController {
 
     @Operation(summary = "평점을 등록할 예약 조회", description = "평점을 등록할 수 있는 지난 예약 목록을 조회합니다.")
     @GetMapping("/me/ratings/reservations")
-    public BaseResponse<RatingResponse> getReservationsForRating(
+    public BaseResponse<ReservationForRatingResponse> getReservationsForRating(
             @Parameter(hidden = true) @UserId final Long memberId
     ) {
-        //todo Reservation에서 일정 객체 가져오는 부분 구현되면 완성
-        return BaseResponse.ok(null);
+        return BaseResponse.ok(memberService.getReservationsForRating(memberId));
     }
 
 }

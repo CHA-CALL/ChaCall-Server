@@ -5,14 +5,21 @@ import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.member.domain.SavedFoodTruck;
 import konkuk.chacall.domain.member.domain.repository.SavedFoodTruckRepository;
 import konkuk.chacall.domain.member.presentation.dto.request.UpdateFoodTruckSaveStatusRequest;
+import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckResponse;
 import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckStatusResponse;
 import konkuk.chacall.domain.user.domain.model.User;
+import konkuk.chacall.global.common.dto.CursorPagingResponse;
+import konkuk.chacall.global.common.dto.PagingRequest;
 import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +52,20 @@ public class SavedFoodTruckService {
         }
 
         return new SavedFoodTruckStatusResponse(request.isSavedRequest());
+    }
+
+    public CursorPagingResponse<SavedFoodTruckResponse> getSavedFoodTrucks(PagingRequest pagingRequest, User member) {
+        // 저장된 푸드트럭 목록 조회
+        Slice<SavedFoodTruck> savedFoodTruckSlice = savedFoodTruckRepository
+                .findMemberSavedFoodTruckWithCursor(member, pagingRequest.cursor(), PageRequest.of(0, pagingRequest.size()));
+        List<SavedFoodTruck> savedFoodTrucks = savedFoodTruckSlice.getContent();
+
+        // 응답 DTO로 변환
+        List<SavedFoodTruckResponse> responses = savedFoodTrucks.stream()
+                .map(SavedFoodTruck::getFoodTruck)
+                .map(SavedFoodTruckResponse::of)
+                .toList();
+
+        return CursorPagingResponse.of(responses, SavedFoodTruckResponse::foodTruckId, savedFoodTruckSlice.hasNext());
     }
 }
