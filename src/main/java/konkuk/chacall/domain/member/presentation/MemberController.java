@@ -14,7 +14,7 @@ import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
-import konkuk.chacall.global.common.dto.PagingRequest;
+import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -43,10 +43,10 @@ public class MemberController {
     @ExceptionDescription(SwaggerResponseDescription.MEMBER_GET_SAVED_FOOD_TRUCKS)
     @GetMapping("/me/food-trucks")
     public BaseResponse<CursorPagingResponse<SavedFoodTruckResponse>> getSavedFoodTrucks(
-            @ParameterObject @Valid final PagingRequest pagingRequest,
+            @ParameterObject @Valid final CursorPagingRequest cursorPagingRequest,
             @Parameter(hidden = true) @UserId final Long memberId
     ) {
-        return BaseResponse.ok(memberService.getSavedFoodTrucks(pagingRequest, memberId));
+        return BaseResponse.ok(memberService.getSavedFoodTrucks(cursorPagingRequest, memberId));
     }
 
     @Operation(summary = "평점 등록", description = "지난 예약에 대한 푸드트럭 평점을 남깁니다.")

@@ -9,7 +9,7 @@ import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckResp
 import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckStatusResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
-import konkuk.chacall.global.common.dto.PagingRequest;
+import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
@@ -54,10 +54,10 @@ public class SavedFoodTruckService {
         return new SavedFoodTruckStatusResponse(request.isSavedRequest());
     }
 
-    public CursorPagingResponse<SavedFoodTruckResponse> getSavedFoodTrucks(PagingRequest pagingRequest, User member) {
+    public CursorPagingResponse<SavedFoodTruckResponse> getSavedFoodTrucks(CursorPagingRequest cursorPagingRequest, User member) {
         // 저장된 푸드트럭 목록 조회
         Slice<SavedFoodTruck> savedFoodTruckSlice = savedFoodTruckRepository
-                .findMemberSavedFoodTruckWithCursor(member, pagingRequest.cursor(), PageRequest.of(0, pagingRequest.size()));
+                .findMemberSavedFoodTruckWithCursor(member, cursorPagingRequest.cursor(), PageRequest.of(0, cursorPagingRequest.size()));
         List<SavedFoodTruck> savedFoodTrucks = savedFoodTruckSlice.getContent();
 
         // 응답 DTO로 변환

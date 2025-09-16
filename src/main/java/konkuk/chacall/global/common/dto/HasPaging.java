@@ -1,9 +1,9 @@
 package konkuk.chacall.global.common.dto;
 
 public interface HasPaging {
-    PagingRequest pagingRequest();
+    CursorPagingRequest pagingRequest();
 
-    default PagingRequest pagingOrDefault() {
-        return pagingRequest() == null ? new PagingRequest(null, null) : pagingRequest();
+    default CursorPagingRequest pagingOrDefault() {
+        return pagingRequest() == null ? new CursorPagingRequest(null, null) : pagingRequest();
     }
 }

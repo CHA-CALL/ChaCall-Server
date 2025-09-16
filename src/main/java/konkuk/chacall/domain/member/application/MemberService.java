@@ -10,7 +10,7 @@ import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckResp
 import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckStatusResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
-import konkuk.chacall.global.common.dto.PagingRequest;
+import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +31,11 @@ public class MemberService {
         return savedFoodTruckService.updateFoodTruckSaveStatus(request, foodTruckId, member);
     }
 
-    public CursorPagingResponse<SavedFoodTruckResponse> getSavedFoodTrucks(PagingRequest pagingRequest, Long memberId) {
+    public CursorPagingResponse<SavedFoodTruckResponse> getSavedFoodTrucks(CursorPagingRequest cursorPagingRequest, Long memberId) {
         // 멤버 유효성 검사 및 조회
         User member = memberValidator.validateAndGetMember(memberId);
 
-        return savedFoodTruckService.getSavedFoodTrucks(pagingRequest, member);
+        return savedFoodTruckService.getSavedFoodTrucks(cursorPagingRequest, member);
     }
 
     public void registerRatings(RegisterRatingRequest request, Long memberId) {
