@@ -1,6 +1,5 @@
 package konkuk.chacall.domain.member.application;
 
-import jakarta.validation.Valid;
 import konkuk.chacall.domain.member.application.foodtruck.SavedFoodTruckService;
 import konkuk.chacall.domain.member.application.rating.RatingService;
 import konkuk.chacall.domain.member.presentation.dto.request.RegisterRatingRequest;
