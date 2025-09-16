@@ -77,8 +77,8 @@ public enum SwaggerResponseDescription {
     MEMBER_SAVED_FOOD_TRUCK(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
             FOOD_TRUCK_NOT_FOUND,
-            FOOD_TRUCK_ALREADY_SAVED,
-            FOOD_TRUCK_NOT_SAVED
+            SAVED_FOOD_TRUCK_ALREADY_EXIST,
+            SAVED_FOOD_TRUCK_NOT_FOUND
     ))),
     MEMBER_RATING(new LinkedHashSet<>(Set.of(
             FOOD_TRUCK_NOT_FOUND,

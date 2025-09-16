@@ -7,7 +7,6 @@ import konkuk.chacall.domain.member.domain.repository.SavedFoodTruckRepository;
 import konkuk.chacall.domain.member.presentation.dto.request.UpdateFoodTruckSaveStatusRequest;
 import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckStatusResponse;
 import konkuk.chacall.domain.user.domain.model.User;
-import konkuk.chacall.domain.user.domain.repository.UserRepository;
 import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
@@ -33,14 +32,14 @@ public class SavedFoodTruckService {
         if (request.isSavedRequest()) { // 저장 요청
             // 이미 저장된 푸드트럭인지 확인
             if(savedFoodTruckRepository.existsByMemberAndFoodTruck(member, foodTruck)) {
-                throw new BusinessException(ErrorCode.FOOD_TRUCK_ALREADY_SAVED);
+                throw new BusinessException(ErrorCode.SAVED_FOOD_TRUCK_ALREADY_EXIST);
             }
 
             SavedFoodTruck savedFoodTruck = SavedFoodTruck.of(member, foodTruck);
             savedFoodTruckRepository.save(savedFoodTruck);
         } else { // 저장 취소 요청
             SavedFoodTruck savedFoodTruck = savedFoodTruckRepository.findByMemberAndFoodTruck(member, foodTruck)
-                    .orElseThrow(() -> new BusinessException(ErrorCode.FOOD_TRUCK_NOT_SAVED));
+                    .orElseThrow(() -> new BusinessException(ErrorCode.SAVED_FOOD_TRUCK_NOT_FOUND));
 
             savedFoodTruckRepository.delete(savedFoodTruck);
         }
