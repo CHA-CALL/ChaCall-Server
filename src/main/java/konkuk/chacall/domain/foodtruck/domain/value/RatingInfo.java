@@ -3,11 +3,9 @@ package konkuk.chacall.domain.foodtruck.domain.value;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import konkuk.chacall.domain.member.domain.Rating;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Getter
 @Builder
 @Embeddable
 @AllArgsConstructor

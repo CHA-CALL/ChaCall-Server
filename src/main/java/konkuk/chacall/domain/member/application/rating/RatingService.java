@@ -4,12 +4,15 @@ import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.member.domain.repository.RatingRepository;
 import konkuk.chacall.domain.member.presentation.dto.request.RegisterRatingRequest;
+import konkuk.chacall.domain.member.presentation.dto.response.ReservationForRatingResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,5 +42,15 @@ public class RatingService {
                 }, () -> {
                     throw new BusinessException(ErrorCode.RATING_NOT_FOUND);
                 });
+    }
+
+    public ReservationForRatingResponse getReservationsForRating(User member) {
+        var reservationForRatings = ratingRepository.findAllByMemberAndIsRatedFalse(member).stream()
+                .map(rating -> ReservationForRatingResponse.ReservationForRating.of(
+                        rating.getFoodTruck(), rating.getReservation()
+                ))
+                .toList();
+
+        return new ReservationForRatingResponse(reservationForRatings);
     }
 }

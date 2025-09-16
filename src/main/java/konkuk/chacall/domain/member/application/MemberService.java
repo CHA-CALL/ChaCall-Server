@@ -5,8 +5,12 @@ import konkuk.chacall.domain.member.application.rating.RatingService;
 import konkuk.chacall.domain.member.application.validator.MemberValidator;
 import konkuk.chacall.domain.member.presentation.dto.request.RegisterRatingRequest;
 import konkuk.chacall.domain.member.presentation.dto.request.UpdateFoodTruckSaveStatusRequest;
+import konkuk.chacall.domain.member.presentation.dto.response.ReservationForRatingResponse;
+import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckResponse;
 import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckStatusResponse;
 import konkuk.chacall.domain.user.domain.model.User;
+import konkuk.chacall.global.common.dto.CursorPagingResponse;
+import konkuk.chacall.global.common.dto.PagingRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +31,26 @@ public class MemberService {
         return savedFoodTruckService.updateFoodTruckSaveStatus(request, foodTruckId, member);
     }
 
+    public CursorPagingResponse<SavedFoodTruckResponse> getSavedFoodTrucks(PagingRequest pagingRequest, Long memberId) {
+        // 멤버 유효성 검사 및 조회
+        User member = memberValidator.validateAndGetMember(memberId);
+
+        return savedFoodTruckService.getSavedFoodTrucks(pagingRequest, member);
+    }
+
     public void registerRatings(RegisterRatingRequest request, Long memberId) {
         // 멤버 유효성 검사 및 조회
         User member = memberValidator.validateAndGetMember(memberId);
 
         // 평점 등록 처리
         ratingService.registerRatings(request, member);
+    }
+
+
+    public ReservationForRatingResponse getReservationsForRating(Long memberId) {
+        // 멤버 유효성 검사 및 조회
+        User member = memberValidator.validateAndGetMember(memberId);
+
+        return ratingService.getReservationsForRating(member);
     }
 }
