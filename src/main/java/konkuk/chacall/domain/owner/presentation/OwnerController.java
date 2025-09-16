@@ -63,7 +63,7 @@ public class OwnerController {
             description = "사장님이 자신의 은행 계좌를 수정합니다."
     )
     @ExceptionDescription(SwaggerResponseDescription.OWNER_UPDATE_BANK_ACCOUNT)
-    @PatchMapping("/me/bank-accounts/{bankAccountId}")
+    @PutMapping("/me/bank-accounts/{bankAccountId}")
     public BaseResponse<Void> updateBankAccount(
             @PathVariable final Long bankAccountId,
             @RequestBody @Valid final UpdateBankAccountRequest request,
@@ -120,7 +120,7 @@ public class OwnerController {
             description = "사장님이 자주 쓰는 채팅을 수정합니다."
     )
     @ExceptionDescription(SwaggerResponseDescription.OWNER_UPDATE_CHAT_TEMPLATE)
-    @PatchMapping("/me/chat-templates/{chatTemplateId}")
+    @PutMapping("/me/chat-templates/{chatTemplateId}")
     public BaseResponse<Void> updateChatTemplate(
             @PathVariable final Long chatTemplateId,
             @RequestBody @Valid final UpdateChatTemplateRequest request,
