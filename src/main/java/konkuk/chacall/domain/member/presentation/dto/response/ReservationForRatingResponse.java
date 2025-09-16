@@ -14,6 +14,9 @@ public record ReservationForRatingResponse(
             @Schema(description = "예약 식별자", example = "1")
             Long reservationId,
 
+            @Schema(description = "푸드트럭 식별자", example = "1")
+            Long foodTruckId,
+
             @Schema(description = "푸드트럭 이름", example = "푸드트럭")
             String name,
 
@@ -32,6 +35,7 @@ public record ReservationForRatingResponse(
 
             return new ReservationForRating(
                     reservation.getReservationId(),
+                    foodTruck.getFoodTruckId(),
                     foodTruck.getName(),
                     foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(), // 대표 사진 (첫 번째 사진)
                     reservation.getReservationInfo().getReservationAddress(),
