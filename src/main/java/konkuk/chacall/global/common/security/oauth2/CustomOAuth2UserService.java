@@ -2,6 +2,7 @@ package konkuk.chacall.global.common.security.oauth2;
 
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
+import konkuk.chacall.global.common.domain.BaseStatus;
 import konkuk.chacall.global.common.exception.AuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String nickname = oAuth2UserDetails.getNickname();
         String profileImage = oAuth2UserDetails.getProfileImage();
 
-        CustomOAuth2User customOAuth2User = userRepository.findByKakaoId(kakaoId)
+        CustomOAuth2User customOAuth2User = userRepository.findByKakaoIdAndStatus(kakaoId, BaseStatus.ACTIVE)
                 .map(existingUser -> new CustomOAuth2User(
                         LoginUser.createLoginUser(kakaoId, existingUser.getUserId(), existingUser.getRole()
                         )

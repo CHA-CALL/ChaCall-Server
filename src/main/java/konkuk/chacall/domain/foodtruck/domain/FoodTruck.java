@@ -6,12 +6,12 @@ import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.converter.MenuCategoryListConverter;
 import konkuk.chacall.global.common.converter.PhotoUrlListConverter;
 import konkuk.chacall.global.common.domain.BaseEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Builder
 @Entity
 @Table(name = "food_trucks")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class FoodTruck extends BaseEntity {
@@ -62,11 +62,15 @@ public class FoodTruck extends BaseEntity {
     @Column(name = "option", length = 800)
     private String option;
 
+    @Builder.Default
     @Column(nullable = false)
-    private double totalRating;
+    private RatingInfo ratingInfo = RatingInfo.createInitial();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
+    public void updateAverageRating(double rating) {
+        ratingInfo.updateAverageRating(rating);
+    }
 }

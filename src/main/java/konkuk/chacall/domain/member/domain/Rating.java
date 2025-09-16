@@ -1,8 +1,12 @@
-package konkuk.chacall.domain.foodtruck.domain;
+package konkuk.chacall.domain.member.domain;
 
 import jakarta.persistence.*;
+import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
+import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.domain.BaseEntity;
+import konkuk.chacall.global.common.exception.DomainRuleException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +34,16 @@ public class Rating extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reservation_id", nullable = false)
+    private Reservation reservation;
+
+    public void registerRating(Double rating) {
+        if (isRated) {
+            throw new DomainRuleException(ErrorCode.RATING_ALREADY_REGISTERED);
+        }
+        this.rating = rating;
+        this.isRated = true;
+    }
 }

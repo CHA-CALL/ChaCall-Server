@@ -34,6 +34,7 @@ public enum ErrorCode implements ResponseCode {
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, 60002, "이미 존재하는 사용자입니다."),
     USER_NICKNAME_DUPLICATION(HttpStatus.CONFLICT, 60003, "이미 존재하는 닉네임입니다."),
     USER_GENDER_MISMATCH(HttpStatus.BAD_REQUEST, 60004, "일치하는 성별이 없습니다."),
+    USER_FORBIDDEN(HttpStatus.FORBIDDEN, 60005, "권한이 없는 사용자입니다."),
 
     /**
      * BankAccount
@@ -54,7 +55,27 @@ public enum ErrorCode implements ResponseCode {
     RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, 90001, "예약 내역을 찾을 수 없습니다."),
     INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, 90002, "종료일은 시작일보다 빠를 수 없습니다."),
     INVALID_DATE_INPUT(HttpStatus.BAD_REQUEST, 90003, "잘못된 날짜 입력 형식입니다."),
-    RESERVATION_NOT_OWNED(HttpStatus.FORBIDDEN, 90004, "본인 소유 예약이 아닙니다.")
+    RESERVATION_NOT_OWNED(HttpStatus.FORBIDDEN, 90004, "본인 소유 예약이 아닙니다."),
+
+    /**
+     * Rating
+     */
+    RATING_NOT_FOUND(HttpStatus.NOT_FOUND, 100001, "평점을 매길 수 없는 푸드트럭입니다."),
+    RATING_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, 100002, "이미 평점이 등록된 상태입니다."),
+    CANNOT_RATE_RESERVATION_NOT_OWNED(HttpStatus.FORBIDDEN, 100003, "본인이 예약한 건이 아니면 평점을 매길 수 없습니다."),
+    CANNOT_RATE_UNCONFIRMED_RESERVATION(HttpStatus.BAD_REQUEST, 100004, "확정되지 않은 예약 건은 평점을 매길 수 없습니다."),
+
+    /**
+     * FoodTruck
+     */
+    FOOD_TRUCK_NOT_FOUND(HttpStatus.NOT_FOUND, 110001, "푸드트럭을 찾을 수 없습니다."),
+
+
+    /**
+     * SavedFoodTruck
+     */
+    SAVED_FOOD_TRUCK_NOT_FOUND(HttpStatus.NOT_FOUND, 120001, "저장되지 않은 푸드트럭입니다."),
+    SAVED_FOOD_TRUCK_ALREADY_EXIST(HttpStatus.CONFLICT, 120002, "이미 저장된 푸드트럭입니다."),
     ;
 
     private final HttpStatus httpStatus;

@@ -8,7 +8,6 @@ import konkuk.chacall.global.common.domain.BaseStatus;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @HelperService
 @RequiredArgsConstructor
@@ -17,7 +16,10 @@ public class OwnerValidator {
     private final UserRepository userRepository;
 
     public User validateAndGetOwner(Long ownerId) {
-        return userRepository.findByUserIdAndRoleAndStatus(ownerId, Role.OWNER, BaseStatus.ACTIVE)
+        User user = userRepository.findByUserIdAndStatus(ownerId, BaseStatus.ACTIVE)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        user.validateOwner();
+        return user;
     }
 }

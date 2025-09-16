@@ -1,13 +1,11 @@
 package konkuk.chacall.domain.foodtruck.domain.value;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
 
-@Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PhotoUrlList {
 
@@ -19,6 +17,13 @@ public class PhotoUrlList {
 
     public List<String> getUrls() {
         return Collections.unmodifiableList(urls);
+    }
+
+    public String getMainPhotoUrl() { // 대표 사진 URL 반환
+        if (isEmpty()) {
+            return null;
+        }
+        return urls.get(0);
     }
 
     public boolean isEmpty() {

@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import konkuk.chacall.global.common.dto.HasPaging;
-import konkuk.chacall.global.common.dto.PagingRequest;
+import konkuk.chacall.global.common.dto.CursorPagingRequest;
 
 public record GetReservationHistoryRequest(
         @Schema(description = "조회할 예약 상태",
@@ -16,6 +16,6 @@ public record GetReservationHistoryRequest(
         ReservationStatus status,
 
         @Valid
-        PagingRequest pagingRequest
+        CursorPagingRequest cursorPagingRequest
 ) implements HasPaging {
 }

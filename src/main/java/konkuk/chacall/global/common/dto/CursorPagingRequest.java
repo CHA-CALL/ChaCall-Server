@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 
 @Schema(description = "커서 기반 페이징 요청 DTO")
-public record PagingRequest(
+public record CursorPagingRequest(
         @Schema(description = "마지막으로 조회된 데이터의 ID (다음 페이지 요청 시 사용)",
                 example = "120",
                 nullable = true)
@@ -19,7 +19,7 @@ public record PagingRequest(
     private static final int DEFAULT_SIZE = 20;
     private static final long DEFAULT_CURSOR = Long.MAX_VALUE;
 
-    public PagingRequest {
+    public CursorPagingRequest {
         if (cursor == null) {
             cursor = DEFAULT_CURSOR;
         }
