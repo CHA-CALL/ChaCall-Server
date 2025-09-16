@@ -108,6 +108,6 @@ public class OwnerService {
         ownerValidator.validateAndGetOwner(ownerId);
 
         // 사장님 예약 내역 상세 조회 로직 호출
-        return ownerReservationService.getReservationDetail(reservationId);
+        return ownerReservationService.getReservationDetail(ownerId, reservationId);
     }
 }

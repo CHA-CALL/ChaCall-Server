@@ -6,6 +6,8 @@ import konkuk.chacall.domain.reservation.domain.value.ReservationInfo;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.domain.BaseEntity;
+import konkuk.chacall.global.common.exception.BusinessException;
+import konkuk.chacall.global.common.exception.DomainRuleException;
 import lombok.*;
 
 @Getter
@@ -39,4 +41,8 @@ public class Reservation extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
+
+    public boolean isOwnedBy(Long ownerId) {
+        return foodTruck.getOwner().getUserId().equals(ownerId);
+    }
 }

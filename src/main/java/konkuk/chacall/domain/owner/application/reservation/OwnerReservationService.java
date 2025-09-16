@@ -10,6 +10,7 @@ import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
 import konkuk.chacall.global.common.domain.BaseStatus;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
+import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -46,10 +47,14 @@ public class OwnerReservationService {
         return CursorPagingResponse.of(responses, nextCursor, ownerReservationSlice.hasNext());
     }
 
-    public OwnerReservationDetailResponse getReservationDetail(Long reservationId) {
+    public OwnerReservationDetailResponse getReservationDetail(Long ownerId, Long reservationId) {
         // ID로 예약 정보와 연관된 모든 데이터 한 번에 조회
         Reservation reservation = reservationRepository.findByIdWithDetails(reservationId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        if(!reservation.isOwnedBy(ownerId)) {
+            throw new BusinessException(ErrorCode.RESERVATION_NOT_OWNED);
+        }
 
         // DTO 로 변환하여 반환
         return OwnerReservationDetailResponse.of(reservation, reservation.getMember());
