@@ -42,9 +42,7 @@ public class OwnerReservationService {
         // 미리 조회한 User 정보를 사용해 DTO 로 변환
         List<OwnerReservationHistoryResponse> responses = mapToReservationHistory(ownerReservationList, customerMap);
 
-        Long nextCursor = responses.isEmpty() ? null : responses.get(responses.size() - 1).reservationId();
-
-        return CursorPagingResponse.of(responses, nextCursor, ownerReservationSlice.hasNext());
+        return CursorPagingResponse.of(responses, OwnerReservationHistoryResponse::reservationId, ownerReservationSlice.hasNext());
     }
 
     public OwnerReservationDetailResponse getReservationDetail(Long ownerId, Long reservationId) {
