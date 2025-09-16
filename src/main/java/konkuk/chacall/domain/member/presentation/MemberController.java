@@ -30,7 +30,7 @@ public class MemberController {
     @PatchMapping("/me/food-trucks/{foodTruckId}")
     public BaseResponse<SavedFoodTruckStatusResponse> updateFoodTruckSaveStatus(
             @Parameter(description = "푸드트럭 식별자", example = "1") final @PathVariable Long foodTruckId,
-            final @RequestBody @Valid UpdateFoodTruckSaveStatusRequest request,
+            @RequestBody @Valid final UpdateFoodTruckSaveStatusRequest request,
             @Parameter(hidden = true) @UserId final Long memberId
     ) {
         return BaseResponse.ok(memberService.updateFoodTruckSaveStatus(request, foodTruckId, memberId));

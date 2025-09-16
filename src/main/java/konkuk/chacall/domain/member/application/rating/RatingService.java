@@ -21,7 +21,6 @@ public class RatingService {
     @Transactional
     public void registerRatings(RegisterRatingRequest request, Long memberId) {
         // 유효한 평점 값인지 확인
-        RatingScore ratingScore = RatingScore.fromValue(request.rating());
 
         // 푸드트럭이 존재하는지 확인
         FoodTruck foodTruck = foodTruckRepository.findById(request.foodTruckId())
@@ -30,11 +29,12 @@ public class RatingService {
         // 로그인한 사용자가 해당 푸드트럭에 대해 아직 평점을 등록하지 않은 경우에만 평점 등록
         ratingRepository.findByMemberIdAndFoodTruckIdAndIsRatedFalse(memberId, request.foodTruckId())
                 .ifPresentOrElse(rating -> {
+                    double rate = Double.parseDouble(request.rating());
                     // 평점 등록
-                    rating.registerRating(ratingScore.getValue());
+                    rating.registerRating(rate);
 
                     // 푸드트럭의 평균 평점 업데이트
-                    foodTruck.updateAverageRating(ratingScore.getValue());
+                    foodTruck.updateAverageRating(rate);
                 }, () -> {
                     throw new BusinessException(ErrorCode.RATING_NOT_FOUND);
                 });
