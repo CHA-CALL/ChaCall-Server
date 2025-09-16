@@ -33,7 +33,7 @@ public class UserController {
 
     @Operation(summary = "[마이페이지] 회원 정보 수정", description = "사용자(고객)의 정보를 수정합니다. (사장님, 일반유저 무관)")
     @ExceptionDescription(SwaggerResponseDescription.UPDATE_USER_INFO)
-    @PatchMapping("/me")
+    @PutMapping("/me")
     public BaseResponse<Void> updateUserInfo(
             @RequestBody @Valid final UpdateUserInfoRequest request,
             @Parameter(hidden = true) @UserId final Long userId
