@@ -61,6 +61,7 @@ public class MemberController {
     }
 
     @Operation(summary = "평점을 등록할 예약 조회", description = "평점을 등록할 수 있는 지난 예약 목록을 조회합니다.")
+    @ExceptionDescription(SwaggerResponseDescription.MEMBER_GET_RESERVATIONS_FOR_RATING)
     @GetMapping("/me/ratings/reservations")
     public BaseResponse<ReservationForRatingResponse> getReservationsForRating(
             @Parameter(hidden = true) @UserId final Long memberId

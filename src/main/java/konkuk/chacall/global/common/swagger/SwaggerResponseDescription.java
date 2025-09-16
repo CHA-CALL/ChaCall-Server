@@ -102,7 +102,11 @@ public enum SwaggerResponseDescription {
             RATING_NOT_FOUND,
             RATING_INVALID_SCORE,
             RATING_ALREADY_REGISTERED
-    )))
+    ))),
+    MEMBER_GET_RESERVATIONS_FOR_RATING(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN
+    ))),
   ;
     private final Set<ErrorCode> errorCodeList;
 
