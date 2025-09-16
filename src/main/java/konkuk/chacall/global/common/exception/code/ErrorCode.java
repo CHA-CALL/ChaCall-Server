@@ -33,6 +33,7 @@ public enum ErrorCode implements ResponseCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, 60001, "사용자를 찾을 수 없습니다."),
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, 60002, "이미 존재하는 사용자입니다."),
     USER_NICKNAME_DUPLICATION(HttpStatus.CONFLICT, 60003, "이미 존재하는 닉네임입니다."),
+    USER_GENDER_MISMATCH(HttpStatus.BAD_REQUEST, 60004, "일치하는 성별이 없습니다."),
 
     /**
      * BankAccount
@@ -47,13 +48,13 @@ public enum ErrorCode implements ResponseCode {
      */
     CHAT_TEMPLATE_NOT_FOUND(HttpStatus.NOT_FOUND, 80001, "자주 쓰는 채팅을 찾을 수 없습니다."),
 
-
     /**
-     * FoodTruck
+     * Reservation
      */
-    FOOD_TRUCK_NOT_FOUND(HttpStatus.NOT_FOUND, 90001, "푸드트럭을 찾을 수 없습니다."),
-    FOOD_TRUCK_ALREADY_SAVED(HttpStatus.CONFLICT, 90002, "이미 저장된 푸드트럭입니다."),
-    FOOD_TRUCK_NOT_SAVED(HttpStatus.CONFLICT, 90003, "저장되지 않은 푸드트럭입니다."),
+    RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, 90001, "예약 내역을 찾을 수 없습니다."),
+    INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, 90002, "종료일은 시작일보다 빠를 수 없습니다."),
+    INVALID_DATE_INPUT(HttpStatus.BAD_REQUEST, 90003, "잘못된 날짜 입력 형식입니다."),
+    RESERVATION_NOT_OWNED(HttpStatus.FORBIDDEN, 90004, "본인 소유 예약이 아닙니다."),
 
     /**
      * Rating
@@ -62,6 +63,12 @@ public enum ErrorCode implements ResponseCode {
     RATING_INVALID_SCORE(HttpStatus.BAD_REQUEST, 100002, "유효하지 않은 평점 값입니다."),
     RATING_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, 100003, "이미 평점이 등록된 상태입니다."),
 
+    /**
+     * FoodTruck
+     */
+    FOOD_TRUCK_NOT_FOUND(HttpStatus.NOT_FOUND, 110001, "푸드트럭을 찾을 수 없습니다."),
+    FOOD_TRUCK_ALREADY_SAVED(HttpStatus.CONFLICT, 110002, "이미 저장된 푸드트럭입니다."),
+    FOOD_TRUCK_NOT_SAVED(HttpStatus.CONFLICT, 110003, "저장되지 않은 푸드트럭입니다."),
     ;
 
     private final HttpStatus httpStatus;

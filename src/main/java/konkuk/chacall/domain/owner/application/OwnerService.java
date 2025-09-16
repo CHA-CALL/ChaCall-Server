@@ -2,15 +2,18 @@ package konkuk.chacall.domain.owner.application;
 
 import konkuk.chacall.domain.owner.application.bankAccount.BankAccountService;
 import konkuk.chacall.domain.owner.application.chatTemplate.ChatTemplateService;
+import konkuk.chacall.domain.owner.application.reservation.OwnerReservationService;
 import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
-import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
-import konkuk.chacall.domain.owner.presentation.dto.request.RegisterChatTemplateRequest;
-import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountRequest;
-import konkuk.chacall.domain.owner.presentation.dto.request.UpdateChatTemplateRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.*;
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.domain.owner.presentation.dto.response.ChatTemplateResponse;
+import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationDetailResponse;
+import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationHistoryResponse;
 import konkuk.chacall.domain.user.domain.model.User;
+import konkuk.chacall.global.common.dto.CursorPagingResponse;
+import konkuk.chacall.global.common.dto.PagingRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,7 @@ public class OwnerService {
 
     private final BankAccountService bankAccountService;
     private final ChatTemplateService chatTemplateService;
+    private final OwnerReservationService ownerReservationService;
 
     // 파사드에서 사장님 검증을 거침으로써 서비스 로직에서는 사장님 검증에 신경쓰지 않도록 책임 분리
     private final OwnerValidator ownerValidator;
@@ -88,5 +92,22 @@ public class OwnerService {
 
         // 자주 쓰는 채팅 삭제 로직 호출
         chatTemplateService.deleteChatTemplate(chatTemplateId);
+    }
+
+    public CursorPagingResponse<OwnerReservationHistoryResponse> getOwnerReservations(GetReservationHistoryRequest request, Long ownerId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 예약 내역 조회 로직 호출
+        PagingRequest pagingRequest = request.pagingOrDefault();
+        return ownerReservationService.getOwnerReservations(ownerId, request.status(), pagingRequest.cursor(), pagingRequest.size());
+    }
+
+    public OwnerReservationDetailResponse getReservationDetail(Long ownerId, Long reservationId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 예약 내역 상세 조회 로직 호출
+        return ownerReservationService.getReservationDetail(ownerId, reservationId);
     }
 }

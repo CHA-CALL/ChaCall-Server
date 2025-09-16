@@ -35,7 +35,7 @@ public class AuthController {
      */
     @Operation(summary = "JWT Access Token 발급", description = "loginTokenKey를 통해 JWT Access Token을 발급받습니다." +
             " 카카오 소셜 로그인 직후 리다이렉트 url의 쿼리 파라미터에서 loginTokenKey를 꺼내서 요청해주세요.")
-    @ExceptionDescription(SwaggerResponseDescription.LOGOUT)
+    @ExceptionDescription(SwaggerResponseDescription.ISSUE_TOKEN)
     @PostMapping("/token")
     public BaseResponse<AuthTokenResponse> getToken(
             @RequestBody @Valid AuthTokenRequest request

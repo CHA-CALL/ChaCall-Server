@@ -19,7 +19,14 @@ public enum SwaggerResponseDescription {
 
     ))),
     ISSUE_TOKEN(new LinkedHashSet<>(Set.of(
-            AUTH_INVALID_LOGIN_TOKEN_KEY,
+            AUTH_INVALID_LOGIN_TOKEN_KEY
+    ))),
+
+    // User
+    GET_USER_INFO(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND
+    ))),
+    UPDATE_USER_INFO(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND
     ))),
 
@@ -57,6 +64,13 @@ public enum SwaggerResponseDescription {
             USER_NOT_FOUND,
             CHAT_TEMPLATE_NOT_FOUND
     ))),
+    OWNER_GET_RESERVATION_HISTORY(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND
+    ))),
+    OWNER_GET_RESERVATION_DETAIL(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            RESERVATION_NOT_FOUND
+    ))),
 
 
     // Member
@@ -74,6 +88,7 @@ public enum SwaggerResponseDescription {
     )))
   ;
     private final Set<ErrorCode> errorCodeList;
+
     SwaggerResponseDescription(Set<ErrorCode> errorCodeList) {
         // 공통 에러
         errorCodeList.addAll(new LinkedHashSet<>(Set.of(
