@@ -33,42 +33,52 @@ public enum SwaggerResponseDescription {
     // Owner
     OWNER_REGISTER_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
+            USER_FORBIDDEN,
             BANK_ACCOUNT_ALREADY_EXISTS_FOR_USER,
             BANK_ACCOUNT_ALREADY_EXISTS
     ))),
     OWNER_GET_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
-            USER_NOT_FOUND
+            USER_NOT_FOUND,
+            USER_FORBIDDEN
     ))),
     OWNER_UPDATE_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
+            USER_FORBIDDEN,
             BANK_ACCOUNT_NOT_FOUND,
             BANK_ACCOUNT_ALREADY_EXISTS,
             BANK_ACCOUNT_FORBIDDEN
     ))),
     OWNER_DELETE_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
+            USER_FORBIDDEN,
             BANK_ACCOUNT_NOT_FOUND,
             BANK_ACCOUNT_FORBIDDEN
     ))),
     OWNER_REGISTER_CHAT_TEMPLATE(new LinkedHashSet<>(Set.of(
-            USER_NOT_FOUND
+            USER_NOT_FOUND,
+            USER_FORBIDDEN
     ))),
     OWNER_GET_CHAT_TEMPLATE(new LinkedHashSet<>(Set.of(
-            USER_NOT_FOUND
+            USER_NOT_FOUND,
+            USER_FORBIDDEN
     ))),
     OWNER_UPDATE_CHAT_TEMPLATE(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
+            USER_FORBIDDEN,
             CHAT_TEMPLATE_NOT_FOUND
     ))),
     OWNER_DELETE_CHAT_TEMPLATE(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
+            USER_FORBIDDEN,
             CHAT_TEMPLATE_NOT_FOUND
     ))),
     OWNER_GET_RESERVATION_HISTORY(new LinkedHashSet<>(Set.of(
-            USER_NOT_FOUND
+            USER_NOT_FOUND,
+            USER_FORBIDDEN
     ))),
     OWNER_GET_RESERVATION_DETAIL(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
+            USER_FORBIDDEN,
             RESERVATION_NOT_FOUND
     ))),
 
@@ -76,11 +86,14 @@ public enum SwaggerResponseDescription {
     // Member
     MEMBER_SAVED_FOOD_TRUCK(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
+            USER_FORBIDDEN,
             FOOD_TRUCK_NOT_FOUND,
             SAVED_FOOD_TRUCK_ALREADY_EXIST,
             SAVED_FOOD_TRUCK_NOT_FOUND
     ))),
     MEMBER_RATING(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
             FOOD_TRUCK_NOT_FOUND,
             RATING_NOT_FOUND,
             RATING_INVALID_SCORE,

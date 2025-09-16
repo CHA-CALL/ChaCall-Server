@@ -73,8 +73,8 @@ public enum ErrorCode implements ResponseCode {
     /**
      * SavedFoodTruck
      */
-    SAVED_FOOD_TRUCK_ALREADY_EXIST(HttpStatus.CONFLICT, 110002, "이미 저장된 푸드트럭입니다."),
-    SAVED_FOOD_TRUCK_NOT_FOUND(HttpStatus.CONFLICT, 110003, "저장되지 않은 푸드트럭입니다."),
+    SAVED_FOOD_TRUCK_NOT_FOUND(HttpStatus.NOT_FOUND, 120001, "저장되지 않은 푸드트럭입니다."),
+    SAVED_FOOD_TRUCK_ALREADY_EXIST(HttpStatus.CONFLICT, 120002, "이미 저장된 푸드트럭입니다."),
     ;
 
     private final HttpStatus httpStatus;
