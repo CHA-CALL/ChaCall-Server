@@ -62,6 +62,8 @@ public enum ErrorCode implements ResponseCode {
      */
     RATING_NOT_FOUND(HttpStatus.NOT_FOUND, 100001, "평점을 매길 수 없는 푸드트럭입니다."),
     RATING_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, 100002, "이미 평점이 등록된 상태입니다."),
+    CANNOT_RATE_RESERVATION_NOT_OWNED(HttpStatus.FORBIDDEN, 100003, "본인이 예약한 건이 아니면 평점을 매길 수 없습니다."),
+    CANNOT_RATE_UNCONFIRMED_RESERVATION(HttpStatus.BAD_REQUEST, 100004, "확정되지 않은 예약 건은 평점을 매길 수 없습니다."),
 
     /**
      * FoodTruck

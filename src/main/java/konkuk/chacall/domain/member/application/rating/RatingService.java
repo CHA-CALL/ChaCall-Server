@@ -5,6 +5,8 @@ import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.member.domain.repository.RatingRepository;
 import konkuk.chacall.domain.member.presentation.dto.request.RegisterRatingRequest;
 import konkuk.chacall.domain.member.presentation.dto.response.ReservationForRatingResponse;
+import konkuk.chacall.domain.reservation.domain.model.Reservation;
+import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
@@ -21,10 +23,14 @@ public class RatingService {
 
     private final RatingRepository ratingRepository;
     private final FoodTruckRepository foodTruckRepository;
+    private final ReservationRepository reservationRepository;
 
     @Transactional
     public void registerRatings(RegisterRatingRequest request, User member) {
-        // 유효한 평점 값인지 확인
+        Reservation reservation = reservationRepository.findById(request.reservationId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        reservation.validateCanBeRatedBy(member);
 
         // 푸드트럭이 존재하는지 확인
         FoodTruck foodTruck = foodTruckRepository.findById(request.foodTruckId())

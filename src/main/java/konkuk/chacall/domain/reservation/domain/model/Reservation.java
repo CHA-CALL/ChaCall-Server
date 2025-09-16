@@ -8,7 +8,10 @@ import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.DomainRuleException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.*;
+
+import static konkuk.chacall.global.common.exception.code.ErrorCode.*;
 
 @Getter
 @Entity
@@ -44,5 +47,14 @@ public class Reservation extends BaseEntity {
 
     public boolean isOwnedBy(Long ownerId) {
         return foodTruck.getOwner().getUserId().equals(ownerId);
+    }
+
+    public void validateCanBeRatedBy(User member) {
+        if (!this.member.equals(member)) {
+            throw new DomainRuleException(CANNOT_RATE_RESERVATION_NOT_OWNED);
+        }
+        if (this.reservationStatus != ReservationStatus.CONFIRMED) {
+            throw new DomainRuleException(CANNOT_RATE_UNCONFIRMED_RESERVATION);
+        }
     }
 }
