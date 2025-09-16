@@ -19,7 +19,14 @@ public enum SwaggerResponseDescription {
 
     ))),
     ISSUE_TOKEN(new LinkedHashSet<>(Set.of(
-            AUTH_INVALID_LOGIN_TOKEN_KEY,
+            AUTH_INVALID_LOGIN_TOKEN_KEY
+    ))),
+
+    // User
+    GET_USER_INFO(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND
+    ))),
+    UPDATE_USER_INFO(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND
     ))),
 
