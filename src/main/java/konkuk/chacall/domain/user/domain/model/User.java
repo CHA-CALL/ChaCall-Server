@@ -2,6 +2,8 @@ package konkuk.chacall.domain.user.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.global.common.domain.BaseEntity;
+import konkuk.chacall.global.common.exception.DomainRuleException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.*;
 
 @Getter
@@ -58,5 +60,19 @@ public class User extends BaseEntity {
         this.email = email;
         this.gender = Gender.from(genderStr);
         this.termsAgreed = termsAgreed;
+    }
+
+    public void validateOwner() {
+        if (this.role != Role.OWNER) {
+            throw new DomainRuleException(ErrorCode.USER_FORBIDDEN,
+                    new IllegalArgumentException("사용자는 사장님 권한이 없습니다. " + this.role));
+        }
+    }
+
+    public void validateMember() {
+        if (this.role == Role.NON_SELECTED) {
+            throw new DomainRuleException(ErrorCode.USER_FORBIDDEN,
+                    new IllegalArgumentException("사용자는 일반 유저 권한이 없습니다. " + this.role));
+        }
     }
 }

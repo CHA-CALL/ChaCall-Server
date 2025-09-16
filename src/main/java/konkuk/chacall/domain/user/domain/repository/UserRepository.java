@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByKakaoIdAndStatus(String kakaoId, BaseStatus status);
 
-    Optional<User> findByUserIdAndRoleAndStatus(Long userId, Role role, BaseStatus status);
+    Optional<User> findByUserIdAndStatus(Long userId, BaseStatus status);
 
     boolean existsByUserIdAndRoleAndStatus(Long userId, Role role, BaseStatus status);
 

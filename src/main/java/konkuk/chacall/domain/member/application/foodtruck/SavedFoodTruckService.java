@@ -21,15 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class SavedFoodTruckService {
 
     private final SavedFoodTruckRepository savedFoodTruckRepository;
-    private final UserRepository userRepository;
     private final FoodTruckRepository foodTruckRepository;
 
     @Transactional
-    public SavedFoodTruckStatusResponse updateFoodTruckSaveStatus(UpdateFoodTruckSaveStatusRequest request, Long foodTruckId, Long memberId) {
-
-        // 유저 존재 여부 확인
-        User member = userRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
+    public SavedFoodTruckStatusResponse updateFoodTruckSaveStatus(UpdateFoodTruckSaveStatusRequest request, Long foodTruckId, User member) {
 
         // 푸드트럭 존재 여부 확인
         FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
@@ -37,14 +32,14 @@ public class SavedFoodTruckService {
 
         if (request.isSavedRequest()) { // 저장 요청
             // 이미 저장된 푸드트럭인지 확인
-            if(savedFoodTruckRepository.existsByMemberIdAndFoodTruckId(memberId, foodTruckId)) {
+            if(savedFoodTruckRepository.existsByMemberAndFoodTruck(member, foodTruck)) {
                 throw new BusinessException(ErrorCode.FOOD_TRUCK_ALREADY_SAVED);
             }
 
             SavedFoodTruck savedFoodTruck = SavedFoodTruck.of(member, foodTruck);
             savedFoodTruckRepository.save(savedFoodTruck);
         } else { // 저장 취소 요청
-            SavedFoodTruck savedFoodTruck = savedFoodTruckRepository.findByMemberIdAndFoodTruckId(memberId, foodTruckId)
+            SavedFoodTruck savedFoodTruck = savedFoodTruckRepository.findByMemberAndFoodTruck(member, foodTruck)
                     .orElseThrow(() -> new BusinessException(ErrorCode.FOOD_TRUCK_NOT_SAVED));
 
             savedFoodTruckRepository.delete(savedFoodTruck);
