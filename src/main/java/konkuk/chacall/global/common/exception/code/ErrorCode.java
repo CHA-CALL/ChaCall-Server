@@ -46,7 +46,15 @@ public enum ErrorCode implements ResponseCode {
     /**
      * ChatTemplate
      */
-    CHAT_TEMPLATE_NOT_FOUND(HttpStatus.NOT_FOUND, 80001, "자주 쓰는 채팅을 찾을 수 없습니다.");
+    CHAT_TEMPLATE_NOT_FOUND(HttpStatus.NOT_FOUND, 80001, "자주 쓰는 채팅을 찾을 수 없습니다."),
+
+    /**
+     * Reservation
+     */
+    RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, 90001, "예약 내역을 찾을 수 없습니다."),
+    INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, 90002, "종료일은 시작일보다 빠를 수 없습니다."),
+    INVALID_DATE_INPUT(HttpStatus.BAD_REQUEST, 90003, "잘못된 날짜 입력 형식입니다."),
+    RESERVATION_NOT_OWNED(HttpStatus.FORBIDDEN, 90004, "본인 소유 예약이 아닙니다.")
     ;
 
     private final HttpStatus httpStatus;

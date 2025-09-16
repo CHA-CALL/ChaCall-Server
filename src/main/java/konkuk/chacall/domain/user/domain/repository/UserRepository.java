@@ -6,6 +6,7 @@ import konkuk.chacall.global.common.domain.BaseStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserIdAndRoleAndStatus(Long userId, Role role, BaseStatus status);
 
     boolean existsByUserIdAndRoleAndStatus(Long userId, Role role, BaseStatus status);
+
+    List<User> findAllByUserIdInAndRoleAndStatus(List<Long> userIds, Role role, BaseStatus status);
 }
