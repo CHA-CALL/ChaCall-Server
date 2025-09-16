@@ -50,7 +50,7 @@ public class Reservation extends BaseEntity {
     }
 
     public void validateCanBeRatedBy(User member) {
-        if (!this.member.equals(member)) {
+        if (!this.member.getUserId().equals(member.getUserId())) {
             throw new DomainRuleException(CANNOT_RATE_RESERVATION_NOT_OWNED);
         }
         if (this.reservationStatus != ReservationStatus.CONFIRMED) {
