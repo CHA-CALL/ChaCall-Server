@@ -17,12 +17,14 @@ public record PagingRequest(
         Integer size
 ) {
     private static final int DEFAULT_SIZE = 20;
+    private static final long DEFAULT_CURSOR = Long.MAX_VALUE;
 
-    public long getCursorOrDefault() {
-        return (this.cursor == null) ? Long.MAX_VALUE : this.cursor;
-    }
-
-    public int getSizeOrDefault() {
-        return (this.size == null) ? DEFAULT_SIZE : this.size;
+    public PagingRequest {
+        if (cursor == null) {
+            cursor = DEFAULT_CURSOR;
+        }
+        if (size == null) {
+            size = DEFAULT_SIZE;
+        }
     }
 }

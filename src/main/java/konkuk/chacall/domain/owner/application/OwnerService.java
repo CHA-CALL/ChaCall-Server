@@ -11,7 +11,9 @@ import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationDet
 import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationHistoryResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
+import konkuk.chacall.global.common.dto.PagingRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -97,7 +99,8 @@ public class OwnerService {
         ownerValidator.validateAndGetOwner(ownerId);
 
         // 사장님 예약 내역 조회 로직 호출
-        return ownerReservationService.getOwnerReservations(ownerId, request.status(), request.pagingRequest().getCursorOrDefault(), request.pagingRequest().getSizeOrDefault());
+        PagingRequest pagingRequest = request.pagingOrDefault();
+        return ownerReservationService.getOwnerReservations(ownerId, request.status(), pagingRequest.cursor(), pagingRequest.size());
     }
 
     public OwnerReservationDetailResponse getReservationDetail(Long ownerId, Long reservationId) {

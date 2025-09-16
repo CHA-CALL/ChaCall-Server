@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
+import konkuk.chacall.global.common.dto.HasPaging;
 import konkuk.chacall.global.common.dto.PagingRequest;
 
 public record GetReservationHistoryRequest(
@@ -16,5 +17,5 @@ public record GetReservationHistoryRequest(
 
         @Valid
         PagingRequest pagingRequest
-) {
+) implements HasPaging {
 }
