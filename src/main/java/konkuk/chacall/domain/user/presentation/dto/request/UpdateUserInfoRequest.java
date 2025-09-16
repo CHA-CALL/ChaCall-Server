@@ -2,6 +2,7 @@ package konkuk.chacall.domain.user.presentation.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "사용자 정보 수정 요청 DTO")
 public record UpdateUserInfoRequest(
@@ -23,6 +24,7 @@ public record UpdateUserInfoRequest(
         String gender,
 
         @Schema(description = "약관 동의 여부", example = "true")
-        boolean termAgreed
+        @NotNull(message = "약관 동의 여부는 비어 있을 수 없습니다.")
+        Boolean termAgreed
 ) {
 }
