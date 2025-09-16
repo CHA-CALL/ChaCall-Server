@@ -100,7 +100,6 @@ public enum SwaggerResponseDescription {
             USER_FORBIDDEN,
             FOOD_TRUCK_NOT_FOUND,
             RATING_NOT_FOUND,
-            RATING_INVALID_SCORE,
             RATING_ALREADY_REGISTERED
     ))),
     MEMBER_GET_RESERVATIONS_FOR_RATING(new LinkedHashSet<>(Set.of(
