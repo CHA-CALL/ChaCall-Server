@@ -1,13 +1,11 @@
 package konkuk.chacall.domain.foodtruck.domain.value;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
 
-@Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class MenuCategoryList {
 
