@@ -2,13 +2,11 @@ package konkuk.chacall.domain.owner.application;
 
 import konkuk.chacall.domain.owner.application.bankAccount.BankAccountService;
 import konkuk.chacall.domain.owner.application.chatTemplate.ChatTemplateService;
+import konkuk.chacall.domain.owner.application.myFoodTruck.MyFoodTruckService;
 import konkuk.chacall.domain.owner.application.reservation.OwnerReservationService;
 import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
 import konkuk.chacall.domain.owner.presentation.dto.request.*;
-import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
-import konkuk.chacall.domain.owner.presentation.dto.response.ChatTemplateResponse;
-import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationDetailResponse;
-import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationHistoryResponse;
+import konkuk.chacall.domain.owner.presentation.dto.response.*;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
@@ -24,6 +22,7 @@ public class OwnerService {
     private final BankAccountService bankAccountService;
     private final ChatTemplateService chatTemplateService;
     private final OwnerReservationService ownerReservationService;
+    private final MyFoodTruckService myFoodTruckService;
 
     // 파사드에서 사장님 검증을 거침으로써 서비스 로직에서는 사장님 검증에 신경쓰지 않도록 책임 분리
     private final OwnerValidator ownerValidator;
@@ -108,5 +107,13 @@ public class OwnerService {
 
         // 사장님 예약 내역 상세 조회 로직 호출
         return ownerReservationService.getReservationDetail(ownerId, reservationId);
+    }
+
+    public CursorPagingResponse<MyFoodTruckResponse> getMyFoodTrucks(CursorPagingRequest request, Long ownerId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 - 나의 푸드트럭 목록 조회
+        return myFoodTruckService.getMyFoodTrucks(request, ownerId);
     }
 }

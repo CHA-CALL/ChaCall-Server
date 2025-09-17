@@ -81,6 +81,10 @@ public enum SwaggerResponseDescription {
             USER_FORBIDDEN,
             RESERVATION_NOT_FOUND
     ))),
+    OWNER_GET_FOOD_TRUCK(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN
+    ))),
 
 
     // Member
