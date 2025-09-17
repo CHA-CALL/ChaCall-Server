@@ -2,7 +2,9 @@ package konkuk.chacall.domain.region.domain;
 
 import jakarta.persistence.*;
 import konkuk.chacall.global.common.domain.BaseEntity;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "regions")
 public class Region extends BaseEntity {

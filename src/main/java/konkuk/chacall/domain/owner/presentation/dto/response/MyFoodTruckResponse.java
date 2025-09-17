@@ -1,8 +1,13 @@
 package konkuk.chacall.domain.owner.presentation.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.FoodTruckServiceArea;
 
-public record MyFoodTrucksResponse(
+import java.util.List;
+import java.util.stream.Collectors;
+
+public record MyFoodTruckResponse(
         @Schema(description = "푸드트럭 식별자", example = "1")
         Long foodTruckId,
         @Schema(description = "푸드트럭 이미지", example = "image.png")
@@ -16,4 +21,28 @@ public record MyFoodTrucksResponse(
         @Schema(description = "호출 가능 지역", example = "서울 전체, 경기도 수원시 영통구, 인천 계양구")
         String serviceArea
 ) {
+        /**
+         * FoodTruck 엔티티와 연관된 FoodTruckServiceArea 리스트를 사용하여 DTO 를 생성
+         * @param foodTruck 푸드트럭 엔티티
+         * @param serviceAreas 해당 푸드트럭의 서비스 가능 지역 엔티티 리스트
+         * @return MyFoodTruckResponse DTO
+         */
+        public static MyFoodTruckResponse of(FoodTruck foodTruck, List<FoodTruckServiceArea> serviceAreas) {
+                // 대표 이미지
+                String mainImageUrl = foodTruck.getFoodTruckPhotoList().getMainPhotoUrl();
+
+                // 서비스 지역: Region 의 fullName 을 ", "로 연결하여 하나의 문자열로 만듦
+                String serviceAreaString = serviceAreas.stream()
+                        .map(serviceArea -> serviceArea.getRegion().getFullName())
+                        .collect(Collectors.joining(", "));
+
+                return new MyFoodTruckResponse(
+                        foodTruck.getFoodTruckId(),
+                        mainImageUrl,
+                        foodTruck.getName(),
+                        foodTruck.getDescription(),
+                        foodTruck.getActiveTime(),
+                        serviceAreaString
+                );
+        }
 }
