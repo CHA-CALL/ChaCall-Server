@@ -113,7 +113,15 @@ public class OwnerService {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
 
-        // 사장님 - 나의 푸드트럭 목록 조회
+        // 사장님 - 나의 푸드트럭 목록 조회 로직 호출
         return myFoodTruckService.getMyFoodTrucks(request, ownerId);
+    }
+
+    public void deleteMyFoodTruck(Long ownerId, Long foodTruckId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 - 나의 푸드트럭 삭제 로직 호출
+        myFoodTruckService.deleteMyFoodTruck(ownerId, foodTruckId);
     }
 }

@@ -182,4 +182,17 @@ public class OwnerController {
                 request,
                 ownerId));
     }
+
+    @Operation(
+            summary = "나의 푸드트럭 삭제",
+            description = "사장님 - 푸드트럭을 삭제합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_DELETE_FOOD_TRUCK)
+    @DeleteMapping("/me/food-trucks/{foodTruckId}")
+    public BaseResponse<Void> deleteFoodTruck (
+            @PathVariable final Long foodTruckId,
+            @Parameter(hidden = true) @UserId final Long ownerId) {
+        ownerService.deleteMyFoodTruck(ownerId, foodTruckId);
+        return BaseResponse.ok(null);
+    }
 }
