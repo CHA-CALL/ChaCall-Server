@@ -22,7 +22,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "[마이페이지] 회원 정보 조회", description = "사용자(고객)의 정보를 조회합니다. (사장님, 일반유저 무관)")
+    @Operation(
+            summary = "[마이페이지] 회원 정보 조회",
+            description = "사용자(고객)의 정보를 조회합니다. (사장님, 일반유저 무관)"
+    )
     @ExceptionDescription(SwaggerResponseDescription.GET_USER_INFO)
     @GetMapping("/me")
     public BaseResponse<UserResponse> getUserInfo(
@@ -31,7 +34,10 @@ public class UserController {
         return BaseResponse.ok(userService.getUserInfo(userId));
     }
 
-    @Operation(summary = "[마이페이지] 회원 정보 수정", description = "사용자(고객)의 정보를 수정합니다. (사장님, 일반유저 무관)")
+    @Operation(
+            summary = "[마이페이지] 회원 정보 수정",
+            description = "사용자(고객)의 정보를 수정합니다. (사장님, 일반유저 무관)"
+    )
     @ExceptionDescription(SwaggerResponseDescription.UPDATE_USER_INFO)
     @PutMapping("/me")
     public BaseResponse<Void> updateUserInfo(
