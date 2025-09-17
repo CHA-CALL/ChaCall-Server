@@ -49,6 +49,10 @@ public class Reservation extends BaseEntity {
         return foodTruck.getOwner().getUserId().equals(ownerId);
     }
 
+    public boolean isReservedBy(Long userId) {
+        return this.member.getUserId().equals(userId);
+    }
+
     public void validateCanBeRatedBy(User member) {
         if (!this.member.getUserId().equals(member.getUserId())) {
             throw new DomainRuleException(CANNOT_RATE_RESERVATION_NOT_OWNED);

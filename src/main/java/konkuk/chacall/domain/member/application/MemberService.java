@@ -1,10 +1,11 @@
 package konkuk.chacall.domain.member.application;
 
+import jakarta.validation.Valid;
 import konkuk.chacall.domain.member.application.foodtruck.SavedFoodTruckService;
 import konkuk.chacall.domain.member.application.rating.RatingService;
+import konkuk.chacall.domain.member.application.reservation.MemberReservationService;
 import konkuk.chacall.domain.member.application.validator.MemberValidator;
-import konkuk.chacall.domain.member.presentation.dto.request.RegisterRatingRequest;
-import konkuk.chacall.domain.member.presentation.dto.request.UpdateFoodTruckSaveStatusRequest;
+import konkuk.chacall.domain.member.presentation.dto.request.*;
 import konkuk.chacall.domain.member.presentation.dto.response.ReservationForRatingResponse;
 import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckResponse;
 import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckStatusResponse;
@@ -20,6 +21,7 @@ public class MemberService {
 
     private final SavedFoodTruckService savedFoodTruckService;
     private final RatingService ratingService;
+    private final MemberReservationService memberReservationService;
 
     private final MemberValidator memberValidator;
 
@@ -52,5 +54,21 @@ public class MemberService {
         User member = memberValidator.validateAndGetMember(memberId);
 
         return ratingService.getReservationsForRating(member);
+    }
+
+    public CursorPagingResponse<MemberReservationHistoryResponse> getMemberReservations(GetReservationHistoryRequest request, Long memberId) {
+        // 멤버 유효성 검사 및 조회
+        User member = memberValidator.validateAndGetMember(memberId);
+
+        CursorPagingRequest cursorPagingRequest = request.pagingOrDefault();
+
+        return memberReservationService.getMemberReservations(member, request, cursorPagingRequest.cursor(), cursorPagingRequest.size());
+    }
+
+    public MemberReservationDetailResponse getMemberReservationDetail(Long reservationId, Long memberId) {
+        // 멤버 유효성 검사 및 조회
+        User member = memberValidator.validateAndGetMember(memberId);
+
+        return memberReservationService.getMemberReservationDetail(reservationId, member);
     }
 }
