@@ -4,6 +4,7 @@ import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,4 +31,17 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "JOIN FETCH ft.owner o " +
             "WHERE r.reservationId = :reservationId")
     Optional<Reservation> findByIdWithDetails(@Param("reservationId") Long reservationId);
+
+
+    @EntityGraph(attributePaths = {"foodTruck", "member"})
+    @Query("SELECT r FROM Reservation r " +
+            "WHERE r.member.userId = :memberId " +
+            "AND r.reservationStatus = :status " +
+            "AND r.reservationId < :lastCursor " +
+            "ORDER BY r.reservationId DESC")
+    Slice<Reservation> findMemberReservationsByStatusWithCursor(
+            @Param("memberId") Long memberId,
+            @Param("status") ReservationStatus status,
+            @Param("lastCursor") Long lastCursor,
+            Pageable pageable);
 }
