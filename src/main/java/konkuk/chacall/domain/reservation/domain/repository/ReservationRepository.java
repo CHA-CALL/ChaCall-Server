@@ -33,7 +33,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Optional<Reservation> findByIdWithDetails(@Param("reservationId") Long reservationId);
 
 
-    @EntityGraph(attributePaths = {"foodTruck", "member"})
+    @EntityGraph(attributePaths = {"foodTruck"})
     @Query("SELECT r FROM Reservation r " +
             "WHERE r.member.userId = :memberId " +
             "AND r.reservationStatus = :status " +
