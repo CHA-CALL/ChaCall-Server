@@ -47,4 +47,12 @@ public class ReservationInfo {
                         + " " + this.operationHour)
                 .toList();
     }
+
+    public String parsingIsUserElectricity() {
+        return isUseElectricity ? "가능" : "불가능";
+    }
+
+    public String parsingReservationDeposit() {
+        return reservationDeposit + "원";
+    }
 }

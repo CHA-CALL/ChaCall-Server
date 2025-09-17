@@ -41,7 +41,6 @@ public record OwnerReservationDetailResponse(
         List<String> dateTimeList = reservation.getReservationInfo().getFormattedDateTimeInfos();
 
         // boolean 값을 화면에 표시할 문자열로 변환
-        String electricity = reservation.getReservationInfo().isUseElectricity() ? "가능" : "불가능";
 
         return new OwnerReservationDetailResponse(
                 member.getProfileImageUrl(),
@@ -50,8 +49,8 @@ public record OwnerReservationDetailResponse(
                 dateTimeList,
                 reservation.getPdfUrl(),
                 reservation.getReservationInfo().getMenu(),
-                reservation.getReservationInfo().getReservationDeposit() + "원",
-                electricity,
+                reservation.getReservationInfo().parsingReservationDeposit(),
+                reservation.getReservationInfo().parsingIsUserElectricity(),
                 reservation.getReservationInfo().getEtcRequest()
         );
     }
