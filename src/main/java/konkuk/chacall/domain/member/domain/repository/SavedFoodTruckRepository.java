@@ -5,6 +5,7 @@ import konkuk.chacall.domain.member.domain.SavedFoodTruck;
 import konkuk.chacall.domain.user.domain.model.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,8 +18,8 @@ public interface SavedFoodTruckRepository extends JpaRepository<SavedFoodTruck, 
 
     Optional<SavedFoodTruck> findByMemberAndFoodTruck(User member, FoodTruck foodTruck);
 
+    @EntityGraph(attributePaths = {"foodTruck"})
     @Query("SELECT sft FROM SavedFoodTruck sft " +
-            "JOIN FETCH sft.foodTruck ft " +
             "WHERE sft.member = :member " +
             "AND sft.savedFoodTruckId < :lastCursor " +
             "ORDER BY sft.savedFoodTruckId DESC")
