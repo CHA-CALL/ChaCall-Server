@@ -70,6 +70,10 @@ public class FoodTruck extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
+    public boolean isOwnedBy(Long ownerId) {
+        return this.getOwner().getUserId().equals(ownerId);
+    }
+
     public void updateAverageRating(double rating) {
         ratingInfo.updateAverageRating(rating);
     }
