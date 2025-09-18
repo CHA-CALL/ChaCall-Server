@@ -31,18 +31,13 @@ public record MyFoodTruckResponse(
                 // 대표 이미지
                 String mainImageUrl = foodTruck.getFoodTruckPhotoList().getMainPhotoUrl();
 
-                // 서비스 지역: Region 의 fullName 을 ", "로 연결하여 하나의 문자열로 만듦
-                String serviceAreaString = serviceAreas.stream()
-                        .map(serviceArea -> serviceArea.getRegion().getFullName())
-                        .collect(Collectors.joining(", "));
-
                 return new MyFoodTruckResponse(
                         foodTruck.getFoodTruckId(),
                         mainImageUrl,
                         foodTruck.getName(),
                         foodTruck.getDescription(),
                         foodTruck.getActiveTime(),
-                        serviceAreaString
+                        foodTruck.getServiceAreas(serviceAreas)
                 );
         }
 }
