@@ -58,7 +58,7 @@ public class MyFoodTruckService {
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND));
 
         if (!foodTruck.isOwnedBy(ownerId)) {
-            throw new BusinessException(ErrorCode.USER_FORBIDDEN);
+            throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_OWNED);
         }
 
         // 푸드트럭 호출 가능 지역 삭제
