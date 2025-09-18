@@ -1,14 +1,11 @@
 package konkuk.chacall.domain.member.application;
 
-import jakarta.validation.Valid;
 import konkuk.chacall.domain.member.application.foodtruck.SavedFoodTruckService;
 import konkuk.chacall.domain.member.application.rating.RatingService;
 import konkuk.chacall.domain.member.application.reservation.MemberReservationService;
 import konkuk.chacall.domain.member.application.validator.MemberValidator;
 import konkuk.chacall.domain.member.presentation.dto.request.*;
-import konkuk.chacall.domain.member.presentation.dto.response.ReservationForRatingResponse;
-import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckResponse;
-import konkuk.chacall.domain.member.presentation.dto.response.SavedFoodTruckStatusResponse;
+import konkuk.chacall.domain.member.presentation.dto.response.*;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;

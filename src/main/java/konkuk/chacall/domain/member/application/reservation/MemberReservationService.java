@@ -1,8 +1,8 @@
 package konkuk.chacall.domain.member.application.reservation;
 
 import konkuk.chacall.domain.member.presentation.dto.request.GetReservationHistoryRequest;
-import konkuk.chacall.domain.member.presentation.dto.request.MemberReservationDetailResponse;
-import konkuk.chacall.domain.member.presentation.dto.request.MemberReservationHistoryResponse;
+import konkuk.chacall.domain.member.presentation.dto.response.MemberReservationDetailResponse;
+import konkuk.chacall.domain.member.presentation.dto.response.MemberReservationHistoryResponse;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
 import konkuk.chacall.domain.user.domain.model.User;
