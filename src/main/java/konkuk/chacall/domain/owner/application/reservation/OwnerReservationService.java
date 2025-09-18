@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
 public class OwnerReservationService {
 
     private final ReservationRepository reservationRepository;

@@ -6,7 +6,6 @@ import konkuk.chacall.domain.owner.presentation.dto.request.RegisterChatTemplate
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateChatTemplateRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.ChatTemplateResponse;
 import konkuk.chacall.domain.user.domain.model.User;
-import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
 public class ChatTemplateService {
 
     private final ChatTemplateRepository chatTemplateRepository;

@@ -7,7 +7,6 @@ import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountReq
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.exception.BusinessException;
-import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class BankAccountService {
 
     private final BankAccountRepository bankAccountRepository;

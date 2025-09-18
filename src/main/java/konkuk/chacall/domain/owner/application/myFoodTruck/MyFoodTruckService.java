@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
 public class MyFoodTruckService {
 
     private final FoodTruckRepository foodTruckRepository;
