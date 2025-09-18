@@ -82,7 +82,7 @@ public enum ErrorCode implements ResponseCode {
      * Region
      */
     REGION_NOT_FOUND(HttpStatus.NOT_FOUND, 130001, "지역을 찾을 수 없습니다."),
-    REGION_PARENT_NOT_FOUND(HttpStatus.NOT_FOUND, 130002, "상위 지역을 찾을 수 없습니다.")
+    PARENT_REGION_NOT_FOUND(HttpStatus.NOT_FOUND, 130002, "상위 지역을 찾을 수 없습니다.")
     ;
 
     private final HttpStatus httpStatus;

@@ -18,8 +18,8 @@ public class RegionQueryService {
     private final RegionRepository regionRepository;
 
     public List<RegionQueryResponse> getRegions(RegionQueryRequest request) {
-        if (request.depth() >= 2 && !regionRepository.existsByRegionCode(request.parentCode())) {
-            throw new EntityNotFoundException(ErrorCode.REGION_PARENT_NOT_FOUND);
+        if (request.depth() >= 2 && !regionRepository.existsByRegionCodeAndDepth(request.parentCode(), request.depth() - 1)) {
+            throw new EntityNotFoundException(ErrorCode.PARENT_REGION_NOT_FOUND);
         }
 
         List<Region> regions = regionRepository.findRegions(request.depth(), request.parentCode());
