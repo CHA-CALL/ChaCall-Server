@@ -16,4 +16,6 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
                 order by r.regionId asc
             """)
     List<Region> findRegions(Integer depth, Long parentCode);
+
+    boolean existsByRegionCode(Long regionCode);
 }
