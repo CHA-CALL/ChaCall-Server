@@ -1,18 +1,18 @@
-package konkuk.chacall.domain.owner.presentation.dto.response;
+package konkuk.chacall.domain.member.presentation.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
-import konkuk.chacall.domain.user.domain.model.User;
 
 import java.util.List;
 
-public record OwnerReservationDetailResponse(
-        @Schema(description = "상대방(손님)의 프로필 이미지 URL",
-                example = "https://image.url/path/profile.jpg")
-        String userProfileImage,
-        @Schema(description = "상대방의 이름 또는 닉네임",
-                example = "김차콜")
-        String username,
+public record MemberReservationDetailResponse(
+        @Schema(description = "푸드트럭의 대표 사진 URL",
+                example = "https://example.com/foodtruck.jpg")
+        String photoUrl,
+        @Schema(description = "푸드트럭 이름",
+                example = "맛있는 푸드트럭")
+        String name,
         @Schema(description = "예약 주소",
                 example = "서울 광진구 화양동 123-45")
         String address,
@@ -37,14 +37,13 @@ public record OwnerReservationDetailResponse(
                 example = "음식을 많이 주세요, 늦지말아주세요")
         String etcRequest
 ) {
-    public static OwnerReservationDetailResponse of(Reservation reservation, User member) {
+
+    public static MemberReservationDetailResponse of(Reservation reservation, FoodTruck foodTruck) {
         List<String> dateTimeList = reservation.getReservationInfo().getFormattedDateTimeInfos();
 
-        // boolean 값을 화면에 표시할 문자열로 변환
-
-        return new OwnerReservationDetailResponse(
-                member.getProfileImageUrl(),
-                member.getName(),
+        return new MemberReservationDetailResponse(
+                foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(),
+                foodTruck.getName(),
                 reservation.getReservationInfo().getReservationAddress(),
                 dateTimeList,
                 reservation.getPdfUrl(),
