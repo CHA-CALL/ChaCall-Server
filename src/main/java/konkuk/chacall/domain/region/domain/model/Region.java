@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.region.domain;
+package konkuk.chacall.domain.region.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.global.common.domain.BaseEntity;
