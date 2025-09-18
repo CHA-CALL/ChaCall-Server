@@ -77,6 +77,12 @@ public enum ErrorCode implements ResponseCode {
      */
     SAVED_FOOD_TRUCK_NOT_FOUND(HttpStatus.NOT_FOUND, 120001, "저장되지 않은 푸드트럭입니다."),
     SAVED_FOOD_TRUCK_ALREADY_EXIST(HttpStatus.CONFLICT, 120002, "이미 저장된 푸드트럭입니다."),
+
+    /**
+     * Region
+     */
+    REGION_NOT_FOUND(HttpStatus.NOT_FOUND, 130001, "지역을 찾을 수 없습니다."),
+    REGION_PARENT_NOT_FOUND(HttpStatus.NOT_FOUND, 130002, "상위 지역을 찾을 수 없습니다.")
     ;
 
     private final HttpStatus httpStatus;
