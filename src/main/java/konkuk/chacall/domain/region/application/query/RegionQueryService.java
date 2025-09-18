@@ -3,7 +3,7 @@ package konkuk.chacall.domain.region.application.query;
 import konkuk.chacall.domain.region.domain.model.Region;
 import konkuk.chacall.domain.region.domain.repository.RegionRepository;
 import konkuk.chacall.domain.region.presentation.dto.request.RegionQueryRequest;
-import konkuk.chacall.domain.region.presentation.dto.response.RegionQueryResponse;
+import konkuk.chacall.domain.region.presentation.dto.response.RegionResponse;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class RegionQueryService {
 
     private final RegionRepository regionRepository;
 
-    public List<RegionQueryResponse> getRegions(RegionQueryRequest request) {
+    public List<RegionResponse> getRegions(RegionQueryRequest request) {
         if (request.depth() >= 2 && !regionRepository.existsByRegionCodeAndDepth(request.parentCode(), request.depth() - 1)) {
             throw new EntityNotFoundException(ErrorCode.PARENT_REGION_NOT_FOUND);
         }
@@ -25,7 +25,7 @@ public class RegionQueryService {
         List<Region> regions = regionRepository.findRegions(request.depth(), request.parentCode());
 
         return regions.stream()
-                .map(RegionQueryResponse::of)
+                .map(RegionResponse::of)
                 .toList();
     }
 }

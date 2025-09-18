@@ -1,15 +1,12 @@
 package konkuk.chacall.domain.region.presentation;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import konkuk.chacall.domain.owner.presentation.dto.request.RegisterBankAccountRequest;
 import konkuk.chacall.domain.region.application.RegionService;
 import konkuk.chacall.domain.region.presentation.dto.request.RegionQueryRequest;
-import konkuk.chacall.domain.region.presentation.dto.response.RegionQueryResponse;
+import konkuk.chacall.domain.region.presentation.dto.response.RegionResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
-import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
 import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +31,7 @@ public class RegionController {
     )
     @ExceptionDescription(SwaggerResponseDescription.GET_REGIONS)
     @GetMapping
-    public BaseResponse<List<RegionQueryResponse>> getRegions(
+    public BaseResponse<List<RegionResponse>> getRegions(
             @Valid @ParameterObject final RegionQueryRequest request
     ) {
         return BaseResponse.ok(regionService.getRegions(request));

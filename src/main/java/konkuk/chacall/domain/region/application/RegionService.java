@@ -2,7 +2,7 @@ package konkuk.chacall.domain.region.application;
 
 import konkuk.chacall.domain.region.application.query.RegionQueryService;
 import konkuk.chacall.domain.region.presentation.dto.request.RegionQueryRequest;
-import konkuk.chacall.domain.region.presentation.dto.response.RegionQueryResponse;
+import konkuk.chacall.domain.region.presentation.dto.response.RegionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ public class RegionService {
 
     private final RegionQueryService regionQueryService;
 
-    public List<RegionQueryResponse> getRegions(RegionQueryRequest request) {
+    public List<RegionResponse> getRegions(RegionQueryRequest request) {
         return regionQueryService.getRegions(request);
     }
 }
