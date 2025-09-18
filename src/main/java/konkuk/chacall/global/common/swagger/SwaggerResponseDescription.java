@@ -1,5 +1,6 @@
 package konkuk.chacall.global.common.swagger;
 
+import jakarta.xml.bind.annotation.XmlType;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.Getter;
 
@@ -120,7 +121,10 @@ public enum SwaggerResponseDescription {
     // Region
     GET_REGIONS(new LinkedHashSet<>(Set.of(
             PARENT_REGION_NOT_FOUND
-    )))
+    ))),
+
+    // Default
+    DEFAULT(new LinkedHashSet<>())
     ;
     private final Set<ErrorCode> errorCodeList;
 

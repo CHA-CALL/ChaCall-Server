@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.region.application.RegionService;
 import konkuk.chacall.domain.region.presentation.dto.request.RegionQueryRequest;
+import konkuk.chacall.domain.region.presentation.dto.request.RegionSearchRequest;
 import konkuk.chacall.domain.region.presentation.dto.response.RegionResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.dto.BaseResponse;
@@ -35,5 +36,17 @@ public class RegionController {
             @Valid @ParameterObject final RegionQueryRequest request
     ) {
         return BaseResponse.ok(regionService.getRegions(request));
+    }
+
+    @Operation(
+            summary = "지역 검색",
+            description = "키워드를 부분문자열로 갖는 모든 지역을 검색합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.DEFAULT)
+    @GetMapping
+    public BaseResponse<List<RegionResponse>> searchRegions(
+            @Valid @ParameterObject final RegionSearchRequest request
+    ) {
+        return BaseResponse.ok(regionService.searchRegions(request));
     }
 }
