@@ -2,6 +2,7 @@ package konkuk.chacall.domain.foodtruck.domain.repository;
 
 import konkuk.chacall.domain.foodtruck.domain.FoodTruckServiceArea;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,4 +15,7 @@ public interface FoodTruckServiceAreaRepository extends JpaRepository<FoodTruckS
             "WHERE ftsa.foodTruck.foodTruckId IN :foodTruckIds")
     List<FoodTruckServiceArea> findAllWithRegionByFoodTruckIdIn(@Param("foodTruckIds") List<Long> foodTruckIds);
 
+    @Modifying
+    @Query("DELETE FROM FoodTruckServiceArea ftsa WHERE ftsa.foodTruck.foodTruckId = :foodTruckId")
+    void deleteAllByFoodTruckId(@Param("foodTruckId") Long foodTruckId);
 }

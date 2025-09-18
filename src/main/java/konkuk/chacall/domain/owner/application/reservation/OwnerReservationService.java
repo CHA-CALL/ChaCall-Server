@@ -50,7 +50,7 @@ public class OwnerReservationService {
         Reservation reservation = reservationRepository.findByIdWithDetails(reservationId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.RESERVATION_NOT_FOUND));
 
-        if(!reservation.isOwnedBy(ownerId)) {
+        if(!reservation.isForFoodTruckOwnedBy(ownerId)) {
             throw new BusinessException(ErrorCode.RESERVATION_NOT_OWNED);
         }
 

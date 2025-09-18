@@ -2,11 +2,19 @@ package konkuk.chacall.domain.owner.application.myFoodTruck;
 
 import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.FoodTruckServiceArea;
+import konkuk.chacall.domain.foodtruck.domain.repository.AvailableDateRepository;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckServiceAreaRepository;
+import konkuk.chacall.domain.foodtruck.domain.repository.MenuRepository;
+import konkuk.chacall.domain.member.domain.repository.RatingRepository;
+import konkuk.chacall.domain.member.domain.repository.SavedFoodTruckRepository;
 import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckResponse;
+import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
+import konkuk.chacall.global.common.exception.BusinessException;
+import konkuk.chacall.global.common.exception.EntityNotFoundException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -24,6 +32,11 @@ public class MyFoodTruckService {
 
     private final FoodTruckRepository foodTruckRepository;
     private final FoodTruckServiceAreaRepository foodTruckServiceAreaRepository;
+    private final MenuRepository menuRepository;
+    private final ReservationRepository reservationRepository;
+    private final SavedFoodTruckRepository savedFoodTruckRepository;
+    private final AvailableDateRepository availableDateRepository;
+    private final RatingRepository ratingRepository;
 
     public CursorPagingResponse<MyFoodTruckResponse> getMyFoodTrucks(CursorPagingRequest request, Long ownerId) {
         // 1. 커서 기반으로 푸드트럭 Slice 조회
@@ -37,6 +50,38 @@ public class MyFoodTruckService {
         List<MyFoodTruckResponse> responses = mapToMyFoodTruckResponse(foodTrucks, serviceAreaMap);
 
         return CursorPagingResponse.of(responses, MyFoodTruckResponse::foodTruckId, foodTruckSlice.hasNext());
+    }
+
+    @Transactional
+    public void deleteMyFoodTruck(Long ownerId, Long foodTruckId) {
+        // 푸드트럭 조회 및 소유권 확인
+        FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND));
+
+        if (!foodTruck.isOwnedBy(ownerId)) {
+            throw new BusinessException(ErrorCode.USER_FORBIDDEN);
+        }
+
+        // 푸드트럭 호출 가능 지역 삭제
+        foodTruckServiceAreaRepository.deleteAllByFoodTruckId(foodTruckId);
+
+        // 푸드트럭 메뉴 삭제
+        menuRepository.deleteAllByFoodTruckId(foodTruckId);
+
+        // 푸드트럭 가능한 일정대 삭제
+        availableDateRepository.deleteAllByFoodTruckId(foodTruckId);
+
+        // 푸드트럭 관련 평점 삭제
+        ratingRepository.deleteAllByFoodTruckId(foodTruckId);
+
+        // 푸드트럭 관련 예약 삭제
+        reservationRepository.deleteAllByFoodTruckId(foodTruckId);
+
+        // 푸드트럭 저장한 푸드트럭 삭제
+        savedFoodTruckRepository.deleteAllByFoodTruckId(foodTruckId);
+
+        // 푸드트럭 삭제
+        foodTruckRepository.delete(foodTruck);
     }
 
     /**
