@@ -19,7 +19,7 @@ public class RegionSearchService {
         List<Region> regions = regionRepository.findByFullNameContainingOrderByRegionIdAsc(request.keyword().trim());
 
         return regions.stream()
-                .map(RegionResponse::of)
+                .map(region -> RegionResponse.of(region.getFullName(), region.getRegionCode()))
                 .toList();
     }
 

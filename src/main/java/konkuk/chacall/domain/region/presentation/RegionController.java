@@ -43,7 +43,7 @@ public class RegionController {
             description = "키워드를 부분문자열로 갖는 모든 지역을 검색합니다."
     )
     @ExceptionDescription(SwaggerResponseDescription.DEFAULT)
-    @GetMapping
+    @GetMapping("/search")
     public BaseResponse<List<RegionResponse>> searchRegions(
             @Valid @ParameterObject final RegionSearchRequest request
     ) {

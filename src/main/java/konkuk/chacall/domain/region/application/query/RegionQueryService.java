@@ -25,7 +25,7 @@ public class RegionQueryService {
         List<Region> regions = regionRepository.findRegions(request.depth(), request.parentCode());
 
         return regions.stream()
-                .map(RegionResponse::of)
+                .map(region -> RegionResponse.of(region.getName(), region.getRegionCode()))
                 .toList();
     }
 }
