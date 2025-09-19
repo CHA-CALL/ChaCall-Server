@@ -6,6 +6,8 @@ import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.converter.MenuCategoryListConverter;
 import konkuk.chacall.global.common.converter.PhotoUrlListConverter;
 import konkuk.chacall.global.common.domain.BaseEntity;
+import konkuk.chacall.global.common.exception.DomainRuleException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.*;
 
 import java.util.List;
@@ -73,8 +75,14 @@ public class FoodTruck extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
-    public boolean isOwnedBy(Long ownerId) {
+    private boolean isOwnedBy(Long ownerId) {
         return this.getOwner().getUserId().equals(ownerId);
+    }
+
+    public void validateOwner(Long ownerId) {
+        if (!isOwnedBy(owner.getUserId())) {
+            throw new DomainRuleException(ErrorCode.FOOD_TRUCK_NOT_OWNED);
+        }
     }
 
     public void updateAverageRating(double rating) {

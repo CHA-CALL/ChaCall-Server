@@ -46,12 +46,26 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
 
-    public boolean isForFoodTruckOwnedBy(Long ownerId) {
-        return foodTruck.isOwnedBy(ownerId);
+    // 본인이 푸드트럭 소유자인지 검증
+    public void validateFoodTruckOwner(Long ownerId) {
+        if (isForFoodTruckOwnedBy(ownerId)) {
+            throw new DomainRuleException(RESERVATION_NOT_OWNED);
+        }
     }
 
-    public boolean isReservedBy(Long userId) {
-        return this.member.getUserId().equals(userId);
+    private boolean isForFoodTruckOwnedBy(Long ownerId) {
+        return !this.foodTruck.getOwner().getUserId().equals(ownerId);
+    }
+
+    // 본인이 예약자인지 검증
+    public void validateReservedBy(Long memberId) {
+        if (!isReservedBy(memberId)) {
+            throw new DomainRuleException(RESERVATION_NOT_OWNED);
+        }
+    }
+
+    private boolean isReservedBy(Long memberId) {
+        return this.member.getUserId().equals(memberId);
     }
 
     public void validateCanBeRatedBy(User member) {
