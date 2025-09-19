@@ -86,9 +86,11 @@ public class Reservation extends BaseEntity {
             Integer reservationDeposit,
             boolean isUseElectricity,
             String etcRequest,
-            User member,
+            User owner,
             FoodTruck foodTruck
     ) {
+        validateCreateReservation(owner, foodTruck);
+
         ReservationInfo reservationInfo = ReservationInfo.builder()
                 .reservationAddress(reservationAddress)
                 .reservationDetailAddress(reservationDetailAddress)
@@ -104,9 +106,16 @@ public class Reservation extends BaseEntity {
                 .reservationStatus(ReservationStatus.PENDING) // 기본 상태: 예약 대기
                 .reservationInfo(reservationInfo)
                 .pdfUrl(null)
-                .member(member)
+                .member(owner)
                 .foodTruck(foodTruck)
                 .build();
+    }
+
+    private static void validateCreateReservation(User owner, FoodTruck foodTruck) {
+        foodTruck.validateOwner(owner.getUserId());
+        if (foodTruck.getOwner().getUserId().equals(owner.getUserId())) {
+            throw new DomainRuleException(CANNOT_RESERVE_OWN_FOOD_TRUCK);
+        }
     }
 
     public void update(

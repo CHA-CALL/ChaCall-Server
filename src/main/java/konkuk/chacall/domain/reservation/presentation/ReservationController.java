@@ -57,6 +57,7 @@ public class ReservationController {
             summary = "예약 견적서 수정",
             description = "사장님이 작성한 예약 견적서를 수정합니다. 사장님, 일반 유저 모두 수정 가능합니다."
     )
+    @ExceptionDescription(UPDATE_RESERVATION)
     @PutMapping("/{reservationId}")
     public BaseResponse<ReservationIdResponse> updateReservation(
             @Parameter(description = "예약 ID", example = "1") @PathVariable final Long reservationId,
