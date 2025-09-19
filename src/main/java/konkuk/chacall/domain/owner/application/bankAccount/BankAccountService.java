@@ -21,7 +21,6 @@ public class BankAccountService {
 
     private final BankAccountRepository bankAccountRepository;
 
-    @Transactional
     public void registerBankAccount(RegisterBankAccountRequest request, User owner) {
 
         // 해당 유저의 계좌가 이미 있는지 확인
@@ -50,7 +49,6 @@ public class BankAccountService {
     }
 
 
-    @Transactional
     public void updateBankAccount(Long ownerId, Long bankAccountId, UpdateBankAccountRequest request) {
         // 수정할 계좌를 찾고 요청자가 실제 소유주인지 검증
         BankAccount bankAccount = findBankAccountAndVerifyOwner(ownerId, bankAccountId);
@@ -70,7 +68,6 @@ public class BankAccountService {
         );
     }
 
-    @Transactional
     public void deleteBankAccount(Long ownerId, Long bankAccountId) {
         // 삭제할 계좌를 찾고, 요청자가 실제 소유주인지 검증
         BankAccount bankAccount = findBankAccountAndVerifyOwner(ownerId, bankAccountId);

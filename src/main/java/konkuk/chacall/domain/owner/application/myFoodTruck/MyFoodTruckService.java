@@ -51,7 +51,6 @@ public class MyFoodTruckService {
         return CursorPagingResponse.of(responses, MyFoodTruckResponse::foodTruckId, foodTruckSlice.hasNext());
     }
 
-    @Transactional
     public void deleteMyFoodTruck(Long ownerId, Long foodTruckId) {
         // 푸드트럭 조회 및 소유권 확인
         FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
