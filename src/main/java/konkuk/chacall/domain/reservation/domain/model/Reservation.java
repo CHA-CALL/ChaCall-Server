@@ -48,13 +48,13 @@ public class Reservation extends BaseEntity {
 
     // 본인이 푸드트럭 소유자인지 검증
     public void validateFoodTruckOwner(Long ownerId) {
-        if (isForFoodTruckOwnedBy(ownerId)) {
+        if (!isForFoodTruckOwnedBy(ownerId)) {
             throw new DomainRuleException(RESERVATION_NOT_OWNED);
         }
     }
 
     private boolean isForFoodTruckOwnedBy(Long ownerId) {
-        return !this.foodTruck.getOwner().getUserId().equals(ownerId);
+        return this.foodTruck.getOwner().getUserId().equals(ownerId);
     }
 
     // 본인이 예약자인지 검증
