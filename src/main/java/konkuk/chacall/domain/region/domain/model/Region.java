@@ -19,7 +19,7 @@ public class Region extends BaseEntity {
     @Column(nullable = false)
     private Long regionId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long regionCode;
 
     @Column(nullable = false, length = 100)
