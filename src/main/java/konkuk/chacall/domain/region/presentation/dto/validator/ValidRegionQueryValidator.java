@@ -1,8 +1,8 @@
-package konkuk.chacall.domain.region.presentation.validator;
+package konkuk.chacall.domain.region.presentation.dto.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import konkuk.chacall.domain.region.domain.repository.RegionRepository;
+import jakarta.validation.constraints.NotNull;
 import konkuk.chacall.domain.region.presentation.dto.request.RegionQueryRequest;
 
 public class ValidRegionQueryValidator implements ConstraintValidator<ValidRegionQuery, RegionQueryRequest> {
@@ -11,6 +11,11 @@ public class ValidRegionQueryValidator implements ConstraintValidator<ValidRegio
     public boolean isValid(RegionQueryRequest value, ConstraintValidatorContext ctx) {
         Integer depth = value.depth();
         Long parentCode = value.parentCode();
+
+        if(depth == null) {
+            addViolation(ctx, "depth 는 필수 값입니다.", "depth");
+            return false;
+        }
 
         // depth == 1 인데 parentCode 를 보냈으면 거절
         if (depth == 1 && parentCode != null) {

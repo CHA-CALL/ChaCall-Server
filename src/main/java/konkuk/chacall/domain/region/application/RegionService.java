@@ -13,16 +13,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class RegionService {
 
     private final RegionQueryService regionQueryService;
     private final RegionSearchService regionSearchService;
 
+    @Transactional(readOnly = true)
     public List<RegionResponse> getRegions(RegionQueryRequest request) {
         return regionQueryService.getRegions(request);
     }
 
+    @Transactional(readOnly = true)
     public List<RegionResponse> searchRegions(RegionSearchRequest request) {
         return regionSearchService.searchRegions(request);
     }

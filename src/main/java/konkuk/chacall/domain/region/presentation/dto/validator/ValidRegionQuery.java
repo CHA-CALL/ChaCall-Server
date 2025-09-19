@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.region.presentation.validator;
+package konkuk.chacall.domain.region.presentation.dto.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
