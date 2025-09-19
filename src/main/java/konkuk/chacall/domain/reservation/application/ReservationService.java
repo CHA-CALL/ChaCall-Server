@@ -24,8 +24,9 @@ public class ReservationService {
     @Transactional
     public Long createReservation(CreateReservationRequest request, Long ownerId) {
         User owner = ownerValidator.validateAndGetOwner(ownerId);
+        User member = memberValidator.validateAndGetMember(request.reservationUserId());
 
-        return reservationInfoService.createReservation(request, owner);
+        return reservationInfoService.createReservation(request, owner, member);
     }
 
     public ReservationResponse getReservation(Long reservationId, Long userId) {

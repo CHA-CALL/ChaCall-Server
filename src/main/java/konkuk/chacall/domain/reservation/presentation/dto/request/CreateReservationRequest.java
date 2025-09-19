@@ -10,6 +10,10 @@ public record CreateReservationRequest(
         @NotNull(message = "푸드트럭 ID는 필수 입력 값입니다.")
         Long foodTruckId,
 
+        @Schema(description = "예약자(일반 유저) ID", example = "2")
+        @NotNull(message = "예약자 ID는 필수 입력 값입니다.")
+        Long reservationUserId,
+
         @Schema(description = "예약 주소 (시/구/동)", example = "서울시 강남구 역삼동")
         @NotBlank(message = "예약 주소는 필수 입력 값입니다.")
         String address,

@@ -21,12 +21,9 @@ public class ReservationInfoService {
     private final FoodTruckRepository foodTruckRepository;
     private final ReservationRepository reservationRepository;
 
-    public Long createReservation(CreateReservationRequest request, User owner) {
+    public Long createReservation(CreateReservationRequest request, User owner, User member) {
         FoodTruck foodTruck = foodTruckRepository.findById(request.foodTruckId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND));
-
-        // 푸드트럭 소유자 검증
-        foodTruck.validateOwner(owner.getUserId());
 
         Reservation reservation = Reservation.create(
                 request.address(),
@@ -38,6 +35,7 @@ public class ReservationInfoService {
                 request.isUseElectricity(),
                 request.etcRequest(),
                 owner,
+                member,
                 foodTruck);
 
         return reservationRepository.save(reservation).getReservationId();
