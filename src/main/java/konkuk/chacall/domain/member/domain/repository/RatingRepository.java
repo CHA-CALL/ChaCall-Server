@@ -5,7 +5,9 @@ import konkuk.chacall.domain.member.domain.Rating;
 import konkuk.chacall.domain.user.domain.model.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +21,8 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
             "WHERE r.member = :member " +
             "AND r.isRated = false")
     List<Rating> findAllByMemberAndIsRatedFalse(User member);
+
+    @Modifying
+    @Query("DELETE FROM Rating r WHERE r.foodTruck.foodTruckId = :foodTruckId")
+    void deleteAllByFoodTruckId(@Param("foodTruckId") Long foodTruckId);
 }

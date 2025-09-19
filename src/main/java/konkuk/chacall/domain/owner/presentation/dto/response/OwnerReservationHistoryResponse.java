@@ -10,14 +10,16 @@ public record OwnerReservationHistoryResponse(
         @Schema(description = "예약 내역 식별자", example = "1")
         Long reservationId,
         @Schema(description = "유저(고객) 프로필 이미지", example = "http://image.png")
-        String userProfileImage,
+        String profileImage,
         @Schema(description = "유저(고객) 이름", example = "홍길동")
-        String username,
+        String name,
         @Schema(description = "예약 주소", example = "서울 광진구 화양동")
         String address,
         @Schema(description = "예약 날짜 및 운영 시간 정보 리스트 (최대 2개)",
                 example = "[\"2025-09-20 13시~19시\", \"2025-09-21 13시~19시\"]")
-        List<String> dateTimeInfos
+        List<String> dateTimeInfos,
+        @Schema(description = "푸드트럭 이름", example = "차콜 푸드트럭")
+        String foodTruckName
 ) {
 
     public static OwnerReservationHistoryResponse of(Reservation reservation, User member) {
@@ -28,7 +30,8 @@ public record OwnerReservationHistoryResponse(
                 member.getProfileImageUrl(),
                 member.getName(),
                 reservation.getReservationInfo().getReservationAddress(),
-                dateTimeList
+                dateTimeList,
+                reservation.getFoodTruck().getName()
         );
     }
 }

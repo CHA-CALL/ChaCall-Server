@@ -46,8 +46,8 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
 
-    public boolean isOwnedBy(Long ownerId) {
-        return foodTruck.getOwner().getUserId().equals(ownerId);
+    public boolean isForFoodTruckOwnedBy(Long ownerId) {
+        return foodTruck.isOwnedBy(ownerId);
     }
 
     public boolean isReservedBy(Long userId) {

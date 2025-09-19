@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.owner.application.bankAccount;
+package konkuk.chacall.domain.owner.application.bankaccount;
 
 import konkuk.chacall.domain.owner.domain.model.BankAccount;
 import konkuk.chacall.domain.owner.domain.repository.BankAccountRepository;
@@ -7,23 +7,19 @@ import konkuk.chacall.domain.owner.presentation.dto.request.UpdateBankAccountReq
 import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.exception.BusinessException;
-import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class BankAccountService {
 
     private final BankAccountRepository bankAccountRepository;
 
-    @Transactional
     public void registerBankAccount(RegisterBankAccountRequest request, User owner) {
 
         // 해당 유저의 계좌가 이미 있는지 확인
@@ -52,7 +48,6 @@ public class BankAccountService {
     }
 
 
-    @Transactional
     public void updateBankAccount(Long ownerId, Long bankAccountId, UpdateBankAccountRequest request) {
         // 수정할 계좌를 찾고 요청자가 실제 소유주인지 검증
         BankAccount bankAccount = findBankAccountAndVerifyOwner(ownerId, bankAccountId);
@@ -72,7 +67,6 @@ public class BankAccountService {
         );
     }
 
-    @Transactional
     public void deleteBankAccount(Long ownerId, Long bankAccountId) {
         // 삭제할 계좌를 찾고, 요청자가 실제 소유주인지 검증
         BankAccount bankAccount = findBankAccountAndVerifyOwner(ownerId, bankAccountId);

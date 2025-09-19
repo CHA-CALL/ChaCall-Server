@@ -6,13 +6,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.owner.application.OwnerService;
 import konkuk.chacall.domain.owner.presentation.dto.request.*;
-import konkuk.chacall.domain.owner.presentation.dto.response.BankAccountResponse;
-import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationDetailResponse;
-import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationHistoryResponse;
+import konkuk.chacall.domain.owner.presentation.dto.response.*;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
-import konkuk.chacall.domain.owner.presentation.dto.response.ChatTemplateResponse;
 import konkuk.chacall.global.common.dto.BaseResponse;
+import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
@@ -169,5 +167,32 @@ public class OwnerController {
         return BaseResponse.ok(ownerService.getReservationDetail(
                 ownerId,
                 reservationId));
+    }
+
+    @Operation(
+            summary = "나의 푸드트럭 목록 조회 (무한 스크롤)",
+            description = "사장님 - 나의 푸드트럭 목록을 조회합니다.")
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_GET_FOOD_TRUCK)
+    @GetMapping("/me/food-trucks")
+    public BaseResponse<CursorPagingResponse<MyFoodTruckResponse>> getMyFoodTrucks(
+            @Valid @ParameterObject final CursorPagingRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(ownerService.getMyFoodTrucks(
+                request,
+                ownerId));
+    }
+
+    @Operation(
+            summary = "나의 푸드트럭 삭제",
+            description = "사장님 - 푸드트럭을 삭제합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_DELETE_FOOD_TRUCK)
+    @DeleteMapping("/me/food-trucks/{foodTruckId}")
+    public BaseResponse<Void> deleteFoodTruck (
+            @PathVariable final Long foodTruckId,
+            @Parameter(hidden = true) @UserId final Long ownerId) {
+        ownerService.deleteMyFoodTruck(ownerId, foodTruckId);
+        return BaseResponse.ok(null);
     }
 }
