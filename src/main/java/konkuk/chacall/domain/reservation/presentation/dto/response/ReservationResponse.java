@@ -38,12 +38,12 @@ public record ReservationResponse(
         public static ReservationResponse of(Reservation reservation) {
                 ReservationInfo reservationInfo = reservation.getReservationInfo();
                 return new ReservationResponse(
-                        reservationInfo.getReservationAddress(),
-                        reservationInfo.getReservationDetailAddress(),
+                        reservationInfo.getAddress(),
+                        reservationInfo.getDetailAddress(),
                         reservationInfo.getFormattedDateInfos(),
                         reservationInfo.getOperationHour(),
                         reservationInfo.getMenu(),
-                        reservationInfo.getReservationDeposit(),
+                        reservationInfo.getDeposit(),
                         reservationInfo.isUseElectricity(),
                         reservationInfo.getEtcRequest()
             );

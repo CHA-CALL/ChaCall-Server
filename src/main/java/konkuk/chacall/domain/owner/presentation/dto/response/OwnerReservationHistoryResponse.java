@@ -29,7 +29,7 @@ public record OwnerReservationHistoryResponse(
                 reservation.getReservationId(),
                 member.getProfileImageUrl(),
                 member.getName(),
-                reservation.getReservationInfo().getReservationAddress(),
+                reservation.getReservationInfo().getAddress(),
                 dateTimeList,
                 reservation.getFoodTruck().getName()
         );

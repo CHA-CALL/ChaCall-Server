@@ -20,14 +20,14 @@ import java.util.List;
 public class ReservationInfo {
 
     @Column(nullable = false)
-    private String reservationAddress; // 주소 (시/동/구)
+    private String address; // 주소 (시/동/구)
 
     @Column(nullable = false)
-    private String reservationDetailAddress; // 상세 주소
+    private String detailAddress; // 상세 주소
 
     @Convert(converter = ReservationDateListConverter.class)
     @Column(nullable = false)
-    private ReservationDateList reservationDate; // 예약 일정
+    private ReservationDateList reservationDates; // 예약 일정
 
     @Column(nullable = false, length = 50)
     private String operationHour; // 운영 시간대
@@ -36,7 +36,7 @@ public class ReservationInfo {
     private String menu;
 
     @Column(nullable = false)
-    private Integer reservationDeposit; // 예약금
+    private Integer deposit; // 예약금
 
     @Column(name = "is_use_electricity", nullable = false)
     private boolean isUseElectricity; // 전기 사용 여부
@@ -50,7 +50,7 @@ public class ReservationInfo {
     public List<String> getFormattedDateTimeInfos() {
         DateTimeFormatter DOT = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
-        return this.reservationDate.getRanges().stream()
+        return this.reservationDates.getRanges().stream()
                 .map(date -> date.startDate().format(DOT) + " ~ " + date.endDate().format(DOT)
                         + " " + this.operationHour)
                 .toList();
@@ -62,7 +62,7 @@ public class ReservationInfo {
     public List<String> getFormattedDateInfos() {
         DateTimeFormatter DOT = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
-        return this.reservationDate.getRanges().stream()
+        return this.reservationDates.getRanges().stream()
                 .map(date -> date.startDate().format(DOT) + " ~ " + date.endDate().format(DOT))
                 .toList();
     }
@@ -72,7 +72,7 @@ public class ReservationInfo {
     }
 
     public String parsingReservationDeposit() {
-        return reservationDeposit + "원";
+        return deposit + "원";
     }
 
     public void updateReservationInfo(
@@ -85,12 +85,12 @@ public class ReservationInfo {
             boolean isUseElectricity,
             String etcRequest
     ) {
-        this.reservationAddress = reservationAddress;
-        this.reservationDetailAddress = reservationDetailAddress;
-        this.reservationDate = reservationDate;
+        this.address = reservationAddress;
+        this.detailAddress = reservationDetailAddress;
+        this.reservationDates = reservationDate;
         this.operationHour = operationHour;
         this.menu = menu;
-        this.reservationDeposit = reservationDeposit;
+        this.deposit = reservationDeposit;
         this.isUseElectricity = isUseElectricity;
         this.etcRequest = etcRequest;
     }

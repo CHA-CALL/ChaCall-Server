@@ -92,12 +92,12 @@ public class Reservation extends BaseEntity {
         validateCreateReservation(owner, foodTruck);
 
         ReservationInfo reservationInfo = ReservationInfo.builder()
-                .reservationAddress(reservationAddress)
-                .reservationDetailAddress(reservationDetailAddress)
-                .reservationDate(ReservationDateList.fromJson(reservationDateStrings))
+                .address(reservationAddress)
+                .detailAddress(reservationDetailAddress)
+                .reservationDates(ReservationDateList.fromJson(reservationDateStrings))
                 .operationHour(operationHour)
                 .menu(menu)
-                .reservationDeposit(reservationDeposit)
+                .deposit(reservationDeposit)
                 .isUseElectricity(isUseElectricity)
                 .etcRequest(etcRequest)
                 .build();

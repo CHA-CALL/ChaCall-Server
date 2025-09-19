@@ -45,7 +45,7 @@ public record OwnerReservationDetailResponse(
         return new OwnerReservationDetailResponse(
                 member.getProfileImageUrl(),
                 member.getName(),
-                reservation.getReservationInfo().getReservationAddress(),
+                reservation.getReservationInfo().getAddress(),
                 dateTimeList,
                 reservation.getPdfUrl(),
                 reservation.getReservationInfo().getMenu(),
