@@ -4,21 +4,26 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
 import konkuk.chacall.global.common.converter.ReservationDateListConverter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.LifecycleState;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Embeddable
 public class ReservationInfo {
 
     @Column(nullable = false)
-    private String reservationAddress;
+    private String reservationAddress; // 주소 (시/동/구)
+
+    @Column(nullable = false)
+    private String reservationDetailAddress; // 상세 주소
 
     @Convert(converter = ReservationDateListConverter.class)
     @Column(nullable = false)

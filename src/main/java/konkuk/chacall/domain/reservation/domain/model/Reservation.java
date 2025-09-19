@@ -2,12 +2,15 @@ package konkuk.chacall.domain.reservation.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
+import konkuk.chacall.domain.reservation.domain.value.ReservationDateList;
 import konkuk.chacall.domain.reservation.domain.value.ReservationInfo;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import konkuk.chacall.global.common.exception.DomainRuleException;
 import lombok.*;
+
+import java.util.List;
 
 import static konkuk.chacall.global.common.exception.code.ErrorCode.*;
 
@@ -58,5 +61,37 @@ public class Reservation extends BaseEntity {
         if (this.reservationStatus != ReservationStatus.CONFIRMED) {
             throw new DomainRuleException(CANNOT_RATE_UNCONFIRMED_RESERVATION);
         }
+    }
+
+    public static Reservation create(
+            String reservationAddress,
+            String reservationDetailAddress,
+            List<String> reservationDateStrings,
+            String operationHour,
+            String menu,
+            Integer reservationDeposit,
+            boolean isUseElectricity,
+            String etcRequest,
+            User member,
+            FoodTruck foodTruck
+    ) {
+        ReservationInfo reservationInfo = ReservationInfo.builder()
+                .reservationAddress(reservationAddress)
+                .reservationDetailAddress(reservationDetailAddress)
+                .reservationDate(ReservationDateList.fromJson(reservationDateStrings))
+                .operationHour(operationHour)
+                .menu(menu)
+                .reservationDeposit(reservationDeposit)
+                .isUseElectricity(isUseElectricity)
+                .etcRequest(etcRequest)
+                .build();
+
+        return Reservation.builder()
+                .reservationStatus(ReservationStatus.PENDING) // 기본 상태: 예약 대기
+                .reservationInfo(reservationInfo)
+                .pdfUrl(null)
+                .member(member)
+                .foodTruck(foodTruck)
+                .build();
     }
 }
