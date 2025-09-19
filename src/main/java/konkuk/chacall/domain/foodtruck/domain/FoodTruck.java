@@ -8,6 +8,9 @@ import konkuk.chacall.global.common.converter.PhotoUrlListConverter;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import lombok.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Builder
 @Entity
 @Table(name = "food_trucks")
@@ -70,7 +73,18 @@ public class FoodTruck extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
+    public boolean isOwnedBy(Long ownerId) {
+        return this.getOwner().getUserId().equals(ownerId);
+    }
+
     public void updateAverageRating(double rating) {
         ratingInfo.updateAverageRating(rating);
+    }
+
+    // 푸드트럭의 호출 가능 지역을 반환해주는 메서드
+    public String getServiceAreas(List<FoodTruckServiceArea> serviceAreaList) {
+        return serviceAreaList.stream()
+                .map(serviceArea -> serviceArea.getRegion().getFullName())
+                .collect(Collectors.joining(", "));
     }
 }

@@ -9,10 +9,10 @@ import java.util.List;
 public record OwnerReservationDetailResponse(
         @Schema(description = "상대방(손님)의 프로필 이미지 URL",
                 example = "https://image.url/path/profile.jpg")
-        String userProfileImage,
+        String profileImage,
         @Schema(description = "상대방의 이름 또는 닉네임",
                 example = "김차콜")
-        String username,
+        String name,
         @Schema(description = "예약 주소",
                 example = "서울 광진구 화양동 123-45")
         String address,

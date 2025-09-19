@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,14 +25,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("lastCursor") Long lastCursor,
             Pageable pageable);
 
-
     @Query("SELECT r FROM Reservation r " +
             "JOIN FETCH r.member m " +
             "JOIN FETCH r.foodTruck ft " +
             "JOIN FETCH ft.owner o " +
             "WHERE r.reservationId = :reservationId")
     Optional<Reservation> findByIdWithDetails(@Param("reservationId") Long reservationId);
-
 
     @EntityGraph(attributePaths = {"foodTruck"})
     @Query("SELECT r FROM Reservation r " +
@@ -44,4 +43,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("status") ReservationStatus status,
             @Param("lastCursor") Long lastCursor,
             Pageable pageable);
+
+    @Modifying
+    @Query("DELETE FROM Reservation r WHERE r.foodTruck.foodTruckId = :foodTruckId")
+    void deleteAllByFoodTruckId(@Param("foodTruckId") Long foodTruckId);
 }

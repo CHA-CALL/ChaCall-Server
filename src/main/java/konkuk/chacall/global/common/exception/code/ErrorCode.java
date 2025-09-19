@@ -69,6 +69,7 @@ public enum ErrorCode implements ResponseCode {
      * FoodTruck
      */
     FOOD_TRUCK_NOT_FOUND(HttpStatus.NOT_FOUND, 110001, "푸드트럭을 찾을 수 없습니다."),
+    FOOD_TRUCK_NOT_OWNED(HttpStatus.FORBIDDEN, 110002, "해당 푸드트럭의 소유자가 아닙니다."),
 
 
     /**
