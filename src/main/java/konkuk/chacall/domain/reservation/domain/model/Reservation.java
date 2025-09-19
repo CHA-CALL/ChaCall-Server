@@ -6,9 +6,7 @@ import konkuk.chacall.domain.reservation.domain.value.ReservationInfo;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.domain.BaseEntity;
-import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.DomainRuleException;
-import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.*;
 
 import static konkuk.chacall.global.common.exception.code.ErrorCode.*;
