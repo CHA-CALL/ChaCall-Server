@@ -27,7 +27,7 @@ public record MemberReservationHistoryResponse(
                 reservation.getReservationId(),
                 foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(),
                 foodTruck.getName(),
-                reservation.getReservationInfo().getAddress(),
+                reservation.getReservationInfo().getFullAddress(),
                 dateTimeList
         );
     }

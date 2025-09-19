@@ -38,7 +38,7 @@ public record ReservationForRatingResponse(
                     foodTruck.getFoodTruckId(),
                     foodTruck.getName(),
                     foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(), // 대표 사진 (첫 번째 사진)
-                    reservation.getReservationInfo().getAddress(),
+                    reservation.getReservationInfo().getFullAddress(),
                     dateTimeList
             );
         }

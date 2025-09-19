@@ -67,6 +67,10 @@ public class ReservationInfo {
                 .toList();
     }
 
+    public String getFullAddress() {
+        return this.address + " " + this.detailAddress;
+    }
+
     public String parsingIsUserElectricity() {
         return isUseElectricity ? "가능" : "불가능";
     }
