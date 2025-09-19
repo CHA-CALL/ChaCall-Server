@@ -106,6 +106,14 @@ public enum SwaggerResponseDescription {
             USER_NOT_FOUND,
             USER_FORBIDDEN
     ))),
+
+    // Reservation
+    CREATE_RESERVATION(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_FOUND,
+            INVALID_DATE_INPUT
+    ))),
   ;
     private final Set<ErrorCode> errorCodeList;
 
