@@ -43,6 +43,7 @@ public class ReservationController {
             summary = "예약 견적서 조회",
             description = "사장님이 작성한 예약 견적서를 조회합니다. 사장님, 일반 유저 모두 조회 가능합니다."
     )
+    @ExceptionDescription(GET_RESERVATION)
     @GetMapping("/{reservationId}")
     public BaseResponse<ReservationResponse> getReservation(
             @Parameter(description = "예약 ID", example = "1") @PathVariable final Long reservationId,

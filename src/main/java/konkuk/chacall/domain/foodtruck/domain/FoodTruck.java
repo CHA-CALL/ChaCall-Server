@@ -76,11 +76,11 @@ public class FoodTruck extends BaseEntity {
     private User owner;
 
     private boolean isOwnedBy(Long ownerId) {
-        return this.getOwner().getUserId().equals(ownerId);
+        return this.owner.getUserId().equals(ownerId);
     }
 
     public void validateOwner(Long ownerId) {
-        if (!isOwnedBy(owner.getUserId())) {
+        if (!isOwnedBy(ownerId)) {
             throw new DomainRuleException(ErrorCode.FOOD_TRUCK_NOT_OWNED);
         }
     }

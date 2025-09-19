@@ -128,7 +128,14 @@ public enum SwaggerResponseDescription {
             USER_NOT_FOUND,
             USER_FORBIDDEN,
             FOOD_TRUCK_NOT_FOUND,
+            FOOD_TRUCK_NOT_OWNED,
             INVALID_DATE_INPUT
+    ))),
+    GET_RESERVATION(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            RESERVATION_NOT_FOUND,
+            RESERVATION_NOT_OWNED
     ))),
 
     // Default
