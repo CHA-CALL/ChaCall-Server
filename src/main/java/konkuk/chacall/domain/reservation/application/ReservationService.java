@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ReservationService {
 
     private final ReservationInfoService reservationInfoService;
@@ -33,6 +34,7 @@ public class ReservationService {
         return reservationInfoService.getReservation(reservationId, user);
     }
 
+    @Transactional
     public Long updateReservation(Long reservationId, UpdateReservationRequest request, Long userId) {
         User user = memberValidator.validateAndGetMember(userId);
 
