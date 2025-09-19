@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.owner.application.chatTemplate;
+package konkuk.chacall.domain.owner.application.chattemplate;
 
 import konkuk.chacall.domain.owner.domain.model.ChatTemplate;
 import konkuk.chacall.domain.owner.domain.repository.ChatTemplateRepository;
@@ -10,7 +10,6 @@ import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
