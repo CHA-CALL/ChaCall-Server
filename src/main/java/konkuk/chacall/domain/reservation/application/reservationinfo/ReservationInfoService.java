@@ -5,6 +5,7 @@ import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
 import konkuk.chacall.domain.reservation.presentation.dto.request.CreateReservationRequest;
+import konkuk.chacall.domain.reservation.presentation.dto.request.UpdateReservationRequest;
 import konkuk.chacall.domain.reservation.presentation.dto.response.ReservationResponse;
 import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
@@ -54,5 +55,30 @@ public class ReservationInfoService {
         }
 
         return ReservationResponse.of(reservation);
+    }
+
+    public Long updateReservation(Long reservationId, UpdateReservationRequest request, User user) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        // 예약 소유자 또는 푸드트럭 소유자인지 확인
+        if(user.getRole().equals(Role.OWNER)) {
+            reservation.validateFoodTruckOwner(user.getUserId());
+        } else {
+            reservation.validateReservedBy(user.getUserId());
+        }
+
+        reservation.update(
+                request.address(),
+                request.detailAddress(),
+                request.reservationDates(),
+                request.operationHour(),
+                request.menu(),
+                request.deposit(),
+                request.isUseElectricity(),
+                request.etcRequest()
+        );
+
+        return reservation.getReservationId();
     }
 }

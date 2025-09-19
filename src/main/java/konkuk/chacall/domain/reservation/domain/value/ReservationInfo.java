@@ -74,4 +74,24 @@ public class ReservationInfo {
     public String parsingReservationDeposit() {
         return reservationDeposit + "원";
     }
+
+    public void updateReservationInfo(
+            String reservationAddress,
+            String reservationDetailAddress,
+            ReservationDateList reservationDate,
+            String operationHour,
+            String menu,
+            Integer reservationDeposit,
+            boolean isUseElectricity,
+            String etcRequest
+    ) {
+        this.reservationAddress = reservationAddress;
+        this.reservationDetailAddress = reservationDetailAddress;
+        this.reservationDate = reservationDate;
+        this.operationHour = operationHour;
+        this.menu = menu;
+        this.reservationDeposit = reservationDeposit;
+        this.isUseElectricity = isUseElectricity;
+        this.etcRequest = etcRequest;
+    }
 }

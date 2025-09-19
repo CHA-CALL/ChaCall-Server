@@ -108,4 +108,26 @@ public class Reservation extends BaseEntity {
                 .foodTruck(foodTruck)
                 .build();
     }
+
+    public void update(
+            String reservationAddress,
+            String reservationDetailAddress,
+            List<String> reservationDateStrings,
+            String operationHour,
+            String menu,
+            Integer reservationDeposit,
+            boolean isUseElectricity,
+            String etcRequest
+    ) {
+        this.reservationInfo.updateReservationInfo(
+                reservationAddress,
+                reservationDetailAddress,
+                ReservationDateList.fromJson(reservationDateStrings),
+                operationHour,
+                menu,
+                reservationDeposit,
+                isUseElectricity,
+                etcRequest
+        );
+    }
 }

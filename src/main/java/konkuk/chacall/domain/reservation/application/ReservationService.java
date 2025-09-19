@@ -4,6 +4,7 @@ import konkuk.chacall.domain.member.application.validator.MemberValidator;
 import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
 import konkuk.chacall.domain.reservation.application.reservationinfo.ReservationInfoService;
 import konkuk.chacall.domain.reservation.presentation.dto.request.CreateReservationRequest;
+import konkuk.chacall.domain.reservation.presentation.dto.request.UpdateReservationRequest;
 import konkuk.chacall.domain.reservation.presentation.dto.response.ReservationResponse;
 import konkuk.chacall.domain.user.domain.model.User;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,11 @@ public class ReservationService {
         User user = memberValidator.validateAndGetMember(userId);
 
         return reservationInfoService.getReservation(reservationId, user);
+    }
+
+    public Long updateReservation(Long reservationId, UpdateReservationRequest request, Long userId) {
+        User user = memberValidator.validateAndGetMember(userId);
+
+        return reservationInfoService.updateReservation(reservationId, request, user);
     }
 }

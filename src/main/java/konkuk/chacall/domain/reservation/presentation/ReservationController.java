@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.reservation.application.ReservationService;
 import konkuk.chacall.domain.reservation.presentation.dto.request.CreateReservationRequest;
+import konkuk.chacall.domain.reservation.presentation.dto.request.UpdateReservationRequest;
 import konkuk.chacall.domain.reservation.presentation.dto.response.ReservationIdResponse;
 import konkuk.chacall.domain.reservation.presentation.dto.response.ReservationResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
@@ -59,7 +60,7 @@ public class ReservationController {
     @PutMapping("/{reservationId}")
     public BaseResponse<ReservationIdResponse> updateReservation(
             @Parameter(description = "예약 ID", example = "1") @PathVariable final Long reservationId,
-            @RequestBody @Valid final CreateReservationRequest request,
+            @RequestBody @Valid final UpdateReservationRequest request,
             @Parameter(hidden = true) @UserId final Long userId
     ) {
         return BaseResponse.ok(ReservationIdResponse.of(
