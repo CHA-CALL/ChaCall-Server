@@ -22,8 +22,11 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
     @Query("""
                 select r
                 from Region r
-                where r.depth >= 2
-                  and r.fullName like concat('%', :keyword, '%')
+                where r.fullName like concat('%', :keyword, '%')
+                  and (
+                      (r.depth = 2 and r.regionCode = r.parentCode)
+                      or r.depth = 3
+                  )
                 order by r.regionId asc
             """)
     List<Region> searchSubRegionsByFullName(String keyword);
