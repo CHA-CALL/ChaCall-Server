@@ -3,10 +3,15 @@ package konkuk.chacall.domain.region.domain.model;
 import jakarta.persistence.*;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import lombok.Getter;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "regions")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Region extends BaseEntity {
 
     @Id
