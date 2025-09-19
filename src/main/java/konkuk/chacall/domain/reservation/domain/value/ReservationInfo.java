@@ -44,12 +44,26 @@ public class ReservationInfo {
     @Column(length = 1000)
     private String etcRequest; // 기타 요청 사항
 
+    /**
+     * 예약 날짜와 운영 시간을 "YYYY.MM.DD ~ YYYY.MM.DD HH:MM ~ HH:MM" 형식으로 반환
+     */
     public List<String> getFormattedDateTimeInfos() {
         DateTimeFormatter DOT = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
         return this.reservationDate.getRanges().stream()
                 .map(date -> date.startDate().format(DOT) + " ~ " + date.endDate().format(DOT)
                         + " " + this.operationHour)
+                .toList();
+    }
+
+    /**
+     * 예약 날짜를 "YYYY.MM.DD ~ YYYY.MM.DD" 형식으로 반환
+     */
+    public List<String> getFormattedDateInfos() {
+        DateTimeFormatter DOT = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
+        return this.reservationDate.getRanges().stream()
+                .map(date -> date.startDate().format(DOT) + " ~ " + date.endDate().format(DOT))
                 .toList();
     }
 
