@@ -19,6 +19,13 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 
     boolean existsByRegionCodeAndDepth(Long regionCode, Integer depth);
 
-    List<Region> findByFullNameContainingOrderByRegionIdAsc(String keyword);
+    @Query("""
+                select r
+                from Region r
+                where r.depth >= 2
+                  and r.fullName like concat('%', :keyword, '%')
+                order by r.regionId asc
+            """)
+    List<Region> searchSubRegionsByFullName(String keyword);
 
 }

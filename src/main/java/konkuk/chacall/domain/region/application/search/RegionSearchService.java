@@ -16,7 +16,7 @@ public class RegionSearchService {
     private final RegionRepository regionRepository;
 
     public List<RegionResponse> searchRegions(RegionSearchRequest request) {
-        List<Region> regions = regionRepository.findByFullNameContainingOrderByRegionIdAsc(request.keyword().trim());
+        List<Region> regions = regionRepository.searchSubRegionsByFullName(request.keyword().trim());
 
         return regions.stream()
                 .map(region -> RegionResponse.of(region.getFullName(), region.getRegionCode()))
