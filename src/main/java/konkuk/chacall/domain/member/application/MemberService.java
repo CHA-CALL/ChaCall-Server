@@ -11,9 +11,11 @@ import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final SavedFoodTruckService savedFoodTruckService;
@@ -22,6 +24,7 @@ public class MemberService {
 
     private final MemberValidator memberValidator;
 
+    @Transactional
     public SavedFoodTruckStatusResponse updateFoodTruckSaveStatus(UpdateFoodTruckSaveStatusRequest request, Long foodTruckId, Long memberId) {
         // 멤버 유효성 검사 및 조회
         User member = memberValidator.validateAndGetMember(memberId);
@@ -37,6 +40,7 @@ public class MemberService {
         return savedFoodTruckService.getSavedFoodTrucks(cursorPagingRequest, member);
     }
 
+    @Transactional
     public void registerRatings(RegisterRatingRequest request, Long memberId) {
         // 멤버 유효성 검사 및 조회
         User member = memberValidator.validateAndGetMember(memberId);

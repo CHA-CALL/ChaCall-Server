@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReservationDateList {
 
@@ -28,6 +27,10 @@ public class ReservationDateList {
 
     public boolean isEmpty() {
         return ranges == null || ranges.isEmpty();
+    }
+
+    public List<DateRange> getRanges() {
+        return Collections.unmodifiableList(ranges);
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)

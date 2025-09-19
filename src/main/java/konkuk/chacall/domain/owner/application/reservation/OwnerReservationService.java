@@ -48,9 +48,7 @@ public class OwnerReservationService {
         Reservation reservation = reservationRepository.findByIdWithDetails(reservationId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.RESERVATION_NOT_FOUND));
 
-        if(!reservation.isForFoodTruckOwnedBy(ownerId)) {
-            throw new BusinessException(ErrorCode.RESERVATION_NOT_OWNED);
-        }
+        reservation.validateFoodTruckOwner(ownerId);
 
         // DTO 로 변환하여 반환
         return OwnerReservationDetailResponse.of(reservation, reservation.getMember());

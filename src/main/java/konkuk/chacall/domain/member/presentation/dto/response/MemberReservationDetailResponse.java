@@ -44,7 +44,7 @@ public record MemberReservationDetailResponse(
         return new MemberReservationDetailResponse(
                 foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(),
                 foodTruck.getName(),
-                reservation.getReservationInfo().getReservationAddress(),
+                reservation.getReservationInfo().getFullAddress(),
                 dateTimeList,
                 reservation.getPdfUrl(),
                 reservation.getReservationInfo().getMenu(),

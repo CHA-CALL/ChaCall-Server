@@ -2,12 +2,15 @@ package konkuk.chacall.domain.reservation.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
+import konkuk.chacall.domain.reservation.domain.value.ReservationDateList;
 import konkuk.chacall.domain.reservation.domain.value.ReservationInfo;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import konkuk.chacall.global.common.exception.DomainRuleException;
 import lombok.*;
+
+import java.util.List;
 
 import static konkuk.chacall.global.common.exception.code.ErrorCode.*;
 
@@ -43,12 +46,26 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
 
-    public boolean isForFoodTruckOwnedBy(Long ownerId) {
-        return foodTruck.isOwnedBy(ownerId);
+    // 본인이 푸드트럭 소유자인지 검증
+    public void validateFoodTruckOwner(Long ownerId) {
+        if (!isForFoodTruckOwnedBy(ownerId)) {
+            throw new DomainRuleException(RESERVATION_NOT_OWNED);
+        }
     }
 
-    public boolean isReservedBy(Long userId) {
-        return this.member.getUserId().equals(userId);
+    private boolean isForFoodTruckOwnedBy(Long ownerId) {
+        return this.foodTruck.getOwner().getUserId().equals(ownerId);
+    }
+
+    // 본인이 예약자인지 검증
+    public void validateReservedBy(Long memberId) {
+        if (!isReservedBy(memberId)) {
+            throw new DomainRuleException(RESERVATION_NOT_OWNED);
+        }
+    }
+
+    private boolean isReservedBy(Long memberId) {
+        return this.member.getUserId().equals(memberId);
     }
 
     public void validateCanBeRatedBy(User member) {
@@ -58,5 +75,70 @@ public class Reservation extends BaseEntity {
         if (this.reservationStatus != ReservationStatus.CONFIRMED) {
             throw new DomainRuleException(CANNOT_RATE_UNCONFIRMED_RESERVATION);
         }
+    }
+
+    public static Reservation create(
+            String reservationAddress,
+            String reservationDetailAddress,
+            List<String> reservationDateStrings,
+            String operationHour,
+            String menu,
+            Integer reservationDeposit,
+            boolean isUseElectricity,
+            String etcRequest,
+            User owner,
+            User member,
+            FoodTruck foodTruck
+    ) {
+        validateCreateReservation(owner, member, foodTruck);
+
+        ReservationInfo reservationInfo = ReservationInfo.builder()
+                .address(reservationAddress)
+                .detailAddress(reservationDetailAddress)
+                .reservationDates(ReservationDateList.fromJson(reservationDateStrings))
+                .operationHour(operationHour)
+                .menu(menu)
+                .deposit(reservationDeposit)
+                .isUseElectricity(isUseElectricity)
+                .etcRequest(etcRequest)
+                .build();
+
+        return Reservation.builder()
+                .reservationId(null)
+                .reservationStatus(ReservationStatus.PENDING) // 기본 상태: 예약 대기
+                .reservationInfo(reservationInfo)
+                .pdfUrl(null)
+                .member(member)
+                .foodTruck(foodTruck)
+                .build();
+    }
+
+    private static void validateCreateReservation(User owner, User member, FoodTruck foodTruck) {
+        foodTruck.validateOwner(owner.getUserId());
+        if (foodTruck.getOwner().getUserId().equals(member.getUserId())) {
+            throw new DomainRuleException(CANNOT_RESERVE_OWN_FOOD_TRUCK);
+        }
+    }
+
+    public void update(
+            String reservationAddress,
+            String reservationDetailAddress,
+            List<String> reservationDateStrings,
+            String operationHour,
+            String menu,
+            Integer reservationDeposit,
+            boolean isUseElectricity,
+            String etcRequest
+    ) {
+        this.reservationInfo.updateReservationInfo(
+                reservationAddress,
+                reservationDetailAddress,
+                ReservationDateList.fromJson(reservationDateStrings),
+                operationHour,
+                menu,
+                reservationDeposit,
+                isUseElectricity,
+                etcRequest
+        );
     }
 }

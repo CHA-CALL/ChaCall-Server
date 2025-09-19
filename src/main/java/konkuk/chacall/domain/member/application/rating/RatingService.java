@@ -18,14 +18,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class RatingService {
 
     private final RatingRepository ratingRepository;
     private final FoodTruckRepository foodTruckRepository;
     private final ReservationRepository reservationRepository;
 
-    @Transactional
     public void registerRatings(RegisterRatingRequest request, User member) {
         Reservation reservation = reservationRepository.findById(request.reservationId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));

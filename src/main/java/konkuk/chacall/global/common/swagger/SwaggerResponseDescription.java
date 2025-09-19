@@ -11,7 +11,7 @@ import static konkuk.chacall.global.common.exception.code.ErrorCode.*;
 
 @Getter
 public enum SwaggerResponseDescription {
-    //
+//
     //Auth
     LOGIN(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND
@@ -121,6 +121,29 @@ public enum SwaggerResponseDescription {
     // Region
     GET_REGIONS(new LinkedHashSet<>(Set.of(
             PARENT_REGION_NOT_FOUND
+    ))),
+
+    // Reservation
+    CREATE_RESERVATION(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_FOUND,
+            FOOD_TRUCK_NOT_OWNED,
+            CANNOT_RESERVE_OWN_FOOD_TRUCK,
+            INVALID_DATE_INPUT
+    ))),
+    GET_RESERVATION(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            RESERVATION_NOT_FOUND,
+            RESERVATION_NOT_OWNED
+    ))),
+    UPDATE_RESERVATION(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            RESERVATION_NOT_FOUND,
+            RESERVATION_NOT_OWNED,
+            INVALID_DATE_INPUT
     ))),
 
     // Default

@@ -55,9 +55,7 @@ public class MyFoodTruckService {
         FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND));
 
-        if (!foodTruck.isOwnedBy(ownerId)) {
-            throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_OWNED);
-        }
+        foodTruck.validateOwner(ownerId);
 
         // 푸드트럭 호출 가능 지역 삭제
         foodTruckServiceAreaRepository.deleteAllByFoodTruckId(foodTruckId);

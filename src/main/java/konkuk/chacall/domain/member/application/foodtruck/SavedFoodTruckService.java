@@ -23,13 +23,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class SavedFoodTruckService {
 
     private final SavedFoodTruckRepository savedFoodTruckRepository;
     private final FoodTruckRepository foodTruckRepository;
 
-    @Transactional
     public SavedFoodTruckStatusResponse updateFoodTruckSaveStatus(UpdateFoodTruckSaveStatusRequest request, Long foodTruckId, User member) {
 
         // 푸드트럭 존재 여부 확인

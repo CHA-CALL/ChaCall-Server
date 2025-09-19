@@ -7,8 +7,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ReservationStatus {
     PENDING("예약 대기"),
-    CONFIRMED("예약 확정"),
-    CANCELLED("예약 취소");
+
+    CONFIRMED("예약 확정 완료"),
+    CONFIRMED_REQUESTED("예약 확정 요청"),
+
+    CANCELLED("예약 취소 완료"),
+    CANCELED_REQUESTED("예약 취소 요청")
+
+    ;
 
     private final String value;
 }

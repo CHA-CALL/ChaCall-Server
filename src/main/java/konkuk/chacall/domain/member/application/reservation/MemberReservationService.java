@@ -20,7 +20,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class MemberReservationService {
 
     private final ReservationRepository reservationRepository;
@@ -41,9 +40,7 @@ public class MemberReservationService {
         Reservation reservation = reservationRepository.findByIdWithDetails(reservationId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.RESERVATION_NOT_FOUND));
 
-        if(!reservation.isReservedBy(member.getUserId())) {
-            throw new BusinessException(ErrorCode.RESERVATION_NOT_OWNED);
-        }
+        reservation.validateReservedBy(member.getUserId());
 
         return MemberReservationDetailResponse.of(reservation, reservation.getFoodTruck());
     }
