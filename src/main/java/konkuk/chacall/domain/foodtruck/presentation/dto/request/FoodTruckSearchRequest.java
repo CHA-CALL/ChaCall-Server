@@ -9,7 +9,6 @@ import konkuk.chacall.domain.foodtruck.domain.value.PaymentMethod;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.dto.HasPaging;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Schema(description = "푸드트럭 검색/필터 요청")
