@@ -17,8 +17,13 @@ import java.util.List;
 public record FoodTruckSearchRequest(
         @Schema(description = "검색어(이름/설명 LIKE)", example = "디저트")
         String keyword,
-        @Schema(description = "지역 코드 (prefix 검색)", example = "11680")
-        Long regionCode,
+
+        @Parameter(
+                name = "regionCodes", in = ParameterIn.QUERY,
+                description = "지역 코드들 (prefix 검색, 여러 개 OR). 콤마로 구분",
+                schema = @Schema(type = "string", example = "11680,41")
+        )
+        List<Long> regionCodes,
         @Parameter(
                 name = "schedules", in = ParameterIn.QUERY,
                 description = "운영 가능 기간들(여러 개 OR). 형식: yyyy.MM.dd~yyyy.MM.dd 를 콤마로 구분",

@@ -46,14 +46,22 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
         }
 
         // 지역 - prefix
-        if(request.regionCode() != null) {
+        if (request.regionCodes() != null && !request.regionCodes().isEmpty()) {
+            BooleanBuilder anyPrefix = new BooleanBuilder();
+            for (Long code : request.regionCodes()) {
+                if (code == null) continue;
+                anyPrefix.or(
+                        region.regionCode.stringValue().startsWith(code.toString())
+                );
+            }
             BooleanExpression regionMatch = JPAExpressions.selectOne()
                     .from(foodTruckServiceArea)
                     .join(foodTruckServiceArea.region, region)
-                    .where(foodTruckServiceArea.foodTruck.foodTruckId.eq(foodTruck.foodTruckId),
-                            region.regionCode.stringValue().startsWith(request.regionCode().toString()))
+                    .where(
+                            foodTruckServiceArea.foodTruck.eq(foodTruck),
+                            anyPrefix
+                    )
                     .exists();
-
             where.and(regionMatch);
         }
 
