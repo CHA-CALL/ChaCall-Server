@@ -40,8 +40,8 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
         // 검색어
         if(request.keyword() != null && !request.keyword().isBlank()) {
             String keyword = "%" + request.keyword().toLowerCase()+ "%";
-            where.and(foodTruck.name.lower().like(keyword))
-                    .or(foodTruck.description.lower().like(keyword));
+            where.and(foodTruck.name.lower().like(keyword)
+                    .or(foodTruck.description.lower().like(keyword)));
         }
 
         // 지역 - prefix
@@ -83,9 +83,9 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
             var any = new BooleanBuilder();
             for (MenuCategory category : request.categories()) {
                 any.or(Expressions.booleanTemplate(
-                        "find_in_set({0}, {1}) > 0",
-                        Expressions.constant(category.name()),
-                        Expressions.stringTemplate("{0}", foodTruck.menuCategoryList)
+                        "concat(',', {0}, ',') like concat('%,', {1}, ',%')",
+                        foodTruck.menuCategoryList,
+                        Expressions.constant(category.getValue())
                 ));
             }
             where.and(any);
