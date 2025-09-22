@@ -57,6 +57,8 @@ public enum ErrorCode implements ResponseCode {
     INVALID_DATE_INPUT(HttpStatus.BAD_REQUEST, 90003, "잘못된 날짜 입력 형식입니다."),
     RESERVATION_NOT_OWNED(HttpStatus.FORBIDDEN, 90004, "본인 소유 예약이 아닙니다."),
     CANNOT_RESERVE_OWN_FOOD_TRUCK(HttpStatus.FORBIDDEN, 90005, "본인 소유 푸드트럭은 예약할 수 없습니다."),
+    INVALID_RESERVATION_STATUS(HttpStatus.BAD_REQUEST, 90006, "유효하지 않은 예약 상태입니다."),
+    INVALID_RESERVATION_STATUS_TRANSITION(HttpStatus.BAD_REQUEST, 90007, "유효하지 않은 예약 상태 전환입니다."),
 
     /**
      * Rating
