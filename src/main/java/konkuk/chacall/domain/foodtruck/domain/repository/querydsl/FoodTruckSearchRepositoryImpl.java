@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.value.AvailableQuantity;
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
 import konkuk.chacall.domain.foodtruck.domain.value.MenuCategory;
 import konkuk.chacall.domain.foodtruck.domain.value.PaymentMethod;
@@ -75,7 +76,9 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
 
         // 수량
         if (request.availableQuantity() != null) {
-            where.and(foodTruck.availableQuantity.eq(request.availableQuantity()));
+            where.and(foodTruck.availableQuantity.in(
+                    AvailableQuantity.acceptableFor(request.availableQuantity())
+            ));
         }
 
         // 메뉴 카테고리
