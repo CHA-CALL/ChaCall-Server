@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.reservation.application.ReservationService;
-import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import konkuk.chacall.domain.reservation.presentation.dto.request.CreateReservationRequest;
 import konkuk.chacall.domain.reservation.presentation.dto.request.UpdateReservationRequest;
 import konkuk.chacall.domain.reservation.presentation.dto.request.UpdateReservationStatusRequest;
