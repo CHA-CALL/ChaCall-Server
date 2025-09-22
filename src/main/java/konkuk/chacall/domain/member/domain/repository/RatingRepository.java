@@ -1,6 +1,6 @@
 package konkuk.chacall.domain.member.domain.repository;
 
-import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.member.domain.Rating;
 import konkuk.chacall.domain.user.domain.model.User;
 import org.springframework.data.jpa.repository.EntityGraph;

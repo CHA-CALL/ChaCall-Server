@@ -1,11 +1,10 @@
 package konkuk.chacall.domain.owner.presentation.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
-import konkuk.chacall.domain.foodtruck.domain.FoodTruckServiceArea;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruckServiceArea;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public record MyFoodTruckResponse(
         @Schema(description = "푸드트럭 식별자", example = "1")

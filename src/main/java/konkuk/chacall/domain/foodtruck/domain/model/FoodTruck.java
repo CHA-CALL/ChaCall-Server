@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.foodtruck.domain;
+package konkuk.chacall.domain.foodtruck.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.domain.foodtruck.domain.value.*;
