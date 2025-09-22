@@ -45,7 +45,7 @@ public class ReservationService {
     public void updateReservation(Long reservationId, UpdateReservationRequest request, Long userId) {
         User user = memberValidator.validateAndGetMember(userId);
 
-        return reservationInfoService.updateReservation(reservationId, request, user);
+        reservationInfoService.updateReservation(reservationId, request, user);
     }
 
     @Transactional
