@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.foodtruck.application.query;
+package konkuk.chacall.domain.foodtruck.application.search;
 
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FoodTruckQueryService {
+public class FoodTruckSearchService {
 
     private final FoodTruckRepository foodTruckRepository;
 
