@@ -46,7 +46,7 @@ public record CreateReservationRequest(
         @Schema(description = "예약금 (0 이상)", example = "50000")
         @NotNull(message = "예약금은 필수 입력 값입니다.")
         @PositiveOrZero(message = "예약금은 0 이상이어야 합니다.")
-        @Digits(integer = 15, fraction = 0, message = "예약금은 공백 포함 최대 15자리까지 입력 가능합니다.")
+        @Digits(integer = 10, fraction = 0, message = "예약금은 공백 포함 최대 15자리까지 입력 가능합니다.")
         Integer deposit,
 
         @Schema(description = "전기 사용 여부", example = "true")
