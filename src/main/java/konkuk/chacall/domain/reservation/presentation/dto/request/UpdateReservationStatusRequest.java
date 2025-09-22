@@ -8,7 +8,7 @@ public record UpdateReservationStatusRequest(
         @Schema(description = "변경할 예약 상태",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 example = "CONFIRMED",
-                allowableValues = {"CONFIRMED", "CONFIRMED_REQUESTED", "CANCELLED", "CANCELED_REQUESTED"})
+                allowableValues = {"CONFIRMED", "CONFIRMED_REQUESTED", "CANCELLED", "CANCELLED_REQUESTED"})
         @NotNull(message = "예약 상태는 필수 입력 값입니다.")
         ReservationStatus reservationStatus
 ) {
