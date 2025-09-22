@@ -55,7 +55,7 @@ public class ReservationInfoService {
         return ReservationResponse.of(reservation);
     }
 
-    public Long updateReservation(Long reservationId, UpdateReservationRequest request, User user) {
+    public void updateReservation(Long reservationId, UpdateReservationRequest request, User user) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.RESERVATION_NOT_FOUND));
 
@@ -76,7 +76,5 @@ public class ReservationInfoService {
                 request.isUseElectricity(),
                 request.etcRequest()
         );
-
-        return reservation.getReservationId();
     }
 }

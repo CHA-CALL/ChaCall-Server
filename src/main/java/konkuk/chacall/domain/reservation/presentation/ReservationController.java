@@ -55,21 +55,19 @@ public class ReservationController {
         return BaseResponse.ok(reservationService.getReservation(reservationId, userId));
     }
 
-    //todo 수정 api시에 id 반환안하도록 변경
     @Operation(
             summary = "예약 견적서 수정",
             description = "사장님이 작성한 예약 견적서를 수정합니다. 사장님, 일반 유저 모두 수정 가능합니다."
     )
     @ExceptionDescription(UPDATE_RESERVATION)
     @PutMapping("/{reservationId}")
-    public BaseResponse<ReservationIdResponse> updateReservation(
+    public BaseResponse<Void> updateReservation(
             @Parameter(description = "예약 ID", example = "1") @PathVariable final Long reservationId,
             @RequestBody @Valid final UpdateReservationRequest request,
             @Parameter(hidden = true) @UserId final Long userId
     ) {
-        return BaseResponse.ok(ReservationIdResponse.of(
-                reservationService.updateReservation(reservationId, request, userId)
-        ));
+        reservationService.updateReservation(reservationId, request, userId);
+        return BaseResponse.ok(null);
     }
 
     @Operation(
