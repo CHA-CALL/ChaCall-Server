@@ -36,7 +36,7 @@ public record FoodTruckSearchRequest(
         AvailableQuantity availableQuantity,
         @Parameter(
                 name = "categories", in = ParameterIn.QUERY,
-                description = "음식 종류(여러 개 OR, 영어 라벨). 콤마로 구분",
+                description = "음식 종류(여러 개 OR, 영어 라벨). 콤마로 구분 / 가능 값: KOREAN, CHINESE, JAPANESE, WESTERN, SNACK, CAFE_DESSERT, ETC",
                 schema = @Schema(
                         type = "string",
                         example = "SNACK,KOREAN",
