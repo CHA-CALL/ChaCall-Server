@@ -1,6 +1,5 @@
 package konkuk.chacall.global.common.swagger;
 
-import jakarta.xml.bind.annotation.XmlType;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.Getter;
 
@@ -130,7 +129,7 @@ public enum SwaggerResponseDescription {
             FOOD_TRUCK_NOT_FOUND,
             FOOD_TRUCK_NOT_OWNED,
             CANNOT_RESERVE_OWN_FOOD_TRUCK,
-            INVALID_DATE_INPUT
+            INVALID_DATE_FORMAT
     ))),
     GET_RESERVATION(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
@@ -143,7 +142,7 @@ public enum SwaggerResponseDescription {
             USER_FORBIDDEN,
             RESERVATION_NOT_FOUND,
             RESERVATION_NOT_OWNED,
-            INVALID_DATE_INPUT
+            INVALID_DATE_FORMAT
     ))),
     UPDATE_RESERVATION_STATUS(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
