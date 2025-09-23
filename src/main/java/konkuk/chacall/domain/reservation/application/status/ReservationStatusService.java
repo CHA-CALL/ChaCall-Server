@@ -23,7 +23,7 @@ public class ReservationStatusService {
         // CONFIRMED_REQUESTED는 예약자만 가능
         reservation.validateReservedBy(member.getUserId());
 
-        updateReservationStatus(reservation, request);
+        reservation.updateStatus(request.reservationStatus());
         return new ReservationStatusResponse(reservation.getReservationStatus());
     }
 
@@ -34,7 +34,7 @@ public class ReservationStatusService {
         // CONFIRMED는 사장님만 가능
         reservation.validateFoodTruckOwner(owner.getUserId());
 
-        updateReservationStatus(reservation, request);
+        reservation.updateStatus(request.reservationStatus());
         return new ReservationStatusResponse(reservation.getReservationStatus());
     }
 
@@ -45,7 +45,7 @@ public class ReservationStatusService {
         // CANCELLED_REQUESTED, CONFIRMED 모두 예약자, 사장님 모두 가능
         reservation.validateAccessibleBy(user.getUserId());
 
-        updateReservationStatus(reservation, request);
+        reservation.updateStatus(request.reservationStatus());
         return new ReservationStatusResponse(reservation.getReservationStatus());
     }
 
@@ -64,11 +64,5 @@ public class ReservationStatusService {
                 () -> new EntityNotFoundException(ErrorCode.RESERVATION_NOT_FOUND)
         );
     }
-
-    private void updateReservationStatus(Reservation reservation, UpdateReservationStatusRequest request) {
-        reservation.updateStatus(request.reservationStatus());
-        reservationRepository.save(reservation);
-    }
-
 
 }
