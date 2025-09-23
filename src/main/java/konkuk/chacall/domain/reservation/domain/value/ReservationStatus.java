@@ -1,5 +1,6 @@
 package konkuk.chacall.domain.reservation.domain.value;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import konkuk.chacall.global.common.dto.EnumValue;
 import lombok.Getter;
 
@@ -19,6 +20,7 @@ public enum ReservationStatus implements EnumValue {
     CANCELLED("예약 취소 완료"),
     CANCELLED_REQUESTED("예약 취소 요청");
 
+    @JsonValue
     private final String value;
 
     ReservationStatus(String value) {

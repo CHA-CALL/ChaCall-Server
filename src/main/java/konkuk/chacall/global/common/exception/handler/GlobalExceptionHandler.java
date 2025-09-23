@@ -1,5 +1,6 @@
 package konkuk.chacall.global.common.exception.handler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import konkuk.chacall.global.common.dto.ErrorResponse;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -124,6 +126,22 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(API_INVALID_PARAM.getHttpStatus())
                 .body(ErrorResponse.of(API_INVALID_PARAM, detail));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> httpMessageNotReadableException(HttpMessageNotReadableException e) {
+        log.error("[httpMessageNotReadableException] {}", e.getMessage());
+
+        Throwable cause = e.getMostSpecificCause();
+        if (cause instanceof InvalidFormatException ife && ife.getTargetType().isEnum()) {
+            return ResponseEntity
+                    .status(ErrorCode.INVALID_ENUM_VALUE.getHttpStatus())
+                    .body(ErrorResponse.of(ErrorCode.INVALID_ENUM_VALUE,
+                            "잘못된 값: " + ife.getValue()));
+        }
+        return ResponseEntity
+                .status(ErrorCode.API_INVALID_PARAM.getHttpStatus())
+                .body(ErrorResponse.of(ErrorCode.API_INVALID_PARAM, "잘못된 요청 본문입니다."));
     }
 
     // === 우선순위 1: 인증/인가 예외 ===
