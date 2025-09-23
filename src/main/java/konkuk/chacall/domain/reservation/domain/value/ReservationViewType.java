@@ -1,5 +1,6 @@
 package konkuk.chacall.domain.reservation.domain.value;
 
+import konkuk.chacall.global.common.dto.EnumValue;
 import lombok.Getter;
 
 import java.util.EnumMap;
@@ -8,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Getter
-public enum ReservationViewType {
+public enum ReservationViewType implements EnumValue {
     UPCOMING("진행 예정"),
     CONFIRM_REQUEST("확정 신청"),
     COMPLETED("완료 내역"),
