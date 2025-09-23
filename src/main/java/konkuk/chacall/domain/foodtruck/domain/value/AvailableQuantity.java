@@ -1,11 +1,12 @@
 package konkuk.chacall.domain.foodtruck.domain.value;
 
+import konkuk.chacall.global.common.dto.EnumValue;
 import lombok.Getter;
 
 import java.util.EnumSet;
 
 @Getter
-public enum AvailableQuantity {
+public enum AvailableQuantity implements EnumValue {
 
     LESS_THAN_50("50인분 미만"),
     LESS_THAN_100("100인분 미만"),

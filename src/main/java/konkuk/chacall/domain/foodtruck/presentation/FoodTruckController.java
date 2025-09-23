@@ -28,7 +28,7 @@ public class FoodTruckController {
 
     @Operation(
             summary = "푸드트럭 조회",
-            description = "필터링 조건을 기반으로 푸드트럭을 조회합니다. / 서버와 ENUM 값을 맞춰두고 사용하는 것이 좋을 것 같습니다!!!"
+            description = "필터링 조건을 기반으로 푸드트럭을 조회합니다."
     )
     @ExceptionDescription(SwaggerResponseDescription.DEFAULT)
     @GetMapping
