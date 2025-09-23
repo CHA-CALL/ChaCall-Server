@@ -10,9 +10,7 @@ import konkuk.chacall.global.common.exception.code.ErrorCode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * DB: "yyyy-MM-dd,yyyy-MM-dd,..." <-> 도메인: ReservationDateList
@@ -43,7 +41,7 @@ public class ReservationDateListConverter implements AttributeConverter<Reservat
 
             String[] dates = trimmedPart.split(RANGE_DELIM);
             if (dates.length != 2) {
-                throw new DomainRuleException(ErrorCode.INVALID_DATE_INPUT);
+                throw new DomainRuleException(ErrorCode.INVALID_DATE_FORMAT);
             }
             LocalDate start = LocalDate.parse(dates[0].trim(), DOT); // ISO yyyy-MM-dd
             LocalDate end   = LocalDate.parse(dates[1].trim(), DOT);

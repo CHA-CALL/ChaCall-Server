@@ -12,6 +12,10 @@ public enum ErrorCode implements ResponseCode {
     API_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 50000, "서버 내부 오류입니다."),
     JSON_PARSING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 50001, "JSON 파싱에 실패했습니다."),
 
+    INVALID_ENUM_VALUE(HttpStatus.BAD_REQUEST, 40003, "허용되지 않는 enum 값입니다."),
+    INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, 90002, "종료일은 시작일보다 빠를 수 없습니다."),
+    INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, 90003, "잘못된 날짜 입력 형식입니다."),
+
     API_BAD_REQUEST(HttpStatus.BAD_REQUEST, 40000, "잘못된 요청입니다."),
     API_MISSING_PARAM(HttpStatus.BAD_REQUEST, 40001, "필수 파라미터가 없습니다."),
     API_INVALID_PARAM(HttpStatus.BAD_REQUEST, 40002, "파라미터 값 중 유효하지 않은 값이 있습니다."),
@@ -53,8 +57,6 @@ public enum ErrorCode implements ResponseCode {
      * Reservation
      */
     RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, 90001, "예약 내역을 찾을 수 없습니다."),
-    INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, 90002, "종료일은 시작일보다 빠를 수 없습니다."),
-    INVALID_DATE_INPUT(HttpStatus.BAD_REQUEST, 90003, "잘못된 날짜 입력 형식입니다."),
     RESERVATION_NOT_OWNED(HttpStatus.FORBIDDEN, 90004, "본인 소유 예약이 아닙니다."),
     CANNOT_RESERVE_OWN_FOOD_TRUCK(HttpStatus.FORBIDDEN, 90005, "본인 소유 푸드트럭은 예약할 수 없습니다."),
     INVALID_RESERVATION_STATUS(HttpStatus.BAD_REQUEST, 90006, "유효하지 않은 예약 상태입니다."),

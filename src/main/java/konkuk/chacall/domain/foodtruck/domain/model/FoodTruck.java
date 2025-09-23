@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.foodtruck.domain;
+package konkuk.chacall.domain.foodtruck.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.domain.foodtruck.domain.value.*;
@@ -70,6 +70,11 @@ public class FoodTruck extends BaseEntity {
     @Builder.Default
     @Column(nullable = false)
     private RatingInfo ratingInfo = RatingInfo.createInitial();
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private FoodTruckStatus foodTruckStatus = FoodTruckStatus.PENDING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
