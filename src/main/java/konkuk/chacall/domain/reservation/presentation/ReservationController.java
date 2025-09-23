@@ -7,8 +7,10 @@ import jakarta.validation.Valid;
 import konkuk.chacall.domain.reservation.application.ReservationService;
 import konkuk.chacall.domain.reservation.presentation.dto.request.CreateReservationRequest;
 import konkuk.chacall.domain.reservation.presentation.dto.request.UpdateReservationRequest;
+import konkuk.chacall.domain.reservation.presentation.dto.request.UpdateReservationStatusRequest;
 import konkuk.chacall.domain.reservation.presentation.dto.response.ReservationIdResponse;
 import konkuk.chacall.domain.reservation.presentation.dto.response.ReservationResponse;
+import konkuk.chacall.domain.reservation.presentation.dto.response.ReservationStatusResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
@@ -59,13 +61,44 @@ public class ReservationController {
     )
     @ExceptionDescription(UPDATE_RESERVATION)
     @PutMapping("/{reservationId}")
-    public BaseResponse<ReservationIdResponse> updateReservation(
+    public BaseResponse<Void> updateReservation(
             @Parameter(description = "예약 ID", example = "1") @PathVariable final Long reservationId,
             @RequestBody @Valid final UpdateReservationRequest request,
             @Parameter(hidden = true) @UserId final Long userId
     ) {
-        return BaseResponse.ok(ReservationIdResponse.of(
-                reservationService.updateReservation(reservationId, request, userId)
-        ));
+        reservationService.updateReservation(reservationId, request, userId);
+        return BaseResponse.ok(null);
+    }
+
+    @Operation(
+            summary = "예약 상태 변경",
+            description = "요청에 따라 예약 상태를 변경합니다." +
+                    "예약 상태 변경 순서: 예약 대기 -> 예약 확정 요청 -> 예약 확정 -> 예약 취소 요청 -> 예약 취소"
+    )
+    @ExceptionDescription(UPDATE_RESERVATION_STATUS)
+    @PatchMapping("{reservationId}/status")
+    public BaseResponse<ReservationStatusResponse> updateReservationStatus(
+            @Parameter(description = "예약 ID", example = "1") @PathVariable final Long reservationId,
+            @RequestBody @Valid final UpdateReservationStatusRequest request,
+            @Parameter(hidden = true) @UserId final Long userId
+    ) {
+        return BaseResponse.ok(
+                reservationService.updateReservationStatus(reservationId, request, userId)
+        );
+    }
+
+    @Operation(
+            summary = "예약 상태 조회",
+            description = "예약 ID로 예약 상태를 조회합니다."
+    )
+    @ExceptionDescription(GET_RESERVATION_STATUS)
+    @GetMapping("/{reservationId}/status")
+    public BaseResponse<ReservationStatusResponse> getReservationStatus(
+            @Parameter(description = "예약 ID", example = "1") @PathVariable final Long reservationId,
+            @Parameter(hidden = true) @UserId final Long userId
+    ) {
+        return BaseResponse.ok(
+                reservationService.getReservationStatus(reservationId, userId)
+        );
     }
 }

@@ -46,10 +46,19 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
 
+    // 해당 예약과 연관된 사람인지 검증 (사장님, 예약자)
+    public void validateAccessibleBy(Long userId) {
+        if (!isForFoodTruckOwnedBy(userId) && !isReservedBy(userId)) {
+            throw new DomainRuleException(RESERVATION_NOT_OWNED,
+                    new IllegalArgumentException("해당 예약은 사용자의 푸드트럭에 대한 예약도, 사용자가 예약한 내역도 아닙니다."));
+        }
+    }
+
     // 본인이 푸드트럭 소유자인지 검증
     public void validateFoodTruckOwner(Long ownerId) {
         if (!isForFoodTruckOwnedBy(ownerId)) {
-            throw new DomainRuleException(RESERVATION_NOT_OWNED);
+            throw new DomainRuleException(RESERVATION_NOT_OWNED,
+                    new IllegalArgumentException("해당 예약은 사용자의 푸드트럭에 대한 예약이 아닙니다."));
         }
     }
 
@@ -60,7 +69,8 @@ public class Reservation extends BaseEntity {
     // 본인이 예약자인지 검증
     public void validateReservedBy(Long memberId) {
         if (!isReservedBy(memberId)) {
-            throw new DomainRuleException(RESERVATION_NOT_OWNED);
+            throw new DomainRuleException(RESERVATION_NOT_OWNED,
+                    new IllegalArgumentException("해당 예약은 사용자가 예약한 내역이 아닙니다."));
         }
     }
 
@@ -140,5 +150,13 @@ public class Reservation extends BaseEntity {
                 isUseElectricity,
                 etcRequest
         );
+    }
+
+    public void updateStatus(ReservationStatus newStatus) {
+        // status 순서가 올바른지 검증 (PENDING -> CONFIRMED_REQUESTED -> CONFIRMED -> CANCELLED_REQUESTED -> CANCELLED)
+        if (this.reservationStatus.isInValidStatusTransitionFrom(newStatus)) {
+            throw new DomainRuleException(INVALID_RESERVATION_STATUS_TRANSITION);
+        }
+        this.reservationStatus = newStatus;
     }
 }

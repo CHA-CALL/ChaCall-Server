@@ -145,6 +145,20 @@ public enum SwaggerResponseDescription {
             RESERVATION_NOT_OWNED,
             INVALID_DATE_INPUT
     ))),
+    UPDATE_RESERVATION_STATUS(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            RESERVATION_NOT_FOUND,
+            RESERVATION_NOT_OWNED,
+            INVALID_RESERVATION_STATUS,
+            INVALID_RESERVATION_STATUS_TRANSITION
+    ))),
+    GET_RESERVATION_STATUS(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            RESERVATION_NOT_FOUND,
+            RESERVATION_NOT_OWNED
+    ))),
 
     // Default
     DEFAULT(new LinkedHashSet<>())
