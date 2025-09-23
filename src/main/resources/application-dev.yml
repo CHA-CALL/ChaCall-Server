@@ -72,3 +72,19 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
   access-expiration: 2592000000 # 30일
+
+---
+# S3 관련 설정
+cloud:
+  aws:
+    s3:
+      bucket: ${S3_BUCKET_NAME}
+      cloud-front-url: ${CLOUD_FRONT_URL}
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
