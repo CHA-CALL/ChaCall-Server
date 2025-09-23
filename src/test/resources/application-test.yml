@@ -67,3 +67,25 @@ spring:
 jwt:
   secret: abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456
   access-expiration: 2592000000 # 30일
+
+---
+# S3 관련 설정
+cloud:
+  aws:
+    s3:
+      bucket: bucket-name
+      cloud-front-url: https://cdn.net
+    credentials:
+      access-key: aws_access_key
+      secret-key: aws_secret_key
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
+---
+spring:
+  autoconfigure:
+    exclude:
+      - io.awspring.cloud.autoconfigure.s3.S3AutoConfiguration
