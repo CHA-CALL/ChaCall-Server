@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        @page { size: A4; margin: 24mm 18mm; }
+        body { font-family: 'NotoSansKR', sans-serif; font-size: 12px; line-height: 1.5; }
+        h1 { font-size: 20px; margin: 0 0 12px 0; }
+        .sec { margin-top: 12px; }
+        .label { color: #666; width: 120px; }
+        .row { display: flex; margin: 4px 0; }
+        .val { flex: 1; }
+        .box { border: 1px solid #ddd; border-radius: 6px; padding: 10px; }
+        .muted { color: #777; }
+        .table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .table th, .table td { border: 1px solid #e5e5e5; padding: 6px 8px; text-align: left; }
+    </style>
+</head>
+<body>
+<h1>예약 견적서</h1>
+
+<div class="box">
+    <div class="row"><div class="label">푸드트럭</div><div class="val" th:text="${foodTruck.name}">푸드트럭명</div></div>
+    <div class="row"><div class="label">예약자</div><div class="val" th:text="${member.name}">홍길동</div></div>
+</div>
+
+<div class="sec box">
+    <div class="row"><div class="label">주소</div><div class="val" th:text="${info.address}">서울시...</div></div>
+    <div class="row"><div class="label">운영 시간대</div><div class="val" th:text="${info.operationHour}">00:00 ~ 00:00</div></div>
+    <div class="row"><div class="label">전기 사용</div><div class="val" th:text="${info.parsingIsUserElectricity()}">가능</div></div>
+    <div class="row"><div class="label">예약금</div><div class="val" th:text="${info.parsingReservationDeposit()}">100,000원</div></div>
+</div>
+
+<div class="sec box">
+    <div class="row"><div class="label">일정</div>
+        <div class="val">
+            <div th:each="dt : ${info.getFormattedDateTimeInfos()}" th:text="${dt}">2025.01.01 ~ 2025.01.01 10:00 ~ 18:00</div>
+        </div>
+    </div>
+</div>
+
+<div class="sec box">
+    <div class="row"><div class="label">음식</div><div class="val" th:text="${info.menu}">핫도그 외</div></div>
+    <div class="row"><div class="label">기타 요청</div><div class="val" th:text="${info.etcRequest}">요청사항</div></div>
+</div>
+
+<div class="sec muted">※ 본 견적서는 예약 확정 시 변경될 수 있습니다.</div>
+</body>
+</html>
