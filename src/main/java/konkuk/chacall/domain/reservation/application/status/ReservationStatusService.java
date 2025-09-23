@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class ReservationStatusService {
 
     private final ReservationRepository reservationRepository;
-
     private final PdfUploadService pdfUploadService;
 
     public ReservationStatusResponse updateReservationStatusToConfirmedRequested(Long reservationId, UpdateReservationStatusRequest request, User member) {

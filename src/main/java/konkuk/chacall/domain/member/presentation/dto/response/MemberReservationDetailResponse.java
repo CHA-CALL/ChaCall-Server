@@ -3,6 +3,7 @@ package konkuk.chacall.domain.member.presentation.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
+import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 
 import java.util.List;
 
@@ -35,7 +36,9 @@ public record MemberReservationDetailResponse(
         @Schema(description = "기타 요청 사항 (null 일 수 있음)",
                 nullable = true,
                 example = "음식을 많이 주세요, 늦지말아주세요")
-        String etcRequest
+        String etcRequest,
+        @Schema(description = "예약 상태", example = "예약 확정")
+        String reservationStatus
 ) {
 
     public static MemberReservationDetailResponse of(Reservation reservation, FoodTruck foodTruck) {
@@ -46,11 +49,13 @@ public record MemberReservationDetailResponse(
                 foodTruck.getName(),
                 reservation.getReservationInfo().getFullAddress(),
                 dateTimeList,
-                reservation.getPdfUrl(),
+                reservation.getReservationStatus() == ReservationStatus.CANCELLED ?  // 예약 취소 상태이면 null 반환
+                        null : reservation.getPdfUrl(),
                 reservation.getReservationInfo().getMenu(),
                 reservation.getReservationInfo().parsingReservationDeposit(),
                 reservation.getReservationInfo().parsingIsUserElectricity(),
-                reservation.getReservationInfo().getEtcRequest()
+                reservation.getReservationInfo().getEtcRequest(),
+                reservation.getReservationStatus().getValue()
         );
     }
 }
