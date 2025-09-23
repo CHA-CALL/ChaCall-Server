@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class S3Uploader {
+public class S3Service {
 
     private final S3Client s3Client;
 

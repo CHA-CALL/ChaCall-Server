@@ -1,20 +1,19 @@
-package konkuk.chacall.domain.reservation.application.status;
+package konkuk.chacall.global.common.storage;
 
 import konkuk.chacall.global.common.annotation.HelperService;
 import konkuk.chacall.global.common.storage.util.CdnUrlResolver;
 import konkuk.chacall.global.common.storage.util.PdfGenerator;
 import konkuk.chacall.global.common.storage.util.PdfTemplateRenderer;
-import konkuk.chacall.global.common.storage.S3Uploader;
 import konkuk.chacall.global.common.storage.util.KeyUtils;
 import lombok.RequiredArgsConstructor;
 
 @HelperService
 @RequiredArgsConstructor
-public class PdfUploadService {
+public class PdfService {
 
     private final PdfTemplateRenderer templateRenderer;
     private final PdfGenerator pdfGenerator;
-    private final S3Uploader s3Uploader;
+    private final S3Service s3Service;
     private final CdnUrlResolver cdnUrlResolver;
 
     /**
@@ -31,7 +30,7 @@ public class PdfUploadService {
         String objectKey = KeyUtils.buildReservationPdfKey(reservation.getReservationId());
 
         // 4) S3 업로드
-        s3Uploader.uploadPdf(objectKey, "application/pdf", pdfBytes);
+        s3Service.uploadPdf(objectKey, "application/pdf", pdfBytes);
 
         // 5) CDN URL 생성
         return cdnUrlResolver.resolve(objectKey);
@@ -44,7 +43,7 @@ public class PdfUploadService {
         if (currentPdfUrl == null || currentPdfUrl.isBlank()) return;
         String key = cdnUrlResolver.extractKeyFromUrl(currentPdfUrl);
         if (key != null && !key.isBlank()) {
-            s3Uploader.delete(key);
+            s3Service.delete(key);
         }
     }
 }
