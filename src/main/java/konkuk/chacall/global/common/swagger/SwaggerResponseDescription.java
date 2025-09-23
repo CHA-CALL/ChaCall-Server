@@ -145,6 +145,7 @@ public enum SwaggerResponseDescription {
             INVALID_DATE_FORMAT
     ))),
     UPDATE_RESERVATION_STATUS(new LinkedHashSet<>(Set.of(
+            INVALID_ENUM_VALUE,
             USER_NOT_FOUND,
             USER_FORBIDDEN,
             RESERVATION_NOT_FOUND,
