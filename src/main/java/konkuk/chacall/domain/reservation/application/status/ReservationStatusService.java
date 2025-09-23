@@ -16,6 +16,8 @@ public class ReservationStatusService {
 
     private final ReservationRepository reservationRepository;
 
+    private final PdfUploadService pdfUploadService;
+
     public ReservationStatusResponse updateReservationStatusToConfirmedRequested(Long reservationId, UpdateReservationStatusRequest request, User member) {
 
         Reservation reservation = findReservation(reservationId);
@@ -35,6 +37,11 @@ public class ReservationStatusService {
         reservation.validateFoodTruckOwner(owner.getUserId());
 
         reservation.updateStatus(request.reservationStatus());
+
+        // 예약 상태가 CONFIRMED로 변경되면 견적서 PDF 렌더링 및 업로드
+        String pdfUrl = pdfUploadService.renderAndUpload(reservation);
+        reservation.setPdfUrl(pdfUrl);
+
         return new ReservationStatusResponse(reservation.getReservationStatus());
     }
 
