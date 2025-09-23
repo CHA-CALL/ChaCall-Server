@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.foodtruck.domain.repository.querydsl;
+package konkuk.chacall.domain.foodtruck.domain.repository.infra;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -12,7 +12,6 @@ import konkuk.chacall.domain.foodtruck.domain.value.MenuCategory;
 import konkuk.chacall.domain.foodtruck.domain.value.PaymentMethod;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.DateRangeRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
-import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;

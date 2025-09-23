@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.foodtruck.domain.repository.querydsl;
+package konkuk.chacall.domain.foodtruck.domain.repository.infra;
 
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
