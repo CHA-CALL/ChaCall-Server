@@ -1,9 +1,9 @@
-package konkuk.chacall.domain.member.presentation.dto.response;
+package konkuk.chacall.domain.foodtruck.presentation.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 
-public record SavedFoodTruckResponse(
+public record FoodTruckResponse(
         @Schema(description = "푸드트럭 식별자", example = "1")
         Long foodTruckId,
         @Schema(description = "푸드트럭 이름", example = "푸드트럭")
@@ -17,8 +17,8 @@ public record SavedFoodTruckResponse(
         @Schema(description = "푸드트럭 평점 수", example = "100")
         Integer ratingCount
 ) {
-    public static SavedFoodTruckResponse of(FoodTruck foodTruck) {
-        return new SavedFoodTruckResponse(
+    public static FoodTruckResponse of(FoodTruck foodTruck) {
+        return new FoodTruckResponse(
                 foodTruck.getFoodTruckId(),
                 foodTruck.getName(),
                 foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(), // 대표 사진 (첫 번째 사진)

@@ -5,7 +5,6 @@ import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -44,7 +43,7 @@ public class ReservationDateList {
             String[] dates = range.split("~");
 
             if (dates.length != 2) {
-                throw new DomainRuleException(ErrorCode.INVALID_DATE_INPUT);
+                throw new DomainRuleException(ErrorCode.INVALID_DATE_FORMAT);
             }
 
             LocalDate start = parseDot(dates[0].trim());
@@ -76,7 +75,7 @@ public class ReservationDateList {
         try {
             return LocalDate.parse(s, DOT);
         } catch (DateTimeParseException e) {
-            throw new DomainRuleException(ErrorCode.INVALID_DATE_INPUT);
+            throw new DomainRuleException(ErrorCode.INVALID_DATE_FORMAT);
         }
     }
 }

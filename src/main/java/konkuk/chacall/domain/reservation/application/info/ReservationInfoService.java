@@ -1,6 +1,6 @@
 package konkuk.chacall.domain.reservation.application.info;
 
-import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;

@@ -26,7 +26,7 @@ public class ReservationStatusService {
         reservation.validateReservedBy(member.getUserId());
 
         reservation.updateStatus(request.reservationStatus());
-        return new ReservationStatusResponse(reservation.getReservationStatus());
+        return new ReservationStatusResponse(reservation.getReservationStatus().getValue());
     }
 
     public ReservationStatusResponse updateReservationStatusToConfirmed(Long reservationId, UpdateReservationStatusRequest request, User owner) {
@@ -42,7 +42,7 @@ public class ReservationStatusService {
         String pdfUrl = pdfService.renderAndUpload(reservation);
         reservation.setPdfUrl(pdfUrl);
 
-        return new ReservationStatusResponse(reservation.getReservationStatus());
+        return new ReservationStatusResponse(reservation.getReservationStatus().getValue());
     }
 
     public ReservationStatusResponse updateReservationStatusToCancelled(Long reservationId, UpdateReservationStatusRequest request, User user) {
@@ -53,7 +53,7 @@ public class ReservationStatusService {
         reservation.validateAccessibleBy(user.getUserId());
 
         reservation.updateStatus(request.reservationStatus());
-        return new ReservationStatusResponse(reservation.getReservationStatus());
+        return new ReservationStatusResponse(reservation.getReservationStatus().getValue());
     }
 
     public ReservationStatusResponse getReservationStatus(Long reservationId, User user) {
@@ -62,7 +62,7 @@ public class ReservationStatusService {
         // 예약 소유자 또는 푸드트럭 소유자인지 확인
         reservation.validateAccessibleBy(user.getUserId());
 
-        return new ReservationStatusResponse(reservation.getReservationStatus());
+        return new ReservationStatusResponse(reservation.getReservationStatus().getValue());
     }
 
     // == 공통 Private Methods == //

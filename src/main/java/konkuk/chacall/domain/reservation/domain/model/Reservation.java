@@ -1,8 +1,8 @@
 package konkuk.chacall.domain.reservation.domain.model;
 
 import jakarta.persistence.*;
-import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
 import konkuk.chacall.domain.reservation.domain.value.ReservationDateList;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.reservation.domain.value.ReservationInfo;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import konkuk.chacall.domain.user.domain.model.User;

@@ -1,7 +1,7 @@
 package konkuk.chacall.domain.owner.application.myfoodtruck;
 
-import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
-import konkuk.chacall.domain.foodtruck.domain.FoodTruckServiceArea;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruckServiceArea;
 import konkuk.chacall.domain.foodtruck.domain.repository.AvailableDateRepository;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckServiceAreaRepository;

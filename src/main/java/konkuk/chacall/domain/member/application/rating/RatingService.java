@@ -1,6 +1,6 @@
 package konkuk.chacall.domain.member.application.rating;
 
-import konkuk.chacall.domain.foodtruck.domain.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.member.domain.repository.RatingRepository;
 import konkuk.chacall.domain.member.presentation.dto.request.RegisterRatingRequest;
@@ -13,8 +13,6 @@ import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

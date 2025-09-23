@@ -1,6 +1,6 @@
 package konkuk.chacall.domain.foodtruck.domain.repository;
 
-import konkuk.chacall.domain.foodtruck.domain.FoodTruckServiceArea;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruckServiceArea;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
