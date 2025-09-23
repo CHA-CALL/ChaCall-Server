@@ -12,11 +12,14 @@ import java.util.Set;
 public enum ReservationStatus {
     PENDING("예약 대기"),
 
-    CONFIRMED("예약 확정 완료"),
+    CONFIRMED("예약 확정"),
     CONFIRMED_REQUESTED("예약 확정 요청"),
 
-    CANCELLED("예약 취소 완료"),
-    CANCELLED_REQUESTED("예약 취소 요청");
+    CANCELLED("예약 취소"),
+    CANCELLED_REQUESTED("예약 취소 요청"),
+
+    COMPLETED("예약 완료")
+    ;
 
     private final String value;
 
