@@ -90,6 +90,12 @@ cloud:
       auto: false
 
 ---
+app:
+  pdf:
+    font-path: classpath:fonts/NotoSansKR-Regular.ttf  # 한글 폰트(리소스에 포함)
+    template: reservation-estimate # PDF 템플릿 파일명 (resources/templates/reservation-estimate.html)
+
+---
 spring:
   autoconfigure:
     exclude:
