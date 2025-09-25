@@ -1,7 +1,7 @@
 package konkuk.chacall.domain.foodtruck.application;
 
-import konkuk.chacall.domain.foodtruck.application.duplicatecheck.FoodTruckNameDuplicateCheckService;
-import konkuk.chacall.domain.foodtruck.application.search.FoodTruckSearchService;
+import konkuk.chacall.domain.foodtruck.application.command.FoodTruckCommandService;
+import konkuk.chacall.domain.foodtruck.presentation.dto.request.ApproveFoodTruckStatusRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckNameDuplicateCheckRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckNameDuplicateCheckResponse;
@@ -16,15 +16,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class FoodTruckService {
 
-    private final FoodTruckSearchService foodTruckSearchService;
-    private final FoodTruckNameDuplicateCheckService foodTruckNameDuplicateCheckService;
+    private final FoodTruckCommandService foodTruckCommandService;
 
     public CursorPagingResponse<FoodTruckResponse> getFoodTrucks(FoodTruckSearchRequest request) {
-        return foodTruckSearchService.getFoodTrucks(request);
+        return foodTruckCommandService.getFoodTrucks(request);
     }
 
     public FoodTruckNameDuplicateCheckResponse isNameDuplicated(FoodTruckNameDuplicateCheckRequest request) {
         return FoodTruckNameDuplicateCheckResponse.of(
-                foodTruckNameDuplicateCheckService.isNameDuplicated(request.name()));
+                foodTruckCommandService.isNameDuplicated(request.name()));
+    }
+
+    @Transactional
+    public void approveFoodTruckStatus(Long foodTruckId, ApproveFoodTruckStatusRequest request) {
+        foodTruckCommandService.approveFoodTruckStatus(foodTruckId, request);
     }
 }
