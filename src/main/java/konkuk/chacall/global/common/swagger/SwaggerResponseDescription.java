@@ -177,6 +177,12 @@ public enum SwaggerResponseDescription {
             RESERVATION_NOT_OWNED
     ))),
 
+    // FoodTruck
+    APPROVE_FOOD_TRUCK_STATUS(new LinkedHashSet<>(Set.of(
+            FOOD_TRUCK_NOT_FOUND,
+            INVALID_FOOD_TRUCK_STATUS_TRANSITION
+    ))),
+
     // Default
     DEFAULT(new LinkedHashSet<>())
     ;

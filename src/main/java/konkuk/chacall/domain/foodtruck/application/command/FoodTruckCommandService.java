@@ -43,6 +43,6 @@ public class FoodTruckCommandService {
         FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND));
 
-        foodTruck.changeFoodTruckStatus(request.status());
+        foodTruck.approveFoodTruck(request.status());
     }
 }
