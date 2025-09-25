@@ -164,7 +164,9 @@ public class Reservation extends BaseEntity {
     public void updateStatus(ReservationStatus newStatus) {
         // status 순서가 올바른지 검증 (PENDING -> CONFIRMED_REQUESTED -> CONFIRMED -> CANCELLED_REQUESTED -> CANCELLED)
         if (this.reservationStatus.isInValidStatusTransitionFrom(newStatus)) {
-            throw new DomainRuleException(INVALID_RESERVATION_STATUS_TRANSITION);
+            throw new DomainRuleException(INVALID_RESERVATION_STATUS_TRANSITION,
+                    new IllegalArgumentException("예약 상태는 '예약 대기' -> '예약 확정 요청' -> '예약 확정' -> '예약 취소 요청' -> '예약 취소' 순서로만 변경할 수 있습니다." +
+                            " 현재 상태: " + this.reservationStatus + ", 변경하려는 상태: " + newStatus));
         }
         this.reservationStatus = newStatus;
     }

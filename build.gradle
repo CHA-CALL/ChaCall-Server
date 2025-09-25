@@ -65,7 +65,8 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api:2.1.1"
 
     // S3
-    implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.4.0'
+	implementation platform('software.amazon.awssdk:bom:2.25.8')
+	implementation 'software.amazon.awssdk:s3'
 
     // Thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

@@ -81,8 +81,8 @@ cloud:
       bucket: ${S3_BUCKET_NAME}
       cloud-front-url: ${CLOUD_FRONT_URL}
     credentials:
-      access-key: ${AWS_ACCESS_KEY}
-      secret-key: ${AWS_SECRET_KEY}
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
     region:
       static: ap-northeast-2
       auto: false
@@ -94,9 +94,3 @@ app:
   pdf:
     font-path: classpath:fonts/NotoSansKR-Regular.ttf  # 한글 폰트(리소스에 포함)
     template: reservation-estimate # PDF 템플릿 파일명 (resources/templates/reservation-estimate.html)
-
----
-spring:
-  autoconfigure:
-    exclude:
-      - io.awspring.cloud.autoconfigure.s3.S3AutoConfiguration
