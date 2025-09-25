@@ -3,6 +3,8 @@ package konkuk.chacall.domain.foodtruck.domain.model;
 import jakarta.persistence.*;
 import konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus;
 import konkuk.chacall.global.common.domain.BaseEntity;
+import konkuk.chacall.global.common.exception.DomainRuleException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.*;
 
 @Entity
@@ -55,7 +57,11 @@ public class Menu extends BaseEntity {
         return price + "원";
     }
 
-    public void changeViewedStatus(MenuViewedStatus menuStatus) {
-        this.menuViewedStatus = menuStatus;
+    public void changeViewedStatus(MenuViewedStatus targetViewedStatus) {
+        if(this.menuViewedStatus == targetViewedStatus) {
+            throw new DomainRuleException(ErrorCode.INVALID_MENU_STATUS_TRANSITION);
+        }
+
+        this.menuViewedStatus = targetViewedStatus;
     }
 }

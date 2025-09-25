@@ -94,7 +94,8 @@ public enum ErrorCode implements ResponseCode {
     /**
      * Menu
      */
-    MENU_NOT_FOUND(HttpStatus.NOT_FOUND, 140001, "메뉴를 찾을 수 없습니다.")
+    MENU_NOT_FOUND(HttpStatus.NOT_FOUND, 140001, "메뉴를 찾을 수 없습니다."),
+    INVALID_MENU_STATUS_TRANSITION(HttpStatus.BAD_REQUEST, 140002, "허용되지 않은 메뉴 상태 변경입니다."),
     ;
 
     private final HttpStatus httpStatus;

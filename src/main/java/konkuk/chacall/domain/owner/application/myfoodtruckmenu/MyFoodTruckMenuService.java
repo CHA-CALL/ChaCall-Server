@@ -5,6 +5,7 @@ import konkuk.chacall.domain.foodtruck.domain.model.Menu;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.foodtruck.domain.repository.MenuRepository;
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
+import konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus;
 import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuListRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterMenuRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateMenuStatusRequest;
@@ -75,9 +76,11 @@ public class MyFoodTruckMenuService {
             throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED);
         }
 
+        // 메뉴 존재 여부 확인
         Menu menu = menuRepository.findByMenuIdAndFoodTruckId(menuId, foodTruckId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND));
 
+        // 메뉴 표시 여부 변경 및 상태 전이 검증
         menu.changeViewedStatus(request.status());
     }
 }
