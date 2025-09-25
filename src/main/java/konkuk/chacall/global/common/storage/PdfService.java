@@ -1,5 +1,6 @@
 package konkuk.chacall.global.common.storage;
 
+import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.global.common.annotation.HelperService;
 import konkuk.chacall.global.common.storage.util.CdnUrlResolver;
 import konkuk.chacall.global.common.storage.util.PdfGenerator;
@@ -19,7 +20,7 @@ public class PdfService {
     /**
      * Reservation을 기반으로 HTML 렌더링 → PDF 생성 → S3 업로드 → CDN URL 반환
      */
-    public String renderAndUpload(konkuk.chacall.domain.reservation.domain.model.Reservation reservation) {
+    public String renderAndUpload(Reservation reservation) {
         // 1) HTML 렌더링
         String html = templateRenderer.render(reservation);
 
