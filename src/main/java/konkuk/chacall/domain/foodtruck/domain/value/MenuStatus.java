@@ -9,9 +9,9 @@ public enum MenuStatus {
     OFF("비노출");
 
     @JsonValue
-    private final String description;
+    private final String value;
 
-    MenuStatus(String description) {
-        this.description = description;
+    MenuStatus(String value) {
+        this.value = value;
     }
 }

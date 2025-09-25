@@ -37,4 +37,8 @@ public class Menu extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
+
+    public String parsingMenuPrice() {
+        return price + "원";
+    }
 }
