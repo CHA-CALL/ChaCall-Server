@@ -73,17 +73,16 @@ jwt:
 cloud:
   aws:
     s3:
-      bucket: ${S3_BUCKET_NAME}
-      cloud-front-url: ${CLOUD_FRONT_URL}
+      bucket: bucket-name
+      cloud-front-url: https://cdn.net
     credentials:
-      access-key: ${AWS_ACCESS_KEY_ID}
-      secret-key: ${AWS_SECRET_ACCESS_KEY}
+      access-key: aws_access_key_id
+      secret-key: aws_secret_access_key
     region:
       static: ap-northeast-2
       auto: false
     stack:
       auto: false
-
 ---
 app:
   pdf:
