@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     @Modifying
@@ -35,4 +37,12 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     Slice<Menu> findMenusAsc(@Param("foodTruckId") Long foodTruckId,
                               @Param("lastCursor") Long lastCursor,
                               Pageable pageable);
+
+    @Query("""
+        select m from Menu m
+        where m.menuId = :menuId
+          and m.foodTruck.foodTruckId = :foodTruckId
+    """)
+    Optional<Menu> findByMenuIdAndFoodTruckId(@Param("menuId") Long menuId,
+                                              @Param("foodTruckId") Long foodTruckId);
 }

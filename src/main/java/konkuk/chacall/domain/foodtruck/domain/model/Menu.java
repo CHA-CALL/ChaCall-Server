@@ -1,7 +1,7 @@
 package konkuk.chacall.domain.foodtruck.domain.model;
 
 import jakarta.persistence.*;
-import konkuk.chacall.domain.foodtruck.domain.value.MenuStatus;
+import konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import lombok.*;
 
@@ -33,7 +33,7 @@ public class Menu extends BaseEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private MenuStatus menuStatus = MenuStatus.ON;
+    private MenuViewedStatus menuViewedStatus = MenuViewedStatus.ON;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_truck_id", nullable = false)
@@ -46,12 +46,16 @@ public class Menu extends BaseEntity {
                 .price(price)
                 .description(description)
                 .imageUrl(imageUrl)
-                .menuStatus(MenuStatus.ON)
+                .menuViewedStatus(MenuViewedStatus.ON)
                 .foodTruck(foodTruck)
                 .build();
     }
 
     public String parsingMenuPrice() {
         return price + "원";
+    }
+
+    public void changeViewedStatus(MenuViewedStatus menuStatus) {
+        this.menuViewedStatus = menuStatus;
     }
 }
