@@ -154,4 +154,13 @@ public class OwnerService {
         // 사장님 - 나의 푸드트럭 메뉴 추가
         myFoodTruckMenuService.registerMenu(ownerId, foodTruckId, request);
     }
+
+    @Transactional
+    public void updateMenuStatus(Long ownerId, Long foodTruckId, Long menuId, UpdateMenuStatusRequest request) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 - 나의 푸드트럭 메뉴 추가
+        myFoodTruckMenuService.updateMenuStatus(ownerId, foodTruckId, menuId, request);
+    }
 }

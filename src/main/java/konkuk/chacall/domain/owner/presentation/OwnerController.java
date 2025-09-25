@@ -223,4 +223,20 @@ public class OwnerController {
         ownerService.registerMenu(ownerId, foodTruckId, request);
         return BaseResponse.ok(null);
     }
+
+    @Operation(
+            summary = "나의 푸드트럭 메뉴 표시 상태 변경",
+            description = "사장님 - 푸드트럭 메뉴의 표시 상태를 변경합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_UPDATE_FOOD_TRUCK_MENU_STATUS)
+    @PatchMapping("/me/food-trucks/{foodTruckId}/menus/{menuId}/change-status")
+    public BaseResponse<Void> updateMenuStatus(
+            @PathVariable final Long foodTruckId,
+            @PathVariable final Long menuId,
+            @Valid @RequestBody final UpdateMenuStatusRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        ownerService.updateMenuStatus(ownerId, foodTruckId, menuId, request);
+        return BaseResponse.ok(null);
+    }
 }
