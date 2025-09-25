@@ -208,4 +208,19 @@ public class OwnerController {
             @Parameter(hidden = true) @UserId final Long ownerId) {
         return BaseResponse.ok(ownerService.getMyFoodTruckMenus(ownerId, foodTruckId, request));
     }
+
+    @Operation(
+            summary = "나의 푸드트럭 메뉴 등록",
+            description = "사장님 - 푸드트럭에 메뉴를 등록합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_REGISTER_FOOD_TRUCK_MENU)
+    @PostMapping("/me/food-trucks/{foodTruckId}/menus")
+    public BaseResponse<Void> registerMenu(
+            @PathVariable final Long foodTruckId,
+            @Valid @RequestBody final RegisterMenuRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        ownerService.registerMenu(ownerId, foodTruckId, request);
+        return BaseResponse.ok(null);
+    }
 }
