@@ -7,6 +7,7 @@ import konkuk.chacall.domain.foodtruck.domain.repository.MenuRepository;
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
 import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuListRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterMenuRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.UpdateMenuStatusRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckMenuResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
@@ -65,5 +66,18 @@ public class MyFoodTruckMenuService {
                 foodTruck);
 
         menuRepository.save(menu);
+    }
+
+    public void updateMenuStatus(Long ownerId, Long foodTruckId, Long menuId, UpdateMenuStatusRequest request) {
+
+        // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
+        if(!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatusIn(ownerId, foodTruckId, List.of(FoodTruckStatus.ON, FoodTruckStatus.OFF))) {
+            throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED);
+        }
+
+        Menu menu = menuRepository.findByMenuIdAndFoodTruckId(menuId, foodTruckId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND));
+
+        menu.changeViewedStatus(request.status());
     }
 }

@@ -26,7 +26,7 @@ public record MyFoodTruckMenuResponse(
                 menu.parsingMenuPrice(),
                 menu.getDescription(),
                 menu.getImageUrl(),
-                menu.getMenuStatus().name()
+                menu.getMenuViewedStatus().name()
         );
     }
 }
