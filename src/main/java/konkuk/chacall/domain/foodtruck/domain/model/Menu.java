@@ -32,7 +32,7 @@ public class Menu extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private MenuStatus status = MenuStatus.ON;
+    private MenuStatus menuStatus = MenuStatus.ON;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_truck_id", nullable = false)

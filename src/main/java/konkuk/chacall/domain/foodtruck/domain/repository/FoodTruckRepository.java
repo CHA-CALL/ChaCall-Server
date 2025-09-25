@@ -2,11 +2,14 @@ package konkuk.chacall.domain.foodtruck.domain.repository;
 
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.infra.FoodTruckSearchRepository;
+import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Collection;
 
 public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, FoodTruckSearchRepository {
 
@@ -15,5 +18,7 @@ public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, Foo
             "AND ft.foodTruckId < :lastCursor " +
             "ORDER BY ft.foodTruckId DESC")
     Slice<FoodTruck> findByOwnerUserIdWithCursor(@Param("ownerId") Long ownerId, @Param("lastCursor") Long lastCursor, Pageable pageable);
+
+    boolean existsByFoodTruckIdAndFoodTruckStatusIn(Long foodTruckId, Collection<FoodTruckStatus> statuses);
 
 }

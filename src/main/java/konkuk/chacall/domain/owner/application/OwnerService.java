@@ -1,5 +1,8 @@
 package konkuk.chacall.domain.owner.application;
 
+import konkuk.chacall.domain.owner.application.myfoodtruckmenu.MyFoodTruckMenuService;
+import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuListRequest;
+import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckMenuResponse;
 import konkuk.chacall.domain.owner.application.bankaccount.BankAccountService;
 import konkuk.chacall.domain.owner.application.chattemplate.ChatTemplateService;
 import konkuk.chacall.domain.owner.application.myfoodtruck.MyFoodTruckService;
@@ -25,6 +28,7 @@ public class OwnerService {
     private final ChatTemplateService chatTemplateService;
     private final OwnerReservationService ownerReservationService;
     private final MyFoodTruckService myFoodTruckService;
+    private final MyFoodTruckMenuService myFoodTruckMenuService;
 
     // 파사드에서 사장님 검증을 거침으로써 서비스 로직에서는 사장님 검증에 신경쓰지 않도록 책임 분리
     private final OwnerValidator ownerValidator;
@@ -136,5 +140,13 @@ public class OwnerService {
 
         // 사장님 - 나의 푸드트럭 삭제 로직 호출
         myFoodTruckService.deleteMyFoodTruck(ownerId, foodTruckId);
+    }
+
+    public CursorPagingResponse<MyFoodTruckMenuResponse> getMyFoodTruckMenus(Long ownerId, Long foodTruckId, MyFoodTruckMenuListRequest request) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 - 나의 푸드트럭 메뉴 조회
+        return myFoodTruckMenuService.getMyFoodTruckMenus(foodTruckId, request);
     }
 }

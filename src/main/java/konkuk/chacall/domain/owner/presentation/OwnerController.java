@@ -195,4 +195,17 @@ public class OwnerController {
         ownerService.deleteMyFoodTruck(ownerId, foodTruckId);
         return BaseResponse.ok(null);
     }
+
+    @Operation(
+            summary = "나의 푸드트럭 메뉴 목록 조회",
+            description = "사장님 - 푸드트럭 메뉴 목록을 조회합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_GET_FOOD_TRUCK_MENUS)
+    @GetMapping("/me/food-trucks/{foodTruckId}/menus")
+    public BaseResponse<CursorPagingResponse<MyFoodTruckMenuResponse>> getMenus (
+            @PathVariable final Long foodTruckId,
+            @ParameterObject final MyFoodTruckMenuListRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId) {
+        return BaseResponse.ok(ownerService.getMyFoodTruckMenus(ownerId, foodTruckId, request));
+    }
 }
