@@ -160,7 +160,7 @@ public class OwnerService {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
 
-        // 사장님 - 나의 푸드트럭 메뉴 추가
+        // 사장님 - 나의 푸드트럭 메뉴 상태 변경
         myFoodTruckMenuService.updateMenuStatus(ownerId, foodTruckId, menuId, request);
     }
 }
