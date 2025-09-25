@@ -56,7 +56,7 @@ public class FoodTruckController {
             description = "운영자 - 푸드트럭 승인 상태를 변경합니다."
     )
     @ExceptionDescription(SwaggerResponseDescription.APPROVE_FOOD_TRUCK_STATUS)
-    @PatchMapping("/{foodTruckId}/change-status")
+    @PatchMapping("/{foodTruckId}/approval")
     public BaseResponse<Void> approveFoodTruckStatus (
             @PathVariable final Long foodTruckId,
             @Valid @RequestBody final ApproveFoodTruckStatusRequest request
