@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.foodtruck.application.FoodTruckService;
+import konkuk.chacall.domain.foodtruck.presentation.dto.request.ApproveFoodTruckStatusRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckNameDuplicateCheckRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckNameDuplicateCheckResponse;
@@ -48,5 +49,19 @@ public class FoodTruckController {
             @Valid @RequestBody final FoodTruckNameDuplicateCheckRequest request
     ) {
         return BaseResponse.ok(foodTruckService.isNameDuplicated(request));
+    }
+
+    @Operation(
+            summary = "푸드트럭 승인 상태 변경",
+            description = "운영자 - 푸드트럭 승인 상태를 변경합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.APPROVE_FOOD_TRUCK_STATUS)
+    @PatchMapping("/{foodTruckId}/change-status")
+    public BaseResponse<Void> approveFoodTruckStatus (
+            @PathVariable final Long foodTruckId,
+            @Valid @RequestBody final ApproveFoodTruckStatusRequest request
+    ) {
+        foodTruckService.approveFoodTruckStatus(foodTruckId, request);
+        return BaseResponse.ok(null);
     }
 }
