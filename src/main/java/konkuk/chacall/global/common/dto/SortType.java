@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public enum SortType {
 
-    LATEST("최신순"),   // PK desc
+    NEWEST("최신순"),   // PK desc
     OLDEST("오래된순"); // PK asc
 
     @JsonValue
@@ -17,6 +17,6 @@ public enum SortType {
     }
 
     public static SortType fromNullable(SortType sortType) {
-        return (sortType == null) ? LATEST : sortType;
+        return (sortType == null) ? NEWEST : sortType;
     }
 }
