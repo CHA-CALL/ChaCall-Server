@@ -15,7 +15,7 @@ public record MyFoodTruckMenuResponse(
         String description,
         @Schema(description = "이미지 URL", example = "https://cdn.example.com/menus/101.jpg")
         String imageUrl,
-        @Schema(description = "노출 상태 코드", example = "ON/OFF")
+        @Schema(description = "메뉴 표시 여부", example = "ON/OFF")
         String status
 ) {
     public static MyFoodTruckMenuResponse from(Menu menu) {
