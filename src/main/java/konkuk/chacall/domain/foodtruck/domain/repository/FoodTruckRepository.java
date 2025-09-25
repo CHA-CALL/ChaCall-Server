@@ -45,4 +45,6 @@ public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, Foo
             @Param("statuses") Collection<FoodTruckStatus> statuses
     );
 
+    boolean existsByNameIgnoreCase(String name);
+
 }
