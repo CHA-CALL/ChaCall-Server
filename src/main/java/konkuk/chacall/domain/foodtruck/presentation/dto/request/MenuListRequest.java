@@ -1,0 +1,21 @@
+package konkuk.chacall.domain.foodtruck.presentation.dto.request;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import konkuk.chacall.global.common.dto.CursorPagingRequest;
+import konkuk.chacall.global.common.dto.HasPaging;
+import konkuk.chacall.global.common.dto.SortType;
+
+@Schema(description = "메뉴 목록 조회 요청")
+public record MenuListRequest(
+        @Schema(description = "푸드트럭 ID", example = "1")
+        Long foodTruckId,
+
+        @Schema(description = "정렬 기준", example = "최신순",
+                allowableValues = {"최신순", "오래된순"})
+        SortType sort,
+
+        @Valid
+        CursorPagingRequest cursorPagingRequest
+) implements HasPaging {}
+
