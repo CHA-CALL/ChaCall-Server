@@ -12,6 +12,7 @@ import konkuk.chacall.domain.foodtruck.domain.value.MenuCategory;
 import konkuk.chacall.domain.foodtruck.domain.value.PaymentMethod;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.DateRangeRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
+import konkuk.chacall.global.common.dto.SortType;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -115,7 +116,7 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
         where.and(foodTruck.foodTruckStatus.eq(FoodTruckStatus.ON));
 
         // 커서 기반 페이징
-        var paging = request.pagingOrDefault();
+        var paging = request.pagingOrDefault(SortType.NEWEST);
         Long lastCursor = paging.cursor();
         int size = paging.size();
 

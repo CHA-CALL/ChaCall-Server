@@ -94,6 +94,23 @@ public class FoodTruck extends BaseEntity {
         ratingInfo.updateAverageRating(rating);
     }
 
+    public void approveFoodTruck(FoodTruckStatus targetFoodTruckStatus) {
+
+        // 운영자 - 승인 대기 -> 승인 OR 승인 거부
+        if (this.foodTruckStatus == FoodTruckStatus.PENDING && (targetFoodTruckStatus == FoodTruckStatus.OFF || targetFoodTruckStatus == FoodTruckStatus.REJECTED)) {
+            this.foodTruckStatus = targetFoodTruckStatus;
+            return;
+        }
+
+        // 운영자 - 승인 거부 -> 승인
+        if (this.foodTruckStatus == FoodTruckStatus.REJECTED && targetFoodTruckStatus == FoodTruckStatus.OFF) {
+            this.foodTruckStatus = targetFoodTruckStatus;
+            return;
+        }
+
+        throw new DomainRuleException(ErrorCode.INVALID_FOOD_TRUCK_STATUS_TRANSITION);
+    }
+
     // 푸드트럭의 호출 가능 지역을 반환해주는 메서드
     public String getServiceAreas(List<FoodTruckServiceArea> serviceAreaList) {
         return serviceAreaList.stream()
