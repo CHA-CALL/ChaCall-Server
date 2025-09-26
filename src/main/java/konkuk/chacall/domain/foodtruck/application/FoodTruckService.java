@@ -1,7 +1,6 @@
 package konkuk.chacall.domain.foodtruck.application;
 
 import konkuk.chacall.domain.foodtruck.application.command.FoodTruckCommandService;
-import konkuk.chacall.domain.foodtruck.presentation.dto.request.ApproveFoodTruckStatusRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckNameDuplicateCheckRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckNameDuplicateCheckResponse;
@@ -27,8 +26,5 @@ public class FoodTruckService {
                 foodTruckCommandService.isNameDuplicated(request.name()));
     }
 
-    @Transactional
-    public void approveFoodTruckStatus(Long foodTruckId, ApproveFoodTruckStatusRequest request) {
-        foodTruckCommandService.approveFoodTruckStatus(foodTruckId, request);
-    }
+
 }

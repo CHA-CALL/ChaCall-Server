@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import konkuk.chacall.domain.user.presentation.dto.request.ApproveFoodTruckStatusRequest;
 import konkuk.chacall.domain.user.application.UserService;
 import konkuk.chacall.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import konkuk.chacall.domain.user.presentation.dto.response.UserResponse;
@@ -47,5 +48,19 @@ public class UserController {
          userService.updateUserInfo(userId, request);
 
          return BaseResponse.ok(null);
+    }
+
+    @Operation(
+            summary = "푸드트럭 승인 상태 변경",
+            description = "운영자 - 푸드트럭 승인 상태를 변경합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.APPROVE_FOOD_TRUCK_STATUS)
+    @PatchMapping("/admin/food-trucks/{foodTruckId}/approval")
+    public BaseResponse<Void> approveFoodTruckStatus (
+            @PathVariable final Long foodTruckId,
+            @Valid @RequestBody final ApproveFoodTruckStatusRequest request
+    ) {
+        userService.approveFoodTruckStatus(foodTruckId, request);
+        return BaseResponse.ok(null);
     }
 }

@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.foodtruck.presentation.dto.request;
+package konkuk.chacall.domain.user.presentation.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
