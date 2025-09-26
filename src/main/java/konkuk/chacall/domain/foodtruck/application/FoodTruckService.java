@@ -5,6 +5,8 @@ import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckNameDup
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckNameDuplicateCheckResponse;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckResponse;
+import konkuk.chacall.domain.member.application.validator.MemberValidator;
+import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,18 @@ public class FoodTruckService {
 
     private final FoodTruckCommandService foodTruckCommandService;
 
-    public CursorPagingResponse<FoodTruckResponse> getFoodTrucks(FoodTruckSearchRequest request) {
+    private final MemberValidator memberValidator;
+    private final OwnerValidator ownerValidator;
+
+    public CursorPagingResponse<FoodTruckResponse> getFoodTrucks(Long memberId, FoodTruckSearchRequest request) {
+        memberValidator.validateAndGetMember(memberId);
+
         return foodTruckCommandService.getFoodTrucks(request);
     }
 
-    public FoodTruckNameDuplicateCheckResponse isNameDuplicated(FoodTruckNameDuplicateCheckRequest request) {
+    public FoodTruckNameDuplicateCheckResponse isNameDuplicated(Long ownerId, FoodTruckNameDuplicateCheckRequest request) {
+        ownerValidator.validateAndGetOwner(ownerId);
+
         return FoodTruckNameDuplicateCheckResponse.of(
                 foodTruckCommandService.isNameDuplicated(request.name()));
     }
