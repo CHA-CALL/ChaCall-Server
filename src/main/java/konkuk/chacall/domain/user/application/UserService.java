@@ -1,5 +1,9 @@
 package konkuk.chacall.domain.user.application;
 
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
+import konkuk.chacall.domain.user.application.admin.AdminService;
+import konkuk.chacall.domain.user.presentation.dto.request.ApproveFoodTruckStatusRequest;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
 import konkuk.chacall.domain.user.presentation.dto.request.UpdateUserInfoRequest;
@@ -17,6 +21,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final AdminService adminService;
+
     public UserResponse getUserInfo(Long userId) {
         return userRepository.findById(userId)
                 .map(UserResponse::from)
@@ -29,5 +35,10 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         user.update(request.name(), request.profileImageUrl(), request.email(), request.gender(), request.termAgreed());
+    }
+
+    @Transactional
+    public void approveFoodTruckStatus(Long foodTruckId, ApproveFoodTruckStatusRequest request) {
+        adminService.approveFoodTruckStatus(foodTruckId, request);
     }
 }
