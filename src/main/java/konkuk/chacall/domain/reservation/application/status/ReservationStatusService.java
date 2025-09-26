@@ -7,6 +7,7 @@ import konkuk.chacall.domain.reservation.presentation.dto.response.ReservationSt
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
+import konkuk.chacall.global.common.storage.PdfService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class ReservationStatusService {
 
     private final ReservationRepository reservationRepository;
+    private final PdfService pdfService;
 
     public ReservationStatusResponse updateReservationStatusToConfirmedRequested(Long reservationId, UpdateReservationStatusRequest request, User member) {
 
@@ -35,6 +37,11 @@ public class ReservationStatusService {
         reservation.validateFoodTruckOwner(owner.getUserId());
 
         reservation.updateStatus(request.reservationStatus());
+
+        // 예약 상태가 CONFIRMED로 변경되면 견적서 PDF 렌더링 및 업로드
+        String pdfUrl = pdfService.renderAndUpload(reservation);
+        reservation.setPdfUrl(pdfUrl);
+
         return new ReservationStatusResponse(reservation.getReservationStatus().getValue());
     }
 

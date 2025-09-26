@@ -17,7 +17,9 @@ public record MemberReservationHistoryResponse(
         String address,
         @Schema(description = "예약 날짜 및 운영 시간 정보 리스트 (최대 2개)",
                 example = "[\"2025-09-20 13시~19시\", \"2025-09-21 13시~19시\"]")
-        List<String> dateTimeInfos
+        List<String> dateTimeInfos,
+        @Schema(description = "예약 상태" , example = "예약 확정")
+        String reservationStatus
 ) {
 
     public static MemberReservationHistoryResponse of(Reservation reservation, FoodTruck foodTruck) {
@@ -28,7 +30,8 @@ public record MemberReservationHistoryResponse(
                 foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(),
                 foodTruck.getName(),
                 reservation.getReservationInfo().getFullAddress(),
-                dateTimeList
+                dateTimeList,
+                reservation.getReservationStatus().getValue()
         );
     }
 }

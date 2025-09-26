@@ -107,7 +107,7 @@ public class OwnerService {
 
         // 사장님 예약 내역 조회 로직 호출
         CursorPagingRequest cursorPagingRequest = request.pagingOrDefault();
-        return ownerReservationService.getOwnerReservations(ownerId, request.status(), cursorPagingRequest.cursor(), cursorPagingRequest.size());
+        return ownerReservationService.getOwnerReservations(ownerId, request.viewType(), cursorPagingRequest.cursor(), cursorPagingRequest.size());
     }
 
     @Transactional(readOnly = true)

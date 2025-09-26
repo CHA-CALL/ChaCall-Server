@@ -63,7 +63,7 @@ public class MemberService {
 
         CursorPagingRequest cursorPagingRequest = request.pagingOrDefault();
 
-        return memberReservationService.getMemberReservations(member, request, cursorPagingRequest.cursor(), cursorPagingRequest.size());
+        return memberReservationService.getMemberReservations(member, request.viewType(), cursorPagingRequest.cursor(), cursorPagingRequest.size());
     }
 
     public MemberReservationDetailResponse getMemberReservationDetail(Long reservationId, Long memberId) {

@@ -5,6 +5,7 @@ import konkuk.chacall.domain.owner.presentation.dto.response.OwnerReservationHis
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
+import konkuk.chacall.domain.reservation.domain.value.ReservationViewType;
 import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -29,9 +31,9 @@ public class OwnerReservationService {
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
 
-    public CursorPagingResponse<OwnerReservationHistoryResponse> getOwnerReservations(Long ownerId, ReservationStatus status, Long lastCursor, int pageSize) {
+    public CursorPagingResponse<OwnerReservationHistoryResponse> getOwnerReservations(Long ownerId, ReservationViewType viewType, Long lastCursor, int pageSize) {
         // 예약 목록 조회
-        Slice<Reservation> ownerReservationSlice = findReservations(ownerId, status, lastCursor, pageSize);
+        Slice<Reservation> ownerReservationSlice = findReservations(ownerId, viewType.getStatuses(), lastCursor, pageSize);
         List<Reservation> ownerReservationList = ownerReservationSlice.getContent();
 
         // 손님 ID 리스트로 User 정보 한 번에 조회
@@ -57,9 +59,9 @@ public class OwnerReservationService {
     /**
      * 예약 목록 조회
      */
-    private Slice<Reservation> findReservations(Long ownerId, ReservationStatus status, Long lastCursor, int pageSize) {
+    private Slice<Reservation> findReservations(Long ownerId, Set<ReservationStatus> statuses, Long lastCursor, int pageSize) {
         return reservationRepository
-                .findOwnerReservationsByStatusWithCursor(ownerId, status, lastCursor, PageRequest.of(0, pageSize));
+                .findOwnerReservationsByStatusWithCursor(ownerId, statuses, lastCursor, PageRequest.of(0, pageSize));
     }
 
     /**

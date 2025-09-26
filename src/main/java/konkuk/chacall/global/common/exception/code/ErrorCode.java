@@ -61,6 +61,7 @@ public enum ErrorCode implements ResponseCode {
     CANNOT_RESERVE_OWN_FOOD_TRUCK(HttpStatus.FORBIDDEN, 90005, "본인 소유 푸드트럭은 예약할 수 없습니다."),
     INVALID_RESERVATION_STATUS(HttpStatus.BAD_REQUEST, 90006, "유효하지 않은 예약 상태입니다."),
     INVALID_RESERVATION_STATUS_TRANSITION(HttpStatus.BAD_REQUEST, 90007, "유효하지 않은 예약 상태 전환입니다."),
+    CANNOT_UPDATE_RESERVATION(HttpStatus.BAD_REQUEST, 90008, "예약을 수정할 수 있는 상태가 아닙니다."),
 
     /**
      * Rating

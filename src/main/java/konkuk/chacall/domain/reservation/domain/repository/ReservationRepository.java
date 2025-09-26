@@ -11,17 +11,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Query("SELECT r FROM Reservation r " +
             "WHERE r.foodTruck.owner.userId = :ownerId " +
-            "AND r.reservationStatus = :status " +
+            "AND r.reservationStatus IN :statuses " +
             "AND r.reservationId < :lastCursor " +
             "ORDER BY r.reservationId DESC")
     Slice<Reservation> findOwnerReservationsByStatusWithCursor(
             @Param("ownerId") Long ownerId,
-            @Param("status") ReservationStatus status,
+            @Param("statuses") Set<ReservationStatus> statuses,
             @Param("lastCursor") Long lastCursor,
             Pageable pageable);
 
@@ -35,12 +36,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @EntityGraph(attributePaths = {"foodTruck"})
     @Query("SELECT r FROM Reservation r " +
             "WHERE r.member.userId = :memberId " +
-            "AND r.reservationStatus = :status " +
+            "AND r.reservationStatus IN :statuses " +
             "AND r.reservationId < :lastCursor " +
             "ORDER BY r.reservationId DESC")
     Slice<Reservation> findMemberReservationsByStatusWithCursor(
             @Param("memberId") Long memberId,
-            @Param("status") ReservationStatus status,
+            @Param("statuses") Set<ReservationStatus> statuses,
             @Param("lastCursor") Long lastCursor,
             Pageable pageable);
 

@@ -67,3 +67,24 @@ spring:
 jwt:
   secret: abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456
   access-expiration: 2592000000 # 30일
+
+---
+# S3 관련 설정
+cloud:
+  aws:
+    s3:
+      bucket: bucket-name
+      cloud-front-url: https://cdn.net
+    credentials:
+      access-key: aws_access_key_id
+      secret-key: aws_secret_access_key
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+---
+app:
+  pdf:
+    font-path: classpath:fonts/NotoSansKR-Regular.ttf  # 한글 폰트(리소스에 포함)
+    template: reservation-estimate # PDF 템플릿 파일명 (resources/templates/reservation-estimate.html)

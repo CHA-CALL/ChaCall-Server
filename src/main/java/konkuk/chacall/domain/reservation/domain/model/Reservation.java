@@ -30,6 +30,7 @@ public class Reservation extends BaseEntity {
     @Column(nullable = false, length = 20)
     private ReservationStatus reservationStatus;
 
+    @Setter
     @Column(length = 500)
     private String pdfUrl; // 견적서 PDF URL
 
@@ -140,6 +141,7 @@ public class Reservation extends BaseEntity {
             boolean isUseElectricity,
             String etcRequest
     ) {
+        validateUpdateReservation();
         this.reservationInfo.updateReservationInfo(
                 reservationAddress,
                 reservationDetailAddress,
@@ -152,11 +154,21 @@ public class Reservation extends BaseEntity {
         );
     }
 
+    private void validateUpdateReservation() {
+        if (!(this.reservationStatus == ReservationStatus.CONFIRMED_REQUESTED || this.reservationStatus == ReservationStatus.PENDING)) {
+            throw new DomainRuleException(CANNOT_UPDATE_RESERVATION,
+                    new IllegalArgumentException("예약 상태가 '예약 대기' 또는 '예약 확정 요청' 상태일 때만 예약 정보를 수정할 수 있습니다."));
+        }
+    }
+
     public void updateStatus(ReservationStatus newStatus) {
         // status 순서가 올바른지 검증 (PENDING -> CONFIRMED_REQUESTED -> CONFIRMED -> CANCELLED_REQUESTED -> CANCELLED)
         if (this.reservationStatus.isInValidStatusTransitionFrom(newStatus)) {
-            throw new DomainRuleException(INVALID_RESERVATION_STATUS_TRANSITION);
+            throw new DomainRuleException(INVALID_RESERVATION_STATUS_TRANSITION,
+                    new IllegalArgumentException("예약 상태는 '예약 대기' -> '예약 확정 요청' -> '예약 확정' -> '예약 취소 요청' -> '예약 취소' 순서로만 변경할 수 있습니다." +
+                            " 현재 상태: " + this.reservationStatus + ", 변경하려는 상태: " + newStatus));
         }
         this.reservationStatus = newStatus;
     }
+
 }
