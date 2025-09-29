@@ -32,6 +32,6 @@ public class FoodTruckCommandService {
     }
 
     public boolean isNameDuplicated(String name) {
-        return foodTruckRepository.existsByNameIgnoreCase(name);
+        return foodTruckRepository.existsByName(name);
     }
 }
