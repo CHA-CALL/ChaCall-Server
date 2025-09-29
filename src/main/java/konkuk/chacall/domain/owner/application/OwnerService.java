@@ -10,6 +10,7 @@ import konkuk.chacall.domain.owner.presentation.dto.response.*;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
+import konkuk.chacall.global.common.dto.SortType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -106,7 +107,7 @@ public class OwnerService {
         ownerValidator.validateAndGetOwner(ownerId);
 
         // 사장님 예약 내역 조회 로직 호출
-        CursorPagingRequest cursorPagingRequest = request.pagingOrDefault();
+        CursorPagingRequest cursorPagingRequest = request.pagingOrDefault(SortType.NEWEST);
         return ownerReservationService.getOwnerReservations(ownerId, request.viewType(), cursorPagingRequest.cursor(), cursorPagingRequest.size());
     }
 

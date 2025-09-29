@@ -9,6 +9,7 @@ import konkuk.chacall.domain.member.presentation.dto.response.*;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
+import konkuk.chacall.global.common.dto.SortType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +62,7 @@ public class MemberService {
         // 멤버 유효성 검사 및 조회
         User member = memberValidator.validateAndGetMember(memberId);
 
-        CursorPagingRequest cursorPagingRequest = request.pagingOrDefault();
+        CursorPagingRequest cursorPagingRequest = request.pagingOrDefault(SortType.NEWEST);
 
         return memberReservationService.getMemberReservations(member, request.viewType(), cursorPagingRequest.cursor(), cursorPagingRequest.size());
     }
