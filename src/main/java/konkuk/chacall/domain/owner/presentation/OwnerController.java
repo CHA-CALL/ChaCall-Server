@@ -195,4 +195,48 @@ public class OwnerController {
         ownerService.deleteMyFoodTruck(ownerId, foodTruckId);
         return BaseResponse.ok(null);
     }
+
+    @Operation(
+            summary = "나의 푸드트럭 메뉴 목록 조회",
+            description = "사장님 - 푸드트럭 메뉴 목록을 조회합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_GET_FOOD_TRUCK_MENUS)
+    @GetMapping("/me/food-trucks/{foodTruckId}/menus")
+    public BaseResponse<CursorPagingResponse<MyFoodTruckMenuResponse>> getMenus (
+            @PathVariable final Long foodTruckId,
+            @ParameterObject final MyFoodTruckMenuListRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId) {
+        return BaseResponse.ok(ownerService.getMyFoodTruckMenus(ownerId, foodTruckId, request));
+    }
+
+    @Operation(
+            summary = "나의 푸드트럭 메뉴 등록",
+            description = "사장님 - 푸드트럭에 메뉴를 등록합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_REGISTER_FOOD_TRUCK_MENU)
+    @PostMapping("/me/food-trucks/{foodTruckId}/menus")
+    public BaseResponse<Void> registerMenu(
+            @PathVariable final Long foodTruckId,
+            @Valid @RequestBody final RegisterMenuRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        ownerService.registerMenu(ownerId, foodTruckId, request);
+        return BaseResponse.ok(null);
+    }
+
+    @Operation(
+            summary = "나의 푸드트럭 메뉴 표시 상태 변경",
+            description = "사장님 - 푸드트럭 메뉴의 표시 상태를 변경합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_UPDATE_FOOD_TRUCK_MENU_STATUS)
+    @PatchMapping("/me/food-trucks/{foodTruckId}/menus/{menuId}/change-status")
+    public BaseResponse<Void> updateMenuStatus(
+            @PathVariable final Long foodTruckId,
+            @PathVariable final Long menuId,
+            @Valid @RequestBody final UpdateMenuStatusRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        ownerService.updateMenuStatus(ownerId, foodTruckId, menuId, request);
+        return BaseResponse.ok(null);
+    }
 }

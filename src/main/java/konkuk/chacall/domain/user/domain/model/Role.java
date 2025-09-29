@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Role {
+    ADMIN("운영자"),
     MEMBER("일반 회원"),
     OWNER("사장님"),
     NON_SELECTED("선택 안함")

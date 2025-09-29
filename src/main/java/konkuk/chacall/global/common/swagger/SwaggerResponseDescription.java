@@ -90,6 +90,23 @@ public enum SwaggerResponseDescription {
             USER_FORBIDDEN,
             FOOD_TRUCK_NOT_FOUND
     ))),
+    OWNER_GET_FOOD_TRUCK_MENUS(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_APPROVED
+    ))),
+    OWNER_REGISTER_FOOD_TRUCK_MENU(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_APPROVED
+    ))),
+    OWNER_UPDATE_FOOD_TRUCK_MENU_STATUS(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_APPROVED,
+            MENU_NOT_FOUND,
+            INVALID_MENU_STATUS_TRANSITION
+    ))),
 
 
     // Member
@@ -158,6 +175,12 @@ public enum SwaggerResponseDescription {
             USER_FORBIDDEN,
             RESERVATION_NOT_FOUND,
             RESERVATION_NOT_OWNED
+    ))),
+
+    // FoodTruck
+    APPROVE_FOOD_TRUCK_STATUS(new LinkedHashSet<>(Set.of(
+            FOOD_TRUCK_NOT_FOUND,
+            INVALID_FOOD_TRUCK_STATUS_TRANSITION
     ))),
 
     // Default

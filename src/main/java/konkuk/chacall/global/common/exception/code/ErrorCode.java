@@ -76,6 +76,8 @@ public enum ErrorCode implements ResponseCode {
      */
     FOOD_TRUCK_NOT_FOUND(HttpStatus.NOT_FOUND, 110001, "푸드트럭을 찾을 수 없습니다."),
     FOOD_TRUCK_NOT_OWNED(HttpStatus.FORBIDDEN, 110002, "해당 푸드트럭의 소유자가 아닙니다."),
+    FOOD_TRUCK_NOT_APPROVED(HttpStatus.FORBIDDEN, 110003, "승인된 푸드트럭이 아닙니다."),
+    INVALID_FOOD_TRUCK_STATUS_TRANSITION(HttpStatus.BAD_REQUEST, 110004, "허용되지 않은 푸드트럭 상태 변경입니다."),
 
 
     /**
@@ -88,7 +90,13 @@ public enum ErrorCode implements ResponseCode {
      * Region
      */
     REGION_NOT_FOUND(HttpStatus.NOT_FOUND, 130001, "지역을 찾을 수 없습니다."),
-    PARENT_REGION_NOT_FOUND(HttpStatus.NOT_FOUND, 130002, "상위 지역을 찾을 수 없습니다.")
+    PARENT_REGION_NOT_FOUND(HttpStatus.NOT_FOUND, 130002, "상위 지역을 찾을 수 없습니다."),
+
+    /**
+     * Menu
+     */
+    MENU_NOT_FOUND(HttpStatus.NOT_FOUND, 140001, "메뉴를 찾을 수 없습니다."),
+    INVALID_MENU_STATUS_TRANSITION(HttpStatus.BAD_REQUEST, 140002, "허용되지 않은 메뉴 상태 변경입니다."),
     ;
 
     private final HttpStatus httpStatus;

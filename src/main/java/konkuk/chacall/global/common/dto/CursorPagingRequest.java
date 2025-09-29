@@ -16,15 +16,4 @@ public record CursorPagingRequest(
         @Min(value = 1, message = "size 는 1 이상이어야 합니다.")
         Integer size
 ) {
-    private static final int DEFAULT_SIZE = 20;
-    private static final long DEFAULT_CURSOR = Long.MAX_VALUE;
-
-    public CursorPagingRequest {
-        if (cursor == null) {
-            cursor = DEFAULT_CURSOR;
-        }
-        if (size == null) {
-            size = DEFAULT_SIZE;
-        }
-    }
 }
