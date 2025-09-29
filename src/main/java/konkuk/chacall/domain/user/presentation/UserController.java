@@ -58,9 +58,10 @@ public class UserController {
     @PatchMapping("/admin/food-trucks/{foodTruckId}/approval")
     public BaseResponse<Void> approveFoodTruckStatus (
             @PathVariable final Long foodTruckId,
-            @Valid @RequestBody final ApproveFoodTruckStatusRequest request
+            @Valid @RequestBody final ApproveFoodTruckStatusRequest request,
+            @Parameter(hidden = true) @UserId final Long userId
     ) {
-        userService.approveFoodTruckStatus(foodTruckId, request);
+        userService.approveFoodTruckStatus(userId, foodTruckId, request);
         return BaseResponse.ok(null);
     }
 }

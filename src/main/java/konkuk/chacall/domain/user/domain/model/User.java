@@ -62,6 +62,14 @@ public class User extends BaseEntity {
         this.termsAgreed = termsAgreed;
     }
 
+
+    public void validateAdmin() {
+        if (this.role != Role.ADMIN) {
+            throw new DomainRuleException(ErrorCode.USER_FORBIDDEN,
+                    new IllegalArgumentException("사용자는 운영자 권한이 없습니다. " + this.role));
+        }
+    }
+
     public void validateOwner() {
         if (this.role != Role.OWNER) {
             throw new DomainRuleException(ErrorCode.USER_FORBIDDEN,
