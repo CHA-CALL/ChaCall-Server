@@ -61,6 +61,7 @@ public class FoodTruckController {
             summary = "푸드트럭 이미지 presigned URL 발급",
             description = "푸드트럭 사진을 업로드하기 위한 presigned URL을 발급받습니다."
     )
+    @ExceptionDescription(SwaggerResponseDescription.GET_FOOD_TRUCK_PRESGIEND_URL)
     @PostMapping("/images")
     public BaseResponse<ImageResponse> createFoodTruckImagePresignedUrl(
             @Valid @RequestBody final ImageRequest request,
@@ -73,6 +74,7 @@ public class FoodTruckController {
             summary = "메뉴 이미지 presigned URL 발급",
             description = "메뉴 사진을 업로드하기 위한 presigned URL을 발급받습니다."
     )
+    @ExceptionDescription(SwaggerResponseDescription.GET_MENU_PRESGIEND_URL)
     @PostMapping("/menus/images")
     public BaseResponse<ImageResponse> createMenuImagePresignedUrl(
             @Valid @RequestBody final ImageRequest request,
