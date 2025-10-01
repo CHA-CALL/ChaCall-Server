@@ -1,21 +1,23 @@
 package konkuk.chacall.domain.foodtruck.presentation;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.foodtruck.application.FoodTruckService;
+import konkuk.chacall.domain.foodtruck.presentation.dto.request.ImageRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckResponse;
+import konkuk.chacall.domain.foodtruck.presentation.dto.response.ImageResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
+import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "FoodTruck API", description = "푸드트럭 관련 API")
 @RestController
@@ -34,7 +36,32 @@ public class FoodTruckController {
     @GetMapping
     public BaseResponse<CursorPagingResponse<FoodTruckResponse>> getFoodTrucks(
             @Valid @ParameterObject final FoodTruckSearchRequest request
-            ) {
+    ) {
         return BaseResponse.ok(foodTruckService.getFoodTrucks(request));
     }
+
+    @Operation(
+            summary = "푸드트럭 이미지 presigned URL 발급",
+            description = "푸드트럭 사진을 업로드하기 위한 presigned URL을 발급받습니다."
+    )
+    @PostMapping("/images")
+    public BaseResponse<ImageResponse> createFoodTruckImagePresignedUrl(
+            @Valid @RequestBody final ImageRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(foodTruckService.createFoodTruckImagePresignedUrl(request, ownerId));
+    }
+
+    @Operation(
+            summary = "메뉴 이미지 presigned URL 발급",
+            description = "메뉴 사진을 업로드하기 위한 presigned URL을 발급받습니다."
+    )
+    @PostMapping("/menus/images")
+    public BaseResponse<ImageResponse> createMenuImagePresignedUrl(
+            @Valid @RequestBody final ImageRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(foodTruckService.createMenuImagePresignedUrl(request, ownerId));
+    }
+
 }
