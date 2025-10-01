@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.foodtruck.application.search;
+package konkuk.chacall.domain.foodtruck.application.command;
 
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FoodTruckSearchService {
+public class FoodTruckCommandService {
 
     private final FoodTruckRepository foodTruckRepository;
 
@@ -31,4 +31,7 @@ public class FoodTruckSearchService {
         );
     }
 
+    public boolean isNameDuplicated(String name) {
+        return foodTruckRepository.existsByName(name);
+    }
 }

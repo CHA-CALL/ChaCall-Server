@@ -1,5 +1,8 @@
 package konkuk.chacall.domain.owner.application;
 
+import konkuk.chacall.domain.owner.application.myfoodtruckmenu.MyFoodTruckMenuService;
+import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuListRequest;
+import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckMenuResponse;
 import konkuk.chacall.domain.owner.application.bankaccount.BankAccountService;
 import konkuk.chacall.domain.owner.application.chattemplate.ChatTemplateService;
 import konkuk.chacall.domain.owner.application.myfoodtruck.MyFoodTruckService;
@@ -10,6 +13,7 @@ import konkuk.chacall.domain.owner.presentation.dto.response.*;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
+import konkuk.chacall.global.common.dto.SortType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +22,14 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class OwnerService {
 
     private final BankAccountService bankAccountService;
     private final ChatTemplateService chatTemplateService;
     private final OwnerReservationService ownerReservationService;
     private final MyFoodTruckService myFoodTruckService;
+    private final MyFoodTruckMenuService myFoodTruckMenuService;
 
     // 파사드에서 사장님 검증을 거침으로써 서비스 로직에서는 사장님 검증에 신경쓰지 않도록 책임 분리
     private final OwnerValidator ownerValidator;
@@ -37,7 +43,6 @@ public class OwnerService {
         bankAccountService.registerBankAccount(request, owner);
     }
 
-    @Transactional(readOnly = true)
     public BankAccountResponse getBankAccount(Long ownerId) {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
@@ -73,7 +78,6 @@ public class OwnerService {
         chatTemplateService.registerChatTemplate(request, owner);
     }
 
-    @Transactional(readOnly = true)
     public List<ChatTemplateResponse> getChatTemplates(Long ownerId) {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
@@ -100,17 +104,15 @@ public class OwnerService {
         chatTemplateService.deleteChatTemplate(chatTemplateId);
     }
 
-    @Transactional(readOnly = true)
     public CursorPagingResponse<OwnerReservationHistoryResponse> getOwnerReservations(GetReservationHistoryRequest request, Long ownerId) {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
 
         // 사장님 예약 내역 조회 로직 호출
-        CursorPagingRequest cursorPagingRequest = request.pagingOrDefault();
+        CursorPagingRequest cursorPagingRequest = request.pagingOrDefault(SortType.NEWEST);
         return ownerReservationService.getOwnerReservations(ownerId, request.viewType(), cursorPagingRequest.cursor(), cursorPagingRequest.size());
     }
 
-    @Transactional(readOnly = true)
     public OwnerReservationDetailResponse getReservationDetail(Long ownerId, Long reservationId) {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
@@ -119,7 +121,6 @@ public class OwnerService {
         return ownerReservationService.getReservationDetail(ownerId, reservationId);
     }
 
-    @Transactional(readOnly = true)
     public CursorPagingResponse<MyFoodTruckResponse> getMyFoodTrucks(CursorPagingRequest request, Long ownerId) {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
@@ -135,5 +136,31 @@ public class OwnerService {
 
         // 사장님 - 나의 푸드트럭 삭제 로직 호출
         myFoodTruckService.deleteMyFoodTruck(ownerId, foodTruckId);
+    }
+
+    public CursorPagingResponse<MyFoodTruckMenuResponse> getMyFoodTruckMenus(Long ownerId, Long foodTruckId, MyFoodTruckMenuListRequest request) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 - 나의 푸드트럭 메뉴 조회
+        return myFoodTruckMenuService.getMyFoodTruckMenus(ownerId, foodTruckId, request);
+    }
+
+    @Transactional
+    public void registerMenu(Long ownerId, Long foodTruckId, RegisterMenuRequest request) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 - 나의 푸드트럭 메뉴 추가
+        myFoodTruckMenuService.registerMenu(ownerId, foodTruckId, request);
+    }
+
+    @Transactional
+    public void updateMenuStatus(Long ownerId, Long foodTruckId, Long menuId, UpdateMenuStatusRequest request) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 - 나의 푸드트럭 메뉴 상태 변경
+        myFoodTruckMenuService.updateMenuStatus(ownerId, foodTruckId, menuId, request);
     }
 }
