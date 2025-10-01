@@ -1,7 +1,6 @@
 package konkuk.chacall.domain.foodtruck.application;
 
 import konkuk.chacall.domain.foodtruck.application.image.FoodTruckImageService;
-import konkuk.chacall.domain.foodtruck.application.search.FoodTruckSearchService;
 import konkuk.chacall.domain.foodtruck.application.command.FoodTruckCommandService;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckNameDuplicateCheckRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
@@ -12,7 +11,6 @@ import konkuk.chacall.domain.foodtruck.presentation.dto.response.ImageResponse;
 import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.member.application.validator.MemberValidator;
-import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
