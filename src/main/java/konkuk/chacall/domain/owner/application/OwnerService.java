@@ -1,7 +1,7 @@
 package konkuk.chacall.domain.owner.application;
 
 import konkuk.chacall.domain.owner.application.myfoodtruckmenu.MyFoodTruckMenuService;
-import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuListRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckMenuResponse;
 import konkuk.chacall.domain.owner.application.bankaccount.BankAccountService;
 import konkuk.chacall.domain.owner.application.chattemplate.ChatTemplateService;
@@ -138,7 +138,7 @@ public class OwnerService {
         myFoodTruckService.deleteMyFoodTruck(ownerId, foodTruckId);
     }
 
-    public CursorPagingResponse<MyFoodTruckMenuResponse> getMyFoodTruckMenus(Long ownerId, Long foodTruckId, MyFoodTruckMenuListRequest request) {
+    public CursorPagingResponse<MyFoodTruckMenuResponse> getMyFoodTruckMenus(Long ownerId, Long foodTruckId, MyFoodTruckMenuRequest request) {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
 

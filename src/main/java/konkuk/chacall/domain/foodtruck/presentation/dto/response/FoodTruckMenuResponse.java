@@ -1,0 +1,29 @@
+package konkuk.chacall.domain.foodtruck.presentation.dto.response;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import konkuk.chacall.domain.foodtruck.domain.model.Menu;
+
+@Schema(description = "메뉴 응답")
+public record FoodTruckMenuResponse (
+        @Schema(description = "메뉴 ID", example = "101")
+        Long menuId,
+        @Schema(description = "메뉴명", example = "크림파스타")
+        String name,
+        @Schema(description = "가격", example = "12000원")
+        String price,
+        @Schema(description = "설명", example = "진한 크림소스와 베이컨")
+        String description,
+        @Schema(description = "이미지 URL", example = "https://cdn.example.com/menus/101.jpg")
+        String imageUrl
+) {
+    public static FoodTruckMenuResponse from(Menu menu) {
+
+        return new FoodTruckMenuResponse(
+                menu.getMenuId(),
+                menu.getName(),
+                menu.parsingMenuPrice(),
+                menu.getDescription(),
+                menu.getImageUrl()
+        );
+    }
+}
