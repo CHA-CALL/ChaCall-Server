@@ -204,7 +204,7 @@ public class OwnerController {
     @GetMapping("/me/food-trucks/{foodTruckId}/menus")
     public BaseResponse<CursorPagingResponse<MyFoodTruckMenuResponse>> getMenus (
             @PathVariable final Long foodTruckId,
-            @ParameterObject final MyFoodTruckMenuListRequest request,
+            @ParameterObject final MyFoodTruckMenuRequest request,
             @Parameter(hidden = true) @UserId final Long ownerId) {
         return BaseResponse.ok(ownerService.getMyFoodTruckMenus(ownerId, foodTruckId, request));
     }

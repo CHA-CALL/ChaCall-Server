@@ -5,8 +5,7 @@ import konkuk.chacall.domain.foodtruck.domain.model.Menu;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.foodtruck.domain.repository.MenuRepository;
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
-import konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus;
-import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuListRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterMenuRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateMenuStatusRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckMenuResponse;
@@ -30,7 +29,7 @@ public class MyFoodTruckMenuService {
     private final FoodTruckRepository foodTruckRepository;
     private final MenuRepository menuRepository;
 
-    public CursorPagingResponse<MyFoodTruckMenuResponse> getMyFoodTruckMenus(Long ownerId, Long foodTruckId, MyFoodTruckMenuListRequest request) {
+    public CursorPagingResponse<MyFoodTruckMenuResponse> getMyFoodTruckMenus(Long ownerId, Long foodTruckId, MyFoodTruckMenuRequest request) {
         SortType sort = SortType.fromNullable(request.sort());
         CursorPagingRequest pagingRequest = request.pagingOrDefault(sort);
         Pageable pageable = PageRequest.of(0, pagingRequest.size());
