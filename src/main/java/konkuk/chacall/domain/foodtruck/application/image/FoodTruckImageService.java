@@ -24,7 +24,7 @@ public class FoodTruckImageService {
     public ImageResponse createFoodTruckImagePresignedUrl(ImageRequest request, User owner) {
         List<String> fileExtensions = request.fileExtensions();
 
-        if(fileExtensions == null || fileExtensions.isEmpty() || fileExtensions.size() > MAX_FOOD_TRUCK_IMAGE_COUNT) {
+        if(fileExtensions.size() > MAX_FOOD_TRUCK_IMAGE_COUNT) {
             throw new BusinessException(ErrorCode.INVALID_IMAGE_COUNT,
                     new IllegalArgumentException("푸드트럭 이미지는 1장 이상 " + MAX_FOOD_TRUCK_IMAGE_COUNT + "장 이하로 등록해야 합니다. 입력된 이미지 개수: " + (fileExtensions == null ? 0 : fileExtensions.size())));
         }
@@ -41,11 +41,6 @@ public class FoodTruckImageService {
 
     public ImageResponse createMenuImagePresignedUrl(ImageRequest request, User owner) {
         List<String> fileExtensions = request.fileExtensions();
-
-        if(fileExtensions == null || fileExtensions.isEmpty()) {
-            throw new BusinessException(ErrorCode.INVALID_IMAGE_COUNT,
-                    new IllegalArgumentException("메뉴 이미지는 1장 이상 " + "장 이하로 등록해야 합니다. 입력된 이미지 개수: " + (fileExtensions == null ? 0 : fileExtensions.size())));
-        }
 
         AllowedFileExtension.checkAllowedExtension(fileExtensions);
 
