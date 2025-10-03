@@ -93,6 +93,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.startsWith("/auth/users")
                 || path.equals("/auth/token")
                 || path.startsWith("/index.html")
+                || path.startsWith("/test/token")
                 ;
     }
 
