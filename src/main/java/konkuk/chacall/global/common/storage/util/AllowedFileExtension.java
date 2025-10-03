@@ -23,13 +23,13 @@ public enum AllowedFileExtension {
 
     public static void checkAllowedExtension(List<String> extensions) {
         for (String extension : extensions) {
-            boolean isMatch = Arrays.stream(AllowedFileExtension.values())
-                    .anyMatch(allowedExtension -> allowedExtension.value.equalsIgnoreCase(extension));
-
-            if (!isMatch) {
-                throw new BusinessException(ErrorCode.INVALID_FILE_EXTENSION,
-                        new IllegalArgumentException("허용되지 않은 파일 확장자: " + extension));
-            }
+            Arrays.stream(AllowedFileExtension.values())
+                    .filter(ext -> ext.value.equalsIgnoreCase(extension))
+                    .findAny()
+                    .orElseThrow(() -> new BusinessException(
+                            ErrorCode.INVALID_FILE_EXTENSION,
+                            new IllegalArgumentException("허용되지 않은 파일 확장자: " + extension)
+                    ));
         }
     }
 }
