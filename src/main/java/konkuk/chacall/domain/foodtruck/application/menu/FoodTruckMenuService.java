@@ -11,6 +11,7 @@ import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.SortType;
 import konkuk.chacall.global.common.exception.BusinessException;
+import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -24,12 +25,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FoodTruckMenuService {
 
+    private final FoodTruckRepository foodTruckRepository;
     private final MenuRepository menuRepository;
 
     public CursorPagingResponse<FoodTruckMenuResponse> getFoodTruckMenus(Long foodTruckId, FoodTruckMenuRequest request) {
         SortType sort = SortType.fromNullable(request.sort());
         CursorPagingRequest pagingRequest = request.pagingOrDefault(sort);
         Pageable pageable = PageRequest.of(0, pagingRequest.size());
+
+        if(!foodTruckRepository.existsById(foodTruckId)) {
+            throw new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND);
+        }
 
         Slice<Menu> menuSlice = switch (sort) {
             case NEWEST -> menuRepository.findVisibleMenusDesc(foodTruckId, pagingRequest.cursor(), pageable);
