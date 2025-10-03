@@ -26,17 +26,24 @@ public class FoodTruckImageService {
 
         if(fileExtensions.size() > MAX_FOOD_TRUCK_IMAGE_COUNT) {
             throw new BusinessException(ErrorCode.INVALID_IMAGE_COUNT,
-                    new IllegalArgumentException("푸드트럭 이미지는 1장 이상 " + MAX_FOOD_TRUCK_IMAGE_COUNT + "장 이하로 등록해야 합니다. 입력된 이미지 개수: " + (fileExtensions == null ? 0 : fileExtensions.size())));
+                    new IllegalArgumentException("푸드트럭 이미지는 1장 이상 " + MAX_FOOD_TRUCK_IMAGE_COUNT + "장 이하로 등록해야 합니다. 입력된 이미지 개수: " + fileExtensions.size()));
         }
 
         AllowedFileExtension.checkAllowedExtension(fileExtensions);
 
-        List<String> presignedUrls = fileExtensions.stream()
-                .map(extension -> KeyUtils.buildFoodTruckImageKey(owner.getUserId()))
-                .map(s3Service::generatePresignedUrl)
+        var imageInfos = fileExtensions.stream()
+                .map(extension -> {
+                    String baseKey = KeyUtils.buildFoodTruckImageKey(owner.getUserId());
+                    String keyWithExt = baseKey + "." + extension.toLowerCase();
+
+                    String presignedUrl = s3Service.generatePresignedUrl(keyWithExt);
+                    String fileUrl = s3Service.getFileUrl(keyWithExt);
+
+                    return ImageResponse.ImageInfo.of(presignedUrl, fileUrl);
+                })
                 .toList();
 
-        return ImageResponse.of(presignedUrls);
+        return ImageResponse.of(imageInfos);
     }
 
     public ImageResponse createMenuImagePresignedUrl(ImageRequest request, User owner) {
@@ -44,11 +51,18 @@ public class FoodTruckImageService {
 
         AllowedFileExtension.checkAllowedExtension(fileExtensions);
 
-        List<String> presignedUrls = fileExtensions.stream()
-                .map(extension -> KeyUtils.buildMenuImageKey(owner.getUserId()))
-                .map(s3Service::generatePresignedUrl)
+        var imageInfos = fileExtensions.stream()
+                .map(extension -> {
+                    String baseKey = KeyUtils.buildMenuImageKey(owner.getUserId());
+                    String keyWithExt = baseKey + "." + extension.toLowerCase();
+
+                    String presignedUrl = s3Service.generatePresignedUrl(keyWithExt);
+                    String fileUrl = s3Service.getFileUrl(keyWithExt);
+
+                    return ImageResponse.ImageInfo.of(presignedUrl, fileUrl);
+                })
                 .toList();
 
-        return ImageResponse.of(presignedUrls);
+        return ImageResponse.of(imageInfos);
     }
 }

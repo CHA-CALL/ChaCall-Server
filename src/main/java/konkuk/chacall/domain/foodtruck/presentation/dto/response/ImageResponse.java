@@ -6,9 +6,21 @@ import java.util.List;
 
 public record ImageResponse(
         @Schema(description = "생성된 presigned URL 리스트", example = "[\"https://example.com/presigned-url1\", \"https://example.com/presigned-url2\"]")
-        List<String> presignedUrls
+        List<ImageInfo> presignedUrls
 ) {
-    public static ImageResponse of(List<String> presignedUrls) {
-        return new ImageResponse(presignedUrls);
+    public record ImageInfo(
+            @Schema(description = "생성된 presigned URL", example = "https://example.com/presigned-url")
+            String presignedUrl,
+
+            @Schema(description = "파일 접근 URL", example = "https://example.com/file-url")
+            String fileUrl
+    ) {
+        public static ImageInfo of(String presignedUrl, String fileUrl) {
+            return new ImageInfo(presignedUrl, fileUrl);
+        }
+    }
+
+    public static ImageResponse of(List<ImageInfo> imageInfos) {
+        return new ImageResponse(imageInfos);
     }
 }

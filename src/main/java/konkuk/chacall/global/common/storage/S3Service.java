@@ -1,5 +1,6 @@
 package konkuk.chacall.global.common.storage;
 
+import konkuk.chacall.global.common.storage.util.CdnUrlResolver;
 import konkuk.chacall.global.config.S3Config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,8 @@ public class S3Service {
     private final S3Client s3Client;
     private final S3Presigner s3Presigner;
     private final S3Config s3Config;
+
+    private final CdnUrlResolver cdnUrlResolver;
 
     private static final int PRESIGNED_URL_EXPIRATION_MINUTES = 10;
 
@@ -61,5 +64,9 @@ public class S3Service {
         );
 
         return presignedRequest.url().toString();
+    }
+
+    public String getFileUrl(String key) {
+        return cdnUrlResolver.resolve(key);
     }
 }
