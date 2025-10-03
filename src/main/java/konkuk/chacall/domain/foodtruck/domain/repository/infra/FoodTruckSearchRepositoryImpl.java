@@ -38,13 +38,6 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
     public Slice<FoodTruck> getFoodTrucks(FoodTruckSearchRequest request) {
         BooleanBuilder where = new BooleanBuilder();
 
-        // 검색어
-        if(request.keyword() != null && !request.keyword().isBlank()) {
-            String keyword = "%" + request.keyword().toLowerCase()+ "%";
-            where.and(foodTruck.name.lower().like(keyword)
-                    .or(foodTruck.description.lower().like(keyword)));
-        }
-
         // 지역 - prefix
         if (request.regionCodes() != null && !request.regionCodes().isEmpty()) {
             BooleanBuilder anyPrefix = new BooleanBuilder();

@@ -15,10 +15,6 @@ import java.util.List;
 
 @Schema(description = "푸드트럭 검색/필터 요청")
 public record FoodTruckSearchRequest(
-
-        @Schema(description = "검색어(이름/설명 LIKE)", example = "디저트")
-        String keyword,
-
         @Parameter(
                 name = "regionCodes", in = ParameterIn.QUERY,
                 description = "지역 코드들 (prefix 검색, 여러 개 OR). 콤마로 구분",
