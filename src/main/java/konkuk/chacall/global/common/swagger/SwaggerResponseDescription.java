@@ -191,7 +191,6 @@ public enum SwaggerResponseDescription {
     GET_MENU_PRESIGEND_URL(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
             USER_FORBIDDEN,
-            INVALID_IMAGE_COUNT,
             INVALID_FILE_EXTENSION
     ))),
 
