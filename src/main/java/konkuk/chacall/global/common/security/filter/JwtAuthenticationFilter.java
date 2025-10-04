@@ -28,6 +28,7 @@ import static konkuk.chacall.global.common.security.constant.AuthParameters.*;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -46,11 +47,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authToken);
+            filterChain.doFilter(request, response);
         } catch (Exception e) {
             log.error("JWT 필터에서 오류 발생: {}", e.getMessage());
             request.setAttribute("exception", e);
-        } finally {
-            filterChain.doFilter(request, response);
+            jwtAuthenticationEntryPoint.commence(request, response, null);
         }
     }
 
@@ -92,6 +93,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.startsWith("/auth/users")
                 || path.equals("/auth/token")
                 || path.startsWith("/index.html")
+                || path.startsWith("/test/token")
                 ;
     }
 

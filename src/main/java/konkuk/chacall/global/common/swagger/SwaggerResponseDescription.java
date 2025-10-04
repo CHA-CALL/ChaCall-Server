@@ -182,6 +182,17 @@ public enum SwaggerResponseDescription {
             FOOD_TRUCK_NOT_FOUND,
             INVALID_FOOD_TRUCK_STATUS_TRANSITION
     ))),
+    GET_FOOD_TRUCK_PRESIGEND_URL(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            INVALID_IMAGE_COUNT,
+            INVALID_FILE_EXTENSION
+    ))),
+    GET_MENU_PRESIGEND_URL(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            INVALID_FILE_EXTENSION
+    ))),
 
     // Default
     DEFAULT(new LinkedHashSet<>())

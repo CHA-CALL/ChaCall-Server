@@ -79,6 +79,8 @@ public enum ErrorCode implements ResponseCode {
     FOOD_TRUCK_NOT_APPROVED(HttpStatus.FORBIDDEN, 110003, "승인된 푸드트럭이 아닙니다."),
     INVALID_FOOD_TRUCK_STATUS_TRANSITION(HttpStatus.BAD_REQUEST, 110004, "허용되지 않은 푸드트럭 상태 변경입니다."),
 
+    INVALID_IMAGE_COUNT(HttpStatus.BAD_REQUEST, 115001, "이미지 개수가 유효하지 않습니다."),
+    INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, 115002, "허용되지 않는 파일 확장자입니다."),
 
     /**
      * SavedFoodTruck

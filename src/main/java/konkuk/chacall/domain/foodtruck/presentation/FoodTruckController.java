@@ -5,10 +5,12 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.foodtruck.application.FoodTruckService;
+import konkuk.chacall.domain.foodtruck.presentation.dto.request.ImageRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckNameDuplicateCheckRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckNameDuplicateCheckResponse;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckResponse;
+import konkuk.chacall.domain.foodtruck.presentation.dto.response.ImageResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
@@ -54,4 +56,31 @@ public class FoodTruckController {
     ) {
         return BaseResponse.ok(foodTruckService.isNameDuplicated(ownerId, request));
     }
+
+    @Operation(
+            summary = "푸드트럭 이미지 presigned URL 발급",
+            description = "푸드트럭 사진을 업로드하기 위한 presigned URL을 발급받습니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.GET_FOOD_TRUCK_PRESIGEND_URL)
+    @PostMapping("/images")
+    public BaseResponse<ImageResponse> createFoodTruckImagePresignedUrl(
+            @Valid @RequestBody final ImageRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(foodTruckService.createFoodTruckImagePresignedUrl(request, ownerId));
+    }
+
+    @Operation(
+            summary = "메뉴 이미지 presigned URL 발급",
+            description = "메뉴 사진을 업로드하기 위한 presigned URL을 발급받습니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.GET_MENU_PRESIGEND_URL)
+    @PostMapping("/menus/images")
+    public BaseResponse<ImageResponse> createMenuImagePresignedUrl(
+            @Valid @RequestBody final ImageRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(foodTruckService.createMenuImagePresignedUrl(request, ownerId));
+    }
+
 }
