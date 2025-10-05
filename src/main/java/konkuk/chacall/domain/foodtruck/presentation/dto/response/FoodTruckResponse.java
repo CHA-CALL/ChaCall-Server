@@ -15,16 +15,20 @@ public record FoodTruckResponse(
         @Schema(description = "푸드트럭 평균 평점", example = "4.5")
         Double averageRating,
         @Schema(description = "푸드트럭 평점 수", example = "100")
-        Integer ratingCount
+        Integer ratingCount,
+        @Schema(description = "현재 사용자가 저장한 푸드트럭인지 여부", example = "true")
+        Boolean isSaved
+
 ) {
-    public static FoodTruckResponse of(FoodTruck foodTruck) {
+    public static FoodTruckResponse of(FoodTruck foodTruck, boolean isSaved) {
         return new FoodTruckResponse(
                 foodTruck.getFoodTruckId(),
                 foodTruck.getName(),
                 foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(), // 대표 사진 (첫 번째 사진)
                 foodTruck.getDescription(),
                 foodTruck.getRatingInfo().getAverageRating(),
-                foodTruck.getRatingInfo().getRatingCount()
+                foodTruck.getRatingInfo().getRatingCount(),
+                isSaved
         );
     }
 }

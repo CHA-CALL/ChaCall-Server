@@ -35,7 +35,7 @@ public class FoodTruckService {
     public CursorPagingResponse<FoodTruckResponse> getFoodTrucks(Long memberId, FoodTruckSearchRequest request) {
         memberValidator.validateAndGetMember(memberId);
 
-        return foodTruckCommandService.getFoodTrucks(request);
+        return foodTruckCommandService.getFoodTrucks(memberId, request);
     }
 
     public FoodTruckNameDuplicateCheckResponse isNameDuplicated(Long ownerId, FoodTruckNameDuplicateCheckRequest request) {
