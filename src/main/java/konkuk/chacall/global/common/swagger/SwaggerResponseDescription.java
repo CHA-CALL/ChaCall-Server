@@ -193,6 +193,11 @@ public enum SwaggerResponseDescription {
             USER_FORBIDDEN,
             INVALID_FILE_EXTENSION
     ))),
+    GET_FOOD_TRUCK_MENUS(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_FOUND
+    ))),
 
     // Default
     DEFAULT(new LinkedHashSet<>())
