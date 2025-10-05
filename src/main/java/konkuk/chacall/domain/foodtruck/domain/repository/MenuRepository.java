@@ -1,6 +1,7 @@
 package konkuk.chacall.domain.foodtruck.domain.repository;
 
 import konkuk.chacall.domain.foodtruck.domain.model.Menu;
+import konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,32 +18,56 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     void deleteAllByFoodTruckId(@Param("foodTruckId") Long foodTruckId);
 
     @Query("""
-        select m
-        from Menu m
-        where m.foodTruck.foodTruckId = :foodTruckId
-          and m.menuId < :lastCursor
-        order by m.menuId desc
-        """)
+            select m
+            from Menu m
+            where m.foodTruck.foodTruckId = :foodTruckId
+              and m.menuId < :lastCursor
+            order by m.menuId desc
+            """)
     Slice<Menu> findMenusDesc(@Param("foodTruckId") Long foodTruckId,
                               @Param("lastCursor") Long lastCursor,
                               Pageable pageable);
 
     @Query("""
-        select m
-        from Menu m
-        where m.foodTruck.foodTruckId = :foodTruckId
-          and m.menuId > :lastCursor
-        order by m.menuId asc
-        """)
+            select m
+            from Menu m
+            where m.foodTruck.foodTruckId = :foodTruckId
+              and m.menuId > :lastCursor
+            order by m.menuId asc
+            """)
     Slice<Menu> findMenusAsc(@Param("foodTruckId") Long foodTruckId,
-                              @Param("lastCursor") Long lastCursor,
-                              Pageable pageable);
+                             @Param("lastCursor") Long lastCursor,
+                             Pageable pageable);
 
     @Query("""
-        select m from Menu m
-        where m.menuId = :menuId
-          and m.foodTruck.foodTruckId = :foodTruckId
-    """)
+            select m
+            from Menu m
+            where m.foodTruck.foodTruckId = :foodTruckId
+              and m.menuViewedStatus = konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus.ON
+              and m.menuId < :lastCursor
+            order by m.menuId desc
+            """)
+    Slice<Menu> findVisibleMenusDesc(@Param("foodTruckId") Long foodTruckId,
+                                     @Param("lastCursor") Long lastCursor,
+                                     Pageable pageable);
+
+    @Query("""
+            select m
+            from Menu m
+            where m.foodTruck.foodTruckId = :foodTruckId
+              and m.menuViewedStatus = konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus.ON
+              and m.menuId > :lastCursor
+            order by m.menuId asc
+            """)
+    Slice<Menu> findVisibleMenusAsc(@Param("foodTruckId") Long foodTruckId,
+                                                 @Param("lastCursor") Long lastCursor,
+                                                 Pageable pageable);
+
+    @Query("""
+                select m from Menu m
+                where m.menuId = :menuId
+                  and m.foodTruck.foodTruckId = :foodTruckId
+            """)
     Optional<Menu> findByMenuIdAndFoodTruckId(@Param("menuId") Long menuId,
                                               @Param("foodTruckId") Long foodTruckId);
 }
