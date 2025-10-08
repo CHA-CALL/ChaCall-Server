@@ -19,6 +19,13 @@ public class MenuCategoryList {
         return Collections.unmodifiableList(categories);
     }
 
+    public List<String> getMenuCategoryLabelList() {
+        return categories.stream()
+                .map(MenuCategory::getValue)
+                .toList();
+    }
+
+
     public boolean contains(MenuCategory category) {
         return categories != null && categories.contains(category);
     }
