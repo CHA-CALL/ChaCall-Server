@@ -113,6 +113,12 @@ public enum SwaggerResponseDescription {
             FOOD_TRUCK_NOT_APPROVED,
             MENU_NOT_FOUND
     ))),
+    OWNER_DELETE_FOOD_TRUCK_MENU(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_APPROVED,
+            MENU_NOT_FOUND
+    ))),
 
 
     // Member
