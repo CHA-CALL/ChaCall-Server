@@ -107,6 +107,12 @@ public enum SwaggerResponseDescription {
             MENU_NOT_FOUND,
             INVALID_MENU_STATUS_TRANSITION
     ))),
+    OWNER_UPDATE_FOOD_TRUCK_MENU(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_APPROVED,
+            MENU_NOT_FOUND
+    ))),
 
 
     // Member
