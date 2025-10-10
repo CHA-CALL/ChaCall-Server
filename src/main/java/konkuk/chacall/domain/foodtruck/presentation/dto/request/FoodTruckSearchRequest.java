@@ -48,7 +48,7 @@ public record FoodTruckSearchRequest(
 
         @Parameter(
                 name = "categories", in = ParameterIn.QUERY,
-                description = "음식 종류(여러 개 OR, CSV). 예) 분식,한식  / 허용값: 한식, 중식, 일식, 양식, 분식, 카페/디저트, 기타",
+                description = "음식 종류(여러 개 OR, CSV). 예) 분식,한식  / 허용값: 식사,도시락,퓨전식,분식,양식,중식,한식,간식,디저트,음료,커피,미정",
                 schema = @Schema(type = "string", example = "분식,한식")
         )
         List<MenuCategory> categories,
