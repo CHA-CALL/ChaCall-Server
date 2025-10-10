@@ -7,6 +7,7 @@ import konkuk.chacall.domain.foodtruck.domain.repository.MenuRepository;
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
 import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.RegisterMenuRequest;
+import konkuk.chacall.domain.owner.presentation.dto.request.UpdateMenuRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateMenuStatusRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckMenuResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
@@ -81,5 +82,19 @@ public class MyFoodTruckMenuService {
 
         // 메뉴 표시 여부 변경 및 상태 전이 검증
         menu.changeViewedStatus(request.status());
+    }
+
+    public void updateMenu(Long ownerId, Long foodTruckId, Long menuId, UpdateMenuRequest request) {
+
+        // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
+        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatusIn(foodTruckId, ownerId, List.of(FoodTruckStatus.ON, FoodTruckStatus.OFF))) {
+            throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED);
+        }
+
+        // 메뉴 존재 여부 확인
+        Menu menu = menuRepository.findByMenuIdAndFoodTruckId(menuId, foodTruckId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND));
+
+        menu.updateMenu(request.name(), request.price(), request.description(), request.photoUrl());
     }
 }
