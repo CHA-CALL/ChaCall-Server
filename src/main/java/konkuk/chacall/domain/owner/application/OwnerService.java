@@ -169,7 +169,16 @@ public class OwnerService {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
 
-        // 사장님 - 나의 푸드트럭 메뉴 상태 변경
+        // 사장님 - 나의 푸드트럭 메뉴 수정
         myFoodTruckMenuService.updateMenu(ownerId, foodTruckId, menuId, request);
+    }
+
+    @Transactional
+    public void deleteMenu(Long ownerId, Long foodTruckId, Long menuId) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 - 나의 푸드트럭 메뉴 삭제
+        myFoodTruckMenuService.deleteMenu(ownerId, foodTruckId, menuId);
     }
 }

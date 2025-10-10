@@ -15,6 +15,8 @@ import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.SortType;
 import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
+import konkuk.chacall.global.common.storage.S3Service;
+import konkuk.chacall.global.common.storage.util.CdnUrlResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +31,9 @@ public class MyFoodTruckMenuService {
 
     private final FoodTruckRepository foodTruckRepository;
     private final MenuRepository menuRepository;
+
+    private final CdnUrlResolver cdnUrlResolver;
+    private final S3Service s3Service;
 
     public CursorPagingResponse<MyFoodTruckMenuResponse> getMyFoodTruckMenus(Long ownerId, Long foodTruckId, MyFoodTruckMenuRequest request) {
         SortType sort = SortType.fromNullable(request.sort());
@@ -96,5 +101,26 @@ public class MyFoodTruckMenuService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND));
 
         menu.updateMenu(request.name(), request.price(), request.description(), request.photoUrl());
+    }
+
+    public void deleteMenu(Long ownerId, Long foodTruckId, Long menuId) {
+
+        // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
+        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatusIn(foodTruckId, ownerId, List.of(FoodTruckStatus.ON, FoodTruckStatus.OFF))) {
+            throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED);
+        }
+
+        // 메뉴 존재 여부 확인
+        Menu menu = menuRepository.findByMenuIdAndFoodTruckId(menuId, foodTruckId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND));
+
+        String key = cdnUrlResolver.extractKeyFromUrl(menu.getImageUrl());
+
+        // 메뉴 이미지를 S3 에서 삭제
+        if (key != null) {
+            s3Service.delete(key);
+        }
+
+        menuRepository.delete(menu);
     }
 }
