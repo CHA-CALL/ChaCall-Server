@@ -239,4 +239,35 @@ public class OwnerController {
         ownerService.updateMenuStatus(ownerId, foodTruckId, menuId, request);
         return BaseResponse.ok(null);
     }
+
+    @Operation(
+            summary = "나의 푸드트럭 메뉴 수정",
+            description = "사장님 - 푸드트럭 메뉴를 수정합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_UPDATE_FOOD_TRUCK_MENU)
+    @PutMapping("/me/food-trucks/{foodTruckId}/menus/{menuId}")
+    public BaseResponse<Void> updateMenu(
+            @PathVariable final Long foodTruckId,
+            @PathVariable final Long menuId,
+            @Valid @RequestBody final UpdateMenuRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        ownerService.updateMenu(ownerId, foodTruckId, menuId, request);
+        return BaseResponse.ok(null);
+    }
+
+    @Operation(
+            summary = "나의 푸드트럭 메뉴 삭제",
+            description = "사장님 - 푸드트럭 메뉴를 삭제합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_DELETE_FOOD_TRUCK_MENU)
+    @DeleteMapping("/me/food-trucks/{foodTruckId}/menus/{menuId}")
+    public BaseResponse<Void> deleteMenu(
+            @PathVariable final Long foodTruckId,
+            @PathVariable final Long menuId,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        ownerService.deleteMenu(ownerId, foodTruckId, menuId);
+        return BaseResponse.ok(null);
+    }
 }

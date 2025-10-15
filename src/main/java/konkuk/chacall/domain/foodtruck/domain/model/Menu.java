@@ -53,6 +53,13 @@ public class Menu extends BaseEntity {
                 .build();
     }
 
+    public void updateMenu(String name, Integer price, String description, String imageUrl) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.imageUrl = imageUrl;
+    }
+
     public String parsingMenuPrice() {
         return price + "원";
     }
