@@ -2,6 +2,7 @@ package konkuk.chacall.domain.member.application.foodtruck;
 
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
+import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckViewedStatus;
 import konkuk.chacall.domain.member.domain.SavedFoodTruck;
 import konkuk.chacall.domain.member.domain.repository.SavedFoodTruckRepository;
 import konkuk.chacall.domain.member.presentation.dto.request.UpdateFoodTruckSaveStatusRequest;
@@ -55,7 +56,7 @@ public class SavedFoodTruckService {
     public CursorPagingResponse<SavedFoodTruckResponse> getSavedFoodTrucks(CursorPagingRequest cursorPagingRequest, User member) {
         // 저장된 푸드트럭 목록 조회
         Slice<SavedFoodTruck> savedFoodTruckSlice = savedFoodTruckRepository
-                .findMemberSavedFoodTruckWithCursor(member, cursorPagingRequest.cursor(), PageRequest.of(0, cursorPagingRequest.size()));
+                .findMemberSavedFoodTruckWithCursor(member, FoodTruckViewedStatus.ON, cursorPagingRequest.cursor(), PageRequest.of(0, cursorPagingRequest.size()));
         List<SavedFoodTruck> savedFoodTrucks = savedFoodTruckSlice.getContent();
 
         // 응답 DTO로 변환

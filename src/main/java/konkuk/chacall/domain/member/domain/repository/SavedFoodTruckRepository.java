@@ -1,6 +1,7 @@
 package konkuk.chacall.domain.member.domain.repository;
 
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckViewedStatus;
 import konkuk.chacall.domain.member.domain.SavedFoodTruck;
 import konkuk.chacall.domain.user.domain.model.User;
 import org.springframework.data.domain.Pageable;
@@ -23,11 +24,14 @@ public interface SavedFoodTruckRepository extends JpaRepository<SavedFoodTruck, 
 
     @EntityGraph(attributePaths = {"foodTruck"})
     @Query("SELECT sft FROM SavedFoodTruck sft " +
+            "JOIN sft.foodTruck ft " +
             "WHERE sft.member = :member " +
+            "AND ft.foodTruckViewedStatus = :status " +
             "AND sft.savedFoodTruckId < :lastCursor " +
             "ORDER BY sft.savedFoodTruckId DESC")
     Slice<SavedFoodTruck> findMemberSavedFoodTruckWithCursor(
             @Param("member") User member,
+            @Param("status") FoodTruckViewedStatus status,
             @Param("lastCursor") Long lastCursor,
             Pageable pageable);
 
