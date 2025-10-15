@@ -12,7 +12,6 @@ import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class RatingService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.FOOD_TRUCK_NOT_FOUND));
 
         // 로그인한 사용자가 해당 푸드트럭에 대해 아직 평점을 등록하지 않은 경우에만 평점 등록
-        ratingRepository.findByMemberAndFoodTruckAndIsRatedFalse(member, foodTruck)
+        ratingRepository.findByMemberAndFoodTruckAndReservationAndIsRatedFalse(member, foodTruck, reservation)
                 .ifPresentOrElse(rating -> {
                     double rate = Double.parseDouble(request.rating());
                     // 평점 등록
