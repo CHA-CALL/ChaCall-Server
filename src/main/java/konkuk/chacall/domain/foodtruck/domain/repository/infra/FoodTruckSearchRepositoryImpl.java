@@ -6,10 +6,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
-import konkuk.chacall.domain.foodtruck.domain.value.AvailableQuantity;
-import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
-import konkuk.chacall.domain.foodtruck.domain.value.MenuCategory;
-import konkuk.chacall.domain.foodtruck.domain.value.PaymentMethod;
+import konkuk.chacall.domain.foodtruck.domain.value.*;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.DateRangeRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
 import konkuk.chacall.global.common.dto.SortType;
@@ -107,6 +104,9 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
 
         // 푸드트럭 상태
         where.and(foodTruck.foodTruckStatus.eq(FoodTruckStatus.ON));
+
+        // 푸드트럭 노출 여부
+        where.and(foodTruck.foodTruckViewedStatus.eq(FoodTruckViewedStatus.ON));
 
         // 커서 기반 페이징
         var paging = request.pagingOrDefault(SortType.NEWEST);
