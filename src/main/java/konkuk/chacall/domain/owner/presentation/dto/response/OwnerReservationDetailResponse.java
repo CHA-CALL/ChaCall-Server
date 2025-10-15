@@ -8,6 +8,8 @@ import konkuk.chacall.domain.user.domain.model.User;
 import java.util.List;
 
 public record OwnerReservationDetailResponse(
+        @Schema(description = "푸드트럭 이름", example = "차콜 푸드트럭")
+        String foodTruckName,
         @Schema(description = "상대방(손님)의 프로필 이미지 URL",
                 example = "https://image.url/path/profile.jpg")
         String profileImage,
@@ -28,8 +30,8 @@ public record OwnerReservationDetailResponse(
                 example = "핫도그, 국밥, 짜장면")
         String menu,
         @Schema(description = "지불된 예약금액",
-                example = "50000원")
-        String deposit,
+                example = "50000")
+        int deposit,
         @Schema(description = "전기 사용 가능 여부",
                 example = "가능")
         String electricityInfo,
@@ -46,6 +48,7 @@ public record OwnerReservationDetailResponse(
         // boolean 값을 화면에 표시할 문자열로 변환
 
         return new OwnerReservationDetailResponse(
+                reservation.getFoodTruck().getName(),
                 member.getProfileImageUrl(),
                 member.getName(),
                 reservation.getReservationInfo().getFullAddress(),
@@ -53,7 +56,7 @@ public record OwnerReservationDetailResponse(
                 reservation.getReservationStatus() == ReservationStatus.CANCELLED ?  // 예약 취소 상태이면 null 반환
                         null : reservation.getPdfUrl(),
                 reservation.getReservationInfo().getMenu(),
-                reservation.getReservationInfo().parsingReservationDeposit(),
+                reservation.getReservationInfo().getDeposit(),
                 reservation.getReservationInfo().parsingIsUserElectricity(),
                 reservation.getReservationInfo().getEtcRequest(),
                 reservation.getReservationStatus().getValue()
