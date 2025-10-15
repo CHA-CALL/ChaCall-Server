@@ -76,6 +76,11 @@ public class FoodTruck extends BaseEntity {
     @Column(nullable = false, length = 20)
     private FoodTruckStatus foodTruckStatus = FoodTruckStatus.PENDING;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 3)
+    private FoodTruckViewedStatus foodTruckViewedStatus = FoodTruckViewedStatus.OFF;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
