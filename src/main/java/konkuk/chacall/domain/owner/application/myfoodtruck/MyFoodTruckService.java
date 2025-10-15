@@ -6,8 +6,10 @@ import konkuk.chacall.domain.foodtruck.domain.repository.AvailableDateRepository
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckServiceAreaRepository;
 import konkuk.chacall.domain.foodtruck.domain.repository.MenuRepository;
+import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
 import konkuk.chacall.domain.member.domain.repository.RatingRepository;
 import konkuk.chacall.domain.member.domain.repository.SavedFoodTruckRepository;
+import konkuk.chacall.domain.owner.presentation.dto.request.UpdateFoodTruckViewedStatusRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckResponse;
 import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
@@ -99,6 +101,16 @@ public class MyFoodTruckService {
 
         return serviceAreas.stream()
                 .collect(Collectors.groupingBy(sa -> sa.getFoodTruck().getFoodTruckId()));
+    }
+
+    public void updateFoodTruckViewedStatus(Long ownerId, Long foodTruckId, UpdateFoodTruckViewedStatusRequest request) {
+
+        // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
+        FoodTruck foodTruck = foodTruckRepository.findByFoodTruckIdAndOwnerIdAndFoodTruckStatusIn(foodTruckId, ownerId, List.of(FoodTruckStatus.ON, FoodTruckStatus.OFF))
+                .orElseThrow(() -> new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED));
+
+        // 메뉴 표시 여부 변경 및 상태 전이 검증
+        foodTruck.changeViewedStatus(request.status());
     }
 
     private List<MyFoodTruckResponse> mapToMyFoodTruckResponse(List<FoodTruck> foodTrucks, Map<Long, List<FoodTruckServiceArea>> serviceAreaMap) {

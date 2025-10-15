@@ -122,4 +122,12 @@ public class FoodTruck extends BaseEntity {
                 .map(serviceArea -> serviceArea.getRegion().getFullName())
                 .collect(Collectors.joining(", "));
     }
+
+    public void changeViewedStatus(FoodTruckViewedStatus targetViewedStatus) {
+        if(this.foodTruckViewedStatus == targetViewedStatus) {
+            throw new DomainRuleException(ErrorCode.INVALID_FOOD_TRUCK_STATUS_TRANSITION);
+        }
+
+        this.foodTruckViewedStatus = targetViewedStatus;
+    }
 }

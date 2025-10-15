@@ -138,6 +138,15 @@ public class OwnerService {
         myFoodTruckService.deleteMyFoodTruck(ownerId, foodTruckId);
     }
 
+    @Transactional
+    public void updateFoodTruckViewedStatus(Long ownerId, Long foodTruckId, UpdateFoodTruckViewedStatusRequest request) {
+        // 사장님인지 먼저 검증
+        ownerValidator.validateAndGetOwner(ownerId);
+
+        // 사장님 - 나의 푸드트럭 표시 상태 변경
+        myFoodTruckService.updateFoodTruckViewedStatus(ownerId, foodTruckId, request);
+    }
+
     public CursorPagingResponse<MyFoodTruckMenuResponse> getMyFoodTruckMenus(Long ownerId, Long foodTruckId, MyFoodTruckMenuRequest request) {
         // 사장님인지 먼저 검증
         ownerValidator.validateAndGetOwner(ownerId);
