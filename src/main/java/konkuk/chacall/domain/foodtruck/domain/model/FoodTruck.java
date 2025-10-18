@@ -76,6 +76,11 @@ public class FoodTruck extends BaseEntity {
     @Column(nullable = false, length = 20)
     private FoodTruckStatus foodTruckStatus = FoodTruckStatus.PENDING;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 3)
+    private FoodTruckViewedStatus foodTruckViewedStatus = FoodTruckViewedStatus.OFF;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
@@ -116,5 +121,13 @@ public class FoodTruck extends BaseEntity {
         return serviceAreaList.stream()
                 .map(serviceArea -> serviceArea.getRegion().getFullName())
                 .collect(Collectors.joining(", "));
+    }
+
+    public void changeViewedStatus(FoodTruckViewedStatus targetViewedStatus) {
+        if(this.foodTruckViewedStatus == targetViewedStatus) {
+            throw new DomainRuleException(ErrorCode.INVALID_FOOD_TRUCK_STATUS_TRANSITION);
+        }
+
+        this.foodTruckViewedStatus = targetViewedStatus;
     }
 }

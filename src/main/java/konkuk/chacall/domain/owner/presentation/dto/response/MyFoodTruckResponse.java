@@ -18,7 +18,9 @@ public record MyFoodTruckResponse(
         @Schema(description = "운영 가능 시간대", example = "09:00 ~ 21:00")
         String activeTime,
         @Schema(description = "호출 가능 지역", example = "서울 전체, 경기도 수원시 영통구, 인천 계양구")
-        String serviceArea
+        String serviceArea,
+        @Schema(description = "푸드트럭 표시 여부", example = "ON/OFF")
+        String status
 ) {
         /**
          * FoodTruck 엔티티와 연관된 FoodTruckServiceArea 리스트를 사용하여 DTO 를 생성
@@ -36,7 +38,8 @@ public record MyFoodTruckResponse(
                         foodTruck.getName(),
                         foodTruck.getDescription(),
                         foodTruck.getActiveTime(),
-                        foodTruck.getServiceAreas(serviceAreas)
+                        foodTruck.getServiceAreas(serviceAreas),
+                        foodTruck.getFoodTruckViewedStatus().name()
                 );
         }
 }

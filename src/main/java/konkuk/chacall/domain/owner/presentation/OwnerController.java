@@ -197,6 +197,21 @@ public class OwnerController {
     }
 
     @Operation(
+            summary = "나의 푸드트럭 표시 상태 변경",
+            description = "사장님 - 푸드트럭의 표시 상태를 변경합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_UPDATE_FOOD_TRUCK_VIEWED_STATUS)
+    @PatchMapping("/me/food-trucks/{foodTruckId}/change-status")
+    public BaseResponse<Void> updateFoodTruckViewedStatus(
+            @PathVariable final Long foodTruckId,
+            @Valid @RequestBody final UpdateFoodTruckViewedStatusRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        ownerService.updateFoodTruckViewedStatus(ownerId, foodTruckId, request);
+        return BaseResponse.ok(null);
+    }
+
+    @Operation(
             summary = "나의 푸드트럭 메뉴 목록 조회",
             description = "사장님 - 푸드트럭 메뉴 목록을 조회합니다."
     )
