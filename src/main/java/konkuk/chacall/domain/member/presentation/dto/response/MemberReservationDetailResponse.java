@@ -28,8 +28,8 @@ public record MemberReservationDetailResponse(
                 example = "핫도그, 국밥, 짜장면")
         String menu,
         @Schema(description = "지불된 예약금액",
-                example = "50000원")
-        String deposit,
+                example = "50000")
+        int deposit,
         @Schema(description = "전기 사용 가능 여부",
                 example = "가능")
         String electricityInfo,
@@ -52,7 +52,7 @@ public record MemberReservationDetailResponse(
                 reservation.getReservationStatus() == ReservationStatus.CANCELLED ?  // 예약 취소 상태이면 null 반환
                         null : reservation.getPdfUrl(),
                 reservation.getReservationInfo().getMenu(),
-                reservation.getReservationInfo().parsingReservationDeposit(),
+                reservation.getReservationInfo().getDeposit(),
                 reservation.getReservationInfo().parsingIsUserElectricity(),
                 reservation.getReservationInfo().getEtcRequest(),
                 reservation.getReservationStatus().getValue()
