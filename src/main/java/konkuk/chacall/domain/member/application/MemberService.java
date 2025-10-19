@@ -38,7 +38,8 @@ public class MemberService {
         // 멤버 유효성 검사 및 조회
         User member = memberValidator.validateAndGetMember(memberId);
 
-        return savedFoodTruckService.getSavedFoodTrucks(cursorPagingRequest, member);
+        CursorPagingRequest request = cursorPagingRequest.pagingOrDefault(SortType.NEWEST);
+        return savedFoodTruckService.getSavedFoodTrucks(request, member);
     }
 
     @Transactional

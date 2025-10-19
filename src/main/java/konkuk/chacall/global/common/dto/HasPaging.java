@@ -13,9 +13,11 @@ public interface HasPaging {
         }
 
         if (req.cursor() == null) {
+            int size = (req.size() == null) ? 20 : req.size();
+
             return (sort == SortType.OLDEST)
-                    ? new CursorPagingRequest(0L, req.size())
-                    : new CursorPagingRequest(Long.MAX_VALUE, req.size());
+                    ? new CursorPagingRequest(0L, size)
+                    : new CursorPagingRequest(Long.MAX_VALUE, size);
         }
 
         if (req.size() == null) {
