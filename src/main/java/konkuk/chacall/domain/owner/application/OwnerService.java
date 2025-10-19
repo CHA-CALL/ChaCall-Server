@@ -126,7 +126,8 @@ public class OwnerService {
         ownerValidator.validateAndGetOwner(ownerId);
 
         // 사장님 - 나의 푸드트럭 목록 조회 로직 호출
-        return myFoodTruckService.getMyFoodTrucks(request, ownerId);
+        CursorPagingRequest cursorPagingRequest = request.pagingOrDefault(SortType.NEWEST);
+        return myFoodTruckService.getMyFoodTrucks(cursorPagingRequest, ownerId);
     }
 
     @Transactional
