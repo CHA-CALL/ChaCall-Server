@@ -15,5 +15,10 @@ public record CursorPagingRequest(
                 minimum = "1")
         @Min(value = 1, message = "size 는 1 이상이어야 합니다.")
         Integer size
-) {
+) implements HasPaging {
+
+        @Override
+        public CursorPagingRequest cursorPagingRequest() {
+                return this;
+        }
 }
