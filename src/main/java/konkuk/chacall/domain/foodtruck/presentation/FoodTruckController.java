@@ -94,16 +94,30 @@ public class FoodTruckController {
     }
 
     @Operation(
-            summary = "나의 푸드트럭 정보 기입/수정",
+            summary = "나의 푸드트럭 정보 등록/수정",
             description = "승인이 완료된 나의 푸드트럭 정보를 기입하거나 수정합니다."
     )
     @PutMapping("{foodTruckId}")
     public BaseResponse<FoodTruckIdResponse> updateMyFoodTruckInfo(
-            @PathVariable final Long foodTruckId,
+            @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,
             @Valid @RequestBody final UpdateFoodTruckInfoRequest request,
             @Parameter(hidden = true) @UserId final Long ownerId
     ) {
         return BaseResponse.ok(foodTruckService.updateMyFoodTruckInfo(ownerId, foodTruckId, request));
+    }
+
+    @Operation(
+            summary = "S3에서 푸드트럭 이미지 객체(메뉴 포함 x) 삭제",
+            description = "S3에서 푸드트럭 이미지 객체를 삭제합니다. 사용자가 기존 푸드트럭 이미지를 삭제했을 경우 나의 푸드트럭 정보 등록/수정 API 호출 이후 호출해주세요."
+    )
+    @DeleteMapping("{foodTruckId}/images")
+    public BaseResponse<Void> deleteFoodTruckImagesFromS3(
+            @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,
+            @Valid @RequestBody final DeleteFoodTruckImagesRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        foodTruckService.deleteFoodTruckImagesFromS3(ownerId, foodTruckId, request);
+        return BaseResponse.ok(null);
     }
 
 
