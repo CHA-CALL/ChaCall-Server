@@ -2,6 +2,7 @@ package konkuk.chacall.domain.member.presentation.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckInfo;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 
@@ -43,10 +44,11 @@ public record MemberReservationDetailResponse(
 
     public static MemberReservationDetailResponse of(Reservation reservation, FoodTruck foodTruck) {
         List<String> dateTimeList = reservation.getReservationInfo().getFormattedDateTimeInfos();
+        FoodTruckInfo foodTruckInfo = foodTruck.getFoodTruckInfo();
 
         return new MemberReservationDetailResponse(
-                foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(),
-                foodTruck.getName(),
+                foodTruckInfo.getFoodTruckPhotoList().getMainPhotoUrl(),
+                foodTruckInfo.getName(),
                 reservation.getReservationInfo().getFullAddress(),
                 dateTimeList,
                 reservation.getReservationStatus() == ReservationStatus.CANCELLED ?  // 예약 취소 상태이면 null 반환
