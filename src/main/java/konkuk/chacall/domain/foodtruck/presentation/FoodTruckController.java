@@ -5,16 +5,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import konkuk.chacall.domain.foodtruck.application.FoodTruckService;
-import konkuk.chacall.domain.foodtruck.presentation.dto.request.ImageRequest;
-import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckMenuRequest;
-import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckNameDuplicateCheckRequest;
-import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
-import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckMenuResponse;
-import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckNameDuplicateCheckResponse;
-import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckResponse;
-import konkuk.chacall.domain.foodtruck.presentation.dto.response.ImageResponse;
-import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuRequest;
-import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckMenuResponse;
+import konkuk.chacall.domain.foodtruck.presentation.dto.request.*;
+import konkuk.chacall.domain.foodtruck.presentation.dto.response.*;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
@@ -100,4 +92,19 @@ public class FoodTruckController {
             @Parameter(hidden = true) @UserId final Long memberId) {
         return BaseResponse.ok(foodTruckService.getFoodTruckMenus(memberId, foodTruckId, request));
     }
+
+    @Operation(
+            summary = "나의 푸드트럭 정보 기입/수정",
+            description = "승인이 완료된 나의 푸드트럭 정보를 기입하거나 수정합니다."
+    )
+    @PutMapping("{foodTruckId}")
+    public BaseResponse<FoodTruckIdResponse> updateMyFoodTruckInfo(
+            @PathVariable final Long foodTruckId,
+            @Valid @RequestBody final UpdateFoodTruckInfoRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(foodTruckService.updateMyFoodTruckInfo(ownerId, foodTruckId, request));
+    }
+
+
 }
