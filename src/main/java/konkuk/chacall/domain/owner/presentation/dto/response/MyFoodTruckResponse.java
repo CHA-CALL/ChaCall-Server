@@ -19,7 +19,7 @@ public record MyFoodTruckResponse(
         String activeTime,
         @Schema(description = "호출 가능 지역", example = "서울 전체, 경기도 수원시 영통구, 인천 계양구")
         String serviceArea,
-        @Schema(description = "푸드트럭 표시 여부", example = "ON/OFF")
+        @Schema(description = "푸드트럭 표시 여부", example = "APPROVED/OFF")
         String status
 ) {
         /**

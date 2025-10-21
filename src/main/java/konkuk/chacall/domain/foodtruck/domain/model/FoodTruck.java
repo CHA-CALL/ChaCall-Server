@@ -120,13 +120,13 @@ public class FoodTruck extends BaseEntity {
     public void approveFoodTruck(FoodTruckStatus targetFoodTruckStatus) {
 
         // 운영자 - 승인 대기 -> 승인 OR 승인 거부
-        if (this.foodTruckStatus == FoodTruckStatus.PENDING && (targetFoodTruckStatus == FoodTruckStatus.ON || targetFoodTruckStatus == FoodTruckStatus.REJECTED)) {
+        if (this.foodTruckStatus == FoodTruckStatus.PENDING && (targetFoodTruckStatus == FoodTruckStatus.APPROVED || targetFoodTruckStatus == FoodTruckStatus.REJECTED)) {
             this.foodTruckStatus = targetFoodTruckStatus;
             return;
         }
 
         // 운영자 - 승인 거부 -> 승인
-        if (this.foodTruckStatus == FoodTruckStatus.REJECTED && targetFoodTruckStatus == FoodTruckStatus.ON) {
+        if (this.foodTruckStatus == FoodTruckStatus.REJECTED && targetFoodTruckStatus == FoodTruckStatus.APPROVED) {
             this.foodTruckStatus = targetFoodTruckStatus;
             return;
         }

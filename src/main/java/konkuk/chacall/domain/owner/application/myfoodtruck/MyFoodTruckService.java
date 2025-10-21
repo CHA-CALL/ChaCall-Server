@@ -108,7 +108,7 @@ public class MyFoodTruckService {
     public void updateFoodTruckViewedStatus(Long ownerId, Long foodTruckId, UpdateFoodTruckViewedStatusRequest request) {
 
         // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
-        FoodTruck foodTruck = foodTruckRepository.findByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.ON)
+        FoodTruck foodTruck = foodTruckRepository.findByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.APPROVED)
                 .orElseThrow(() -> new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED));
 
         // 메뉴 표시 여부 변경 및 상태 전이 검증

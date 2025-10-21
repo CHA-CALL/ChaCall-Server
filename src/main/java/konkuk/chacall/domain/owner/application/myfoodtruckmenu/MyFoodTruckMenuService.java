@@ -41,7 +41,7 @@ public class MyFoodTruckMenuService {
         Pageable pageable = PageRequest.of(0, pagingRequest.size());
 
         // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
-        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.ON)) {
+        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.APPROVED)) {
             throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED);
         }
 
@@ -61,7 +61,7 @@ public class MyFoodTruckMenuService {
 
         // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
         FoodTruck foodTruck = foodTruckRepository.findByFoodTruckIdAndOwnerIdAndFoodTruckStatus(
-                        foodTruckId, ownerId, FoodTruckStatus.ON)
+                        foodTruckId, ownerId, FoodTruckStatus.APPROVED)
                 .orElseThrow(() -> new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED));
 
         Menu menu = Menu.create(
@@ -77,7 +77,7 @@ public class MyFoodTruckMenuService {
     public void updateMenuStatus(Long ownerId, Long foodTruckId, Long menuId, UpdateMenuStatusRequest request) {
 
         // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
-        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.ON)) {
+        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.APPROVED)) {
             throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED);
         }
 
@@ -92,7 +92,7 @@ public class MyFoodTruckMenuService {
     public void updateMenu(Long ownerId, Long foodTruckId, Long menuId, UpdateMenuRequest request) {
 
         // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
-        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.ON)) {
+        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.APPROVED)) {
             throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED);
         }
 
@@ -106,7 +106,7 @@ public class MyFoodTruckMenuService {
     public void deleteMenu(Long ownerId, Long foodTruckId, Long menuId) {
 
         // 본인 소유인지, 푸드트럭이 승인 완료된 상태인지 검증
-        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.ON)) {
+        if (!foodTruckRepository.existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(foodTruckId, ownerId, FoodTruckStatus.APPROVED)) {
             throw new BusinessException(ErrorCode.FOOD_TRUCK_NOT_APPROVED);
         }
 
