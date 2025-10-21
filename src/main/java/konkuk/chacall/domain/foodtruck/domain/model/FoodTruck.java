@@ -3,8 +3,6 @@ package konkuk.chacall.domain.foodtruck.domain.model;
 import jakarta.persistence.*;
 import konkuk.chacall.domain.foodtruck.domain.value.*;
 import konkuk.chacall.domain.user.domain.model.User;
-import konkuk.chacall.global.common.converter.MenuCategoryListConverter;
-import konkuk.chacall.global.common.converter.PhotoUrlListConverter;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
@@ -46,6 +44,11 @@ public class FoodTruck extends BaseEntity {
     @Column(nullable = false, length = 3)
     private FoodTruckViewedStatus foodTruckViewedStatus = FoodTruckViewedStatus.OFF;
 
+    //todo 컬럼 추가 후 기존 데이터 변경한 다음 다시 주석 해제할 예정
+    @Builder.Default
+//    @Column(nullable = false)
+    private Boolean canChangeViewedStatus = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
@@ -75,6 +78,41 @@ public class FoodTruck extends BaseEntity {
         if (this.foodTruckStatus != FoodTruckStatus.APPROVED) {
             throw new DomainRuleException(ErrorCode.FOOD_TRUCK_NOT_APPROVED);
         }
+    }
+
+    // 푸드트럭 노출 상태 변경 허용 (최소 1번의 정보 기입 후)
+    public void permitChangeViewStatus() {
+        this.canChangeViewedStatus = true;
+    }
+
+    public void updateFoodTruckInfo(
+            String name,
+            String description,
+            String phoneNumber,
+            String activeTime,
+            Boolean timeDiscussRequired,
+            List<String> photoUrls,
+            List<MenuCategory> menuCategories,
+            AvailableQuantity availableQuantity,
+            NeedElectricity needElectricity,
+            PaymentMethod paymentMethod,
+            String operatingInfo,
+            String option
+    ) {
+        this.foodTruckInfo.updateFoodTruckInfo(
+                name,
+                description,
+                phoneNumber,
+                activeTime,
+                timeDiscussRequired,
+                PhotoUrlList.of(photoUrls),
+                MenuCategoryList.of(menuCategories),
+                availableQuantity,
+                needElectricity,
+                paymentMethod,
+                operatingInfo,
+                option
+        );
     }
 
     public void updateAverageRating(double rating) {
@@ -108,6 +146,11 @@ public class FoodTruck extends BaseEntity {
     public void changeViewedStatus(FoodTruckViewedStatus targetViewedStatus) {
         if(this.foodTruckViewedStatus == targetViewedStatus) {
             throw new DomainRuleException(ErrorCode.INVALID_FOOD_TRUCK_STATUS_TRANSITION);
+        }
+
+        if(!this.canChangeViewedStatus) {
+            throw new DomainRuleException(ErrorCode.FOOD_TRUCK_VIEWED_STATUS_CHANGE_NOT_PERMITTED,
+                    new IllegalArgumentException("최소 1번의 정보 기입 후에만 푸드트럭 노출 상태를 변경할 수 있습니다."));
         }
 
         this.foodTruckViewedStatus = targetViewedStatus;
