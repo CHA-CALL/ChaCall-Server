@@ -6,12 +6,16 @@ public record RegionResponse(
         @Schema(description = "지역 이름", example = "서울")
         String name,
 
+        @Schema(description = "지역 식별자 (PK값)", example = "1")
+        Long id,
+
         @Schema(description = "지역 행정동 코드", example = "11")
         Long code
 ) {
-    public static RegionResponse of(String name, Long regionCode) {
+    public static RegionResponse of(String name, Long id, Long regionCode) {
         return new RegionResponse(
                 name,
+                id,
                 regionCode);
     }
 }
