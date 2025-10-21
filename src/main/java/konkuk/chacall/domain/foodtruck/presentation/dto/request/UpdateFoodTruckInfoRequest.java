@@ -11,6 +11,7 @@ import konkuk.chacall.domain.foodtruck.domain.value.NeedElectricity;
 import konkuk.chacall.domain.foodtruck.domain.value.PaymentMethod;
 
 import java.util.List;
+import java.util.Set;
 
 public record UpdateFoodTruckInfoRequest (
         @Schema(description = "푸드트럭 이름", example = "맛있는 푸드트럭")
@@ -36,7 +37,7 @@ public record UpdateFoodTruckInfoRequest (
 
         @Schema(description = "푸드트럭 서비스 가능 지역 ID 리스트", example = "[1, 2, 3]")
         @Size(min = 1, max = 10, message = "서비스 가능 지역은 최소 1개 최대 10개 선택 가능합니다.")
-        List<@NotNull Long> foodTruckServiceAreas,
+        Set<@NotNull Long> foodTruckServiceAreas,
 
         @Schema(description = "메뉴 카테고리 리스트", example = "[\"한식\", \"분식\"]")
         @Size(min = 1, max = 12, message = "메뉴 카테고리는 최소 1개 최대 12개 선택 가능합니다.")

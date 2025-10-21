@@ -54,4 +54,32 @@ public class FoodTruckInfo {
                 .name(name)
                 .build();
     }
+
+    public void updateFoodTruckInfo(
+            String name,
+            String description,
+            String phoneNumber,
+            String activeTime,
+            Boolean timeDiscussRequired,
+            PhotoUrlList foodTruckPhotoList,
+            MenuCategoryList menuCategoryList,
+            AvailableQuantity availableQuantity,
+            NeedElectricity needElectricity,
+            PaymentMethod paymentMethod,
+            String operatingInfo,
+            String option
+    ) {
+        this.name = name;
+        this.description = description;
+        this.phoneNumber = phoneNumber;
+        this.activeTime = activeTime;
+        this.timeDiscussRequired = timeDiscussRequired;
+        this.foodTruckPhotoList = foodTruckPhotoList;
+        this.menuCategoryList = menuCategoryList;
+        this.availableQuantity = availableQuantity;
+        this.needElectricity = needElectricity;
+        this.paymentMethod = paymentMethod;
+        this.operatingInfo = operatingInfo;
+        this.option = option;
+    }
 }
