@@ -97,6 +97,7 @@ public class FoodTruckController {
             summary = "나의 푸드트럭 정보 등록/수정",
             description = "승인이 완료된 나의 푸드트럭 정보를 기입하거나 수정합니다."
     )
+    @ExceptionDescription(SwaggerResponseDescription.UPDATE_FOOD_TRUCK_INFO)
     @PutMapping("{foodTruckId}")
     public BaseResponse<FoodTruckIdResponse> updateMyFoodTruckInfo(
             @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,
@@ -110,6 +111,7 @@ public class FoodTruckController {
             summary = "S3에서 푸드트럭 이미지 객체(메뉴 포함 x) 삭제",
             description = "S3에서 푸드트럭 이미지 객체를 삭제합니다. 사용자가 기존 푸드트럭 이미지를 삭제했을 경우 나의 푸드트럭 정보 등록/수정 API 호출 이후 호출해주세요."
     )
+    @ExceptionDescription(SwaggerResponseDescription.DELETE_FOOD_TRUCK_IMAGES)
     @DeleteMapping("{foodTruckId}/images")
     public BaseResponse<Void> deleteFoodTruckImagesFromS3(
             @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,

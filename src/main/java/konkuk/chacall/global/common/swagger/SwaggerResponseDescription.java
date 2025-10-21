@@ -221,6 +221,20 @@ public enum SwaggerResponseDescription {
             USER_FORBIDDEN,
             FOOD_TRUCK_NOT_FOUND
     ))),
+    UPDATE_FOOD_TRUCK_INFO(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_FOUND,
+            FOOD_TRUCK_NOT_OWNED,
+            FOOD_TRUCK_NOT_APPROVED,
+            REGION_NOT_FOUND
+    ))),
+    DELETE_FOOD_TRUCK_IMAGES(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_FOUND,
+            FOOD_TRUCK_NOT_OWNED
+    ))),
 
     // Default
     DEFAULT(new LinkedHashSet<>())
