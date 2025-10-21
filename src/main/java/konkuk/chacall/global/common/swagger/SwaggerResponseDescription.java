@@ -125,6 +125,10 @@ public enum SwaggerResponseDescription {
             FOOD_TRUCK_NOT_APPROVED,
             MENU_NOT_FOUND
     ))),
+    CREATE_NEW_FOOD_TRUCK(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN
+    ))),
 
 
     // Member

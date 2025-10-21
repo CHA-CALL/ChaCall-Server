@@ -37,7 +37,7 @@ public class FoodTruck extends BaseEntity {
 
     private String activeTime;
 
-    private boolean timeDiscussRequired;
+    private Boolean timeDiscussRequired;
 
     @Convert(converter = PhotoUrlListConverter.class)
     private PhotoUrlList foodTruckPhotoList;
@@ -88,7 +88,7 @@ public class FoodTruck extends BaseEntity {
                 .description(null)
                 .phoneNumber(null)
                 .activeTime(null)
-                .timeDiscussRequired(false)
+                .timeDiscussRequired(null)
                 .foodTruckPhotoList(null)
                 .menuCategoryList(null)
                 .availableQuantity(null)
