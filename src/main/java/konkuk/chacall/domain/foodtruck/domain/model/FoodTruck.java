@@ -29,36 +29,29 @@ public class FoodTruck extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(length = 300, nullable = false)
+    @Column(length = 300)
     private String description;
 
-    @Column(length = 15, nullable = false)
+    @Column(length = 15)
     private String phoneNumber;
 
-    @Column(nullable = false)
     private String activeTime;
 
-    @Column(nullable = false)
     private boolean timeDiscussRequired;
 
     @Convert(converter = PhotoUrlListConverter.class)
-    @Column(nullable = false)
     private PhotoUrlList foodTruckPhotoList;
 
     @Convert(converter = MenuCategoryListConverter.class)
-    @Column(nullable = false)
     private MenuCategoryList menuCategoryList;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private AvailableQuantity availableQuantity;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private NeedElectricity needElectricity;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private PaymentMethod paymentMethod;
 
     @Column(name = "operating_info", length = 800)
@@ -66,6 +59,9 @@ public class FoodTruck extends BaseEntity {
 
     @Column(name = "option", length = 800)
     private String option;
+
+    @Column(name = "rejection_reason", length = 30)
+    private String rejectionReason;
 
     @Builder.Default
     @Column(nullable = false)
@@ -102,13 +98,13 @@ public class FoodTruck extends BaseEntity {
     public void approveFoodTruck(FoodTruckStatus targetFoodTruckStatus) {
 
         // 운영자 - 승인 대기 -> 승인 OR 승인 거부
-        if (this.foodTruckStatus == FoodTruckStatus.PENDING && (targetFoodTruckStatus == FoodTruckStatus.OFF || targetFoodTruckStatus == FoodTruckStatus.REJECTED)) {
+        if (this.foodTruckStatus == FoodTruckStatus.PENDING && (targetFoodTruckStatus == FoodTruckStatus.ON || targetFoodTruckStatus == FoodTruckStatus.REJECTED)) {
             this.foodTruckStatus = targetFoodTruckStatus;
             return;
         }
 
         // 운영자 - 승인 거부 -> 승인
-        if (this.foodTruckStatus == FoodTruckStatus.REJECTED && targetFoodTruckStatus == FoodTruckStatus.OFF) {
+        if (this.foodTruckStatus == FoodTruckStatus.REJECTED && targetFoodTruckStatus == FoodTruckStatus.ON) {
             this.foodTruckStatus = targetFoodTruckStatus;
             return;
         }
