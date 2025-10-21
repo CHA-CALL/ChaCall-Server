@@ -25,7 +25,7 @@ public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, Foo
                 from FoodTruck f
                 where f.foodTruckId = :foodTruckId
                   and f.owner.userId = :ownerId
-                  and f.foodTruckStatus = :statuses
+                  and f.foodTruckStatus = :status
             """)
     Optional<FoodTruck> findByFoodTruckIdAndOwnerIdAndFoodTruckStatus(
             @Param("foodTruckId") Long foodTruckId,
@@ -37,7 +37,7 @@ public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, Foo
                 from FoodTruck f
                 where f.foodTruckId = :foodTruckId
                   and f.owner.userId = :ownerId
-                  and f.foodTruckStatus = :statuses
+                  and f.foodTruckStatus = :status
             """)
     boolean existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(
             @Param("foodTruckId") Long foodTruckId,
