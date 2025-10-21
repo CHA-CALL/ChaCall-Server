@@ -59,7 +59,7 @@ public record FoodTruckSearchRequest(
                 schema = @Schema(
                         type = "string",
                         example = "논의 필요",
-                        allowableValues = {"가능", "불가능", "논의 필요"}
+                        allowableValues = {"필요", "불필요", "논의 필요"}
                 )
         )
         NeedElectricity needElectricity,

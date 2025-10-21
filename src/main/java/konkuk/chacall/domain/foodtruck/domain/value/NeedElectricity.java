@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 public enum NeedElectricity implements EnumValue {
-    REQUIRED("가능"),
-    NOT_REQUIRED("불가능"),
+    REQUIRED("필요"),
+    NOT_REQUIRED("불필요"),
     NEED_DISCUSSION("논의 필요");
 
     private final String value;
