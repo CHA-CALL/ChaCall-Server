@@ -191,4 +191,13 @@ public class OwnerService {
         // 사장님 - 나의 푸드트럭 메뉴 삭제
         myFoodTruckMenuService.deleteMenu(ownerId, foodTruckId, menuId);
     }
+
+    @Transactional
+    public void createNewFoodTruck(Long ownerId, FoodTruckCreateRequest request) {
+        // 사장님인지 먼저 검증
+        User owner = ownerValidator.validateAndGetOwner(ownerId);
+
+        // 푸드트럭 최초 등록
+        myFoodTruckService.createNewFoodTruck(owner, request);
+    }
 }

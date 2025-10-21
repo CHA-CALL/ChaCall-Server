@@ -103,7 +103,7 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
         }
 
         // 푸드트럭 상태
-        where.and(foodTruck.foodTruckStatus.eq(FoodTruckStatus.ON));
+        where.and(foodTruck.foodTruckStatus.eq(FoodTruckStatus.APPROVED));
 
         // 푸드트럭 노출 여부
         where.and(foodTruck.foodTruckViewedStatus.eq(FoodTruckViewedStatus.ON));

@@ -25,24 +25,24 @@ public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, Foo
                 from FoodTruck f
                 where f.foodTruckId = :foodTruckId
                   and f.owner.userId = :ownerId
-                  and f.foodTruckStatus in :statuses
+                  and f.foodTruckStatus = :status
             """)
-    Optional<FoodTruck> findByFoodTruckIdAndOwnerIdAndFoodTruckStatusIn(
+    Optional<FoodTruck> findByFoodTruckIdAndOwnerIdAndFoodTruckStatus(
             @Param("foodTruckId") Long foodTruckId,
             @Param("ownerId") Long ownerId,
-            @Param("statuses") Collection<FoodTruckStatus> statuses);
+            @Param("status") FoodTruckStatus status);
 
     @Query("""
                 select (count(f) > 0)
                 from FoodTruck f
                 where f.foodTruckId = :foodTruckId
                   and f.owner.userId = :ownerId
-                  and f.foodTruckStatus in :statuses
+                  and f.foodTruckStatus = :status
             """)
-    boolean existsByFoodTruckIdAndOwnerIdAndFoodTruckStatusIn(
+    boolean existsByFoodTruckIdAndOwnerIdAndFoodTruckStatus(
             @Param("foodTruckId") Long foodTruckId,
             @Param("ownerId") Long ownerId,
-            @Param("statuses") Collection<FoodTruckStatus> statuses
+            @Param("status") FoodTruckStatus status
     );
 
     boolean existsByName(String name);

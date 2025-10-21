@@ -285,4 +285,18 @@ public class OwnerController {
         ownerService.deleteMenu(ownerId, foodTruckId, menuId);
         return BaseResponse.ok(null);
     }
+
+    @Operation(
+            summary = "사장님 등록(서류 검증) & 푸드트럭 최초 등록",
+            description = "푸드트럭을 최초로 등록하는 API 입니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.CREATE_NEW_FOOD_TRUCK)
+    @PostMapping
+    public BaseResponse<Void> createNewFoodTruck(
+            @Valid @RequestBody final FoodTruckCreateRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        ownerService.createNewFoodTruck(ownerId, request);
+        return BaseResponse.ok(null);
+    }
 }
