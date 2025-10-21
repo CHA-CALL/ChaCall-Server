@@ -1,17 +1,18 @@
 package konkuk.chacall.domain.owner.application.myfoodtruck;
 
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruckDocument;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruckServiceArea;
-import konkuk.chacall.domain.foodtruck.domain.repository.AvailableDateRepository;
-import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
-import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckServiceAreaRepository;
-import konkuk.chacall.domain.foodtruck.domain.repository.MenuRepository;
+import konkuk.chacall.domain.foodtruck.domain.repository.*;
+import konkuk.chacall.domain.foodtruck.domain.value.DocumentType;
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
 import konkuk.chacall.domain.member.domain.repository.RatingRepository;
 import konkuk.chacall.domain.member.domain.repository.SavedFoodTruckRepository;
+import konkuk.chacall.domain.owner.presentation.dto.request.FoodTruckCreateRequest;
 import konkuk.chacall.domain.owner.presentation.dto.request.UpdateFoodTruckViewedStatusRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckResponse;
 import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
+import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.exception.BusinessException;
@@ -37,6 +38,7 @@ public class MyFoodTruckService {
     private final SavedFoodTruckRepository savedFoodTruckRepository;
     private final AvailableDateRepository availableDateRepository;
     private final RatingRepository ratingRepository;
+    private final FoodTruckDocumentRepository foodTruckDocumentRepository;
 
     public CursorPagingResponse<MyFoodTruckResponse> getMyFoodTrucks(CursorPagingRequest request, Long ownerId) {
         // 1. 커서 기반으로 푸드트럭 Slice 조회
@@ -111,6 +113,22 @@ public class MyFoodTruckService {
 
         // 메뉴 표시 여부 변경 및 상태 전이 검증
         foodTruck.changeViewedStatus(request.status());
+    }
+
+    public void createNewFoodTruck(User owner, FoodTruckCreateRequest request) {
+        // 1. 비어 있는 푸드트럭 엔티티 생성 (null 필드 초기화)
+        FoodTruck foodTruck = FoodTruck.createEmptyFoodTruck(owner, request.name());
+        foodTruckRepository.save(foodTruck);
+
+        // 2. 서류 등록 로직 (사업자등록증 + 기타 5장)
+        FoodTruckDocument business = FoodTruckDocument.create(foodTruck, DocumentType.BUSINESS_REGISTRATION, request.businessRegistrationUrl());
+        foodTruckDocumentRepository.save(business);
+
+        List<FoodTruckDocument> otherDocs = request.otherDocumentUrls().stream()
+                .map(url -> FoodTruckDocument.create(foodTruck, DocumentType.OTHER, url))
+                .toList();
+
+        foodTruckDocumentRepository.saveAll(otherDocs);
     }
 
     private List<MyFoodTruckResponse> mapToMyFoodTruckResponse(List<FoodTruck> foodTrucks, Map<Long, List<FoodTruckServiceArea>> serviceAreaMap) {

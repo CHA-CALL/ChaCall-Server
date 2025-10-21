@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DocumentType {
 
-    BUSINESS_LICENSE("사업자등록증"),
+    BUSINESS_REGISTRATION("사업자등록증"),
     OTHER("기타 서류");
 
     private final String value;

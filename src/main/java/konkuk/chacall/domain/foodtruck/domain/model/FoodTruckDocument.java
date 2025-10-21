@@ -26,4 +26,12 @@ public class FoodTruckDocument {
 
     @Column(nullable = false, length = 500)
     private String documentUrl;
+
+    public static FoodTruckDocument create(FoodTruck foodTruck, DocumentType type, String documentUrl) {
+        return FoodTruckDocument.builder()
+                .foodTruck(foodTruck)
+                .type(type)
+                .documentUrl(documentUrl)
+                .build();
+    }
 }

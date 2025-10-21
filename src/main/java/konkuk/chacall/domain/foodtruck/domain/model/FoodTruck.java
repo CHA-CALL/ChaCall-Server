@@ -81,6 +81,28 @@ public class FoodTruck extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
+    public static FoodTruck createEmptyFoodTruck(User owner, String name) {
+        return FoodTruck.builder()
+                .owner(owner)
+                .name(name)
+                .description(null)
+                .phoneNumber(null)
+                .activeTime(null)
+                .timeDiscussRequired(false)
+                .foodTruckPhotoList(null)
+                .menuCategoryList(null)
+                .availableQuantity(null)
+                .needElectricity(null)
+                .paymentMethod(null)
+                .operatingInfo(null)
+                .option(null)
+                .rejectionReason(null)
+                .foodTruckStatus(FoodTruckStatus.PENDING)
+                .foodTruckViewedStatus(FoodTruckViewedStatus.OFF)
+                .ratingInfo(RatingInfo.createInitial())
+                .build();
+    }
+
     private boolean isOwnedBy(Long ownerId) {
         return this.owner.getUserId().equals(ownerId);
     }
