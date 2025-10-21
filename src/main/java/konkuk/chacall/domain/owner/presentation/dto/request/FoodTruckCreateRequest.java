@@ -19,7 +19,7 @@ public record FoodTruckCreateRequest(
 
         // 기타 서류 5장
         @Schema(description = "기타 서류 URL 목록 (정확히 5장)", example = "[\"https://cdn.chacall.com/foodtrucks/osori/doc1.jpg\", \"https://cdn.chacall.com/foodtrucks/osori/doc2.jpg\", \"https://cdn.chacall.com/foodtrucks/osori/doc3.jpg\", \"https://cdn.chacall.com/foodtrucks/osori/doc4.jpg\", \"https://cdn.chacall.com/foodtrucks/osori/doc5.jpg\"]")
-        @Size(min = 5, max = 5, message = "기타 서류는 반드시 5장까지 업로드 가능합니다.")
+        @Size(min = 5, max = 5, message = "기타 서류는 정확히 5장을 업로드해야합니다.")
         List<@NotBlank String> otherDocumentUrls
 ) {
 }
