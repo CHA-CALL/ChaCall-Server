@@ -1,6 +1,9 @@
 package konkuk.chacall.domain.foodtruck.domain.value;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import konkuk.chacall.global.common.dto.EnumValue;
+import konkuk.chacall.global.common.exception.DomainRuleException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.Getter;
 
 import java.util.EnumSet;
@@ -18,6 +21,16 @@ public enum AvailableQuantity implements EnumValue {
 
     AvailableQuantity(String value) {
         this.value = value;
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static AvailableQuantity from(String value) {
+        for (AvailableQuantity quantity : AvailableQuantity.values()) {
+            if (quantity.getValue().equals(value)) {
+                return quantity;
+            }
+        }
+        throw new DomainRuleException(ErrorCode.AVAILABLE_QUANTITY_MISMATCH);
     }
 
     // 요청된 수량 기준을 만족하는 트럭의 가능한 값 집합

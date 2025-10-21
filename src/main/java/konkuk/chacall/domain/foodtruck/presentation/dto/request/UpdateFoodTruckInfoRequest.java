@@ -3,6 +3,7 @@ package konkuk.chacall.domain.foodtruck.presentation.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import konkuk.chacall.domain.foodtruck.domain.value.AvailableQuantity;
 import konkuk.chacall.domain.foodtruck.domain.value.MenuCategory;
@@ -24,7 +25,8 @@ public record UpdateFoodTruckInfoRequest (
         @NotBlank(message = "푸드트럭 전화번호는 필수 입력 값입니다.")
         String phoneNumber,
 
-        @Schema(description = "운영 시간대 (형식: HH:MM ~ HH:MM)", example = "10:00 ~ 18:00")
+        @Schema(description = "운영 시간대 (형식: HH:MM-HH:MM)", example = "10:00-18:00")
+        @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d-(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "운영 시간대는 'HH:MM-HH:MM' 형식이어야 합니다.")
         @NotBlank(message = "운영 시간대는 필수 입력 값입니다.")
         String activeTime,
 
@@ -67,12 +69,12 @@ public record UpdateFoodTruckInfoRequest (
         PaymentMethod paymentMethod,
 
         @Schema(description = "운영 가능 날짜 리스트", example = "[{\"startDate\":\"2024.10.01\",\"endDate\":\"2024.10.10\"}]")
-        @Size(min = 1, max = 2, message = "운영 가능 날짜는 최소 1개, 최대 2개까지 등록 가능합니다.")
+        @Size(min = 1, max = 4, message = "운영 가능 날짜는 최소 1개, 최대 4개까지 등록 가능합니다.")
         List<DateRangeRequest> availableDates,
 
         @Schema(description = "푸드트럭 사진 URL 리스트", example = "[\"http://image1.png\", \"http://image2.png\"]")
         @Size(min = 1, max = 9, message = "푸드트럭 사진은 최소 1개 최대 9개까지 등록 가능합니다.")
-        List<@NotBlank String> photoUrl,
+        List<@NotBlank String> photoUrls,
 
         @Schema(description = "운영 정보", example = "맛있는 음식을 신속하게 제공합니다.")
         String operatingInfo,
