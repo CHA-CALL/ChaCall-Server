@@ -9,8 +9,8 @@ public record FoodTruckMenuResponse (
         Long menuId,
         @Schema(description = "메뉴명", example = "크림파스타")
         String name,
-        @Schema(description = "가격", example = "12000원")
-        String price,
+        @Schema(description = "가격", example = "12000")
+        int price,
         @Schema(description = "설명", example = "진한 크림소스와 베이컨")
         String description,
         @Schema(description = "이미지 URL", example = "https://cdn.example.com/menus/101.jpg")
@@ -21,7 +21,7 @@ public record FoodTruckMenuResponse (
         return new FoodTruckMenuResponse(
                 menu.getMenuId(),
                 menu.getName(),
-                menu.parsingMenuPrice(),
+                menu.getPrice(),
                 menu.getDescription(),
                 menu.getImageUrl()
         );

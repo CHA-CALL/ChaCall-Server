@@ -60,10 +60,6 @@ public class Menu extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    public String parsingMenuPrice() {
-        return price + "원";
-    }
-
     public void changeViewedStatus(MenuViewedStatus targetViewedStatus) {
         if(this.menuViewedStatus == targetViewedStatus) {
             throw new DomainRuleException(ErrorCode.INVALID_MENU_STATUS_TRANSITION);
