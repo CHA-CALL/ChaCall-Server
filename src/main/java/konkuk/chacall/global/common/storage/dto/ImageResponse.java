@@ -1,4 +1,4 @@
-package konkuk.chacall.domain.foodtruck.presentation.dto.response;
+package konkuk.chacall.global.common.storage.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
