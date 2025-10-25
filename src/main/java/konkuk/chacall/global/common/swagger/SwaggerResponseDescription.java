@@ -134,6 +134,12 @@ public enum SwaggerResponseDescription {
             USER_NOT_FOUND,
             USER_FORBIDDEN
     ))),
+    OWNER_GET_FOOD_TRUCK_DOCUMENT_PRESIGEND_URL(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            INVALID_IMAGE_COUNT,
+            INVALID_FILE_EXTENSION
+    ))),
 
 
     // Member
