@@ -11,6 +11,8 @@ import konkuk.chacall.domain.user.presentation.dto.response.UserResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
+import konkuk.chacall.global.common.storage.dto.ImageRequest;
+import konkuk.chacall.global.common.storage.dto.ImageResponse;
 import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -63,5 +65,18 @@ public class UserController {
     ) {
         userService.approveFoodTruckStatus(userId, foodTruckId, request);
         return BaseResponse.ok(null);
+    }
+
+    @Operation(
+            summary = "프로필 변경을 위한 presigned URL 발급",
+            description = "프로필 변경을 위한 presigned URL을 발급합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.GET_PROFILE_PRESIGNED_URL)
+    @PostMapping("/me/images")
+    public BaseResponse<ImageResponse> getProfilePresignedUrl(
+            @Valid @RequestBody final ImageRequest request,
+            @Parameter(hidden = true) @UserId final Long userId
+    ) {
+        return BaseResponse.ok(userService.createUserImagePresignedUrl(userId, request));
     }
 }
