@@ -26,4 +26,6 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     @Modifying
     @Query("DELETE FROM Rating r WHERE r.foodTruck.foodTruckId = :foodTruckId")
     void deleteAllByFoodTruckId(@Param("foodTruckId") Long foodTruckId);
+
+    boolean existsByMemberAndReservation(User member, Reservation reservation);
 }

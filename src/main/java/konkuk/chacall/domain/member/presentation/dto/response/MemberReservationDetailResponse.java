@@ -39,10 +39,12 @@ public record MemberReservationDetailResponse(
                 example = "음식을 많이 주세요, 늦지말아주세요")
         String etcRequest,
         @Schema(description = "예약 상태", example = "예약 확정")
-        String reservationStatus
+        String reservationStatus,
+        @Schema(description = "리뷰 작성 필요 여부", example = "true")
+        boolean reviewRequired
 ) {
 
-    public static MemberReservationDetailResponse of(Reservation reservation, FoodTruck foodTruck) {
+    public static MemberReservationDetailResponse of(Reservation reservation, FoodTruck foodTruck, boolean reviewRequired) {
         List<String> dateTimeList = reservation.getReservationInfo().getFormattedDateTimeInfos();
         FoodTruckInfo foodTruckInfo = foodTruck.getFoodTruckInfo();
 
@@ -57,7 +59,8 @@ public record MemberReservationDetailResponse(
                 reservation.getReservationInfo().getDeposit(),
                 reservation.getReservationInfo().parsingIsUserElectricity(),
                 reservation.getReservationInfo().getEtcRequest(),
-                reservation.getReservationStatus().getValue()
+                reservation.getReservationStatus().getValue(),
+                reviewRequired
         );
     }
 }
