@@ -30,12 +30,21 @@ public final class KeyUtils {
                 uuid); // foodtrucks/{userId}/{timestamp}/{uuid}
     }
 
-    public static String buildMenuImageKey(Long foodTruckId) {
+    public static String buildMenuImageKey(Long userId) {
         String timestamp = LocalDateTime.now().format(DATE_TIME_FORMATTER); // ex) 20250923-163045
         String uuid = UUID.randomUUID().toString();
         return String.format("menus/%d/%s/%s",
-                foodTruckId,
+                userId,
                 timestamp,
-                uuid); // menus/{foodTruckId}/{timestamp}/{uuid}
+                uuid); // menus/{userId}/{timestamp}/{uuid}
+    }
+
+    public static String buildUserProfileImageKey(Long userId) {
+        String timestamp = LocalDateTime.now().format(DATE_TIME_FORMATTER); // ex) 20250923-163045
+        String uuid = UUID.randomUUID().toString();
+        return String.format("users/%d/%s/%s",
+                userId,
+                timestamp,
+                uuid); // users/{userId}/profiles/{timestamp}/{uuid}
     }
 }

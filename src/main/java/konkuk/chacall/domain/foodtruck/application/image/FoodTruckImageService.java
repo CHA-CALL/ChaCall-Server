@@ -18,18 +18,18 @@ public class FoodTruckImageService {
     public ImageResponse createFoodTruckImagePresignedUrl(ImageRequest request, User owner) {
         return presignedUrlService.generatePresignedUrls(
                 request,
-                owner,
+                owner.getUserId(),
                 MAX_FOOD_TRUCK_IMAGE_COUNT,
-                (user) -> KeyUtils.buildFoodTruckImageKey(user.getUserId())
+                KeyUtils::buildFoodTruckImageKey
         );
     }
 
     public ImageResponse createMenuImagePresignedUrl(ImageRequest request, User owner) {
         return presignedUrlService.generatePresignedUrls(
                 request,
-                owner,
+                owner.getUserId(),
                 null,
-                (user) -> KeyUtils.buildMenuImageKey(user.getUserId())
+                KeyUtils::buildMenuImageKey
         );
     }
 }

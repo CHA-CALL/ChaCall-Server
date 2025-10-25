@@ -21,9 +21,9 @@ public class PresignedUrlService {
 
     public ImageResponse generatePresignedUrls(
             ImageRequest request,
-            User owner,
+            Long userId,
             Integer maxCountOrNull,
-            Function<User, String> baseKeyBuilder
+            Function<Long, String> baseKeyBuilder
     ) {
         final List<String> extensions = request.fileExtensions();
 
@@ -39,7 +39,7 @@ public class PresignedUrlService {
         AllowedFileExtension.checkAllowedExtension(extensions);
 
         // 3) 키 조합 및 Presigned URL 생성
-        final String baseKey = baseKeyBuilder.apply(owner);
+        final String baseKey = baseKeyBuilder.apply(userId);
 
         var imageInfos = extensions.stream()
                 .map(extension -> {
