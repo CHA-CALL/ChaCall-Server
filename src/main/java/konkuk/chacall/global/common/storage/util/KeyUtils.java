@@ -45,6 +45,15 @@ public final class KeyUtils {
         return String.format("users/%d/%s/%s",
                 userId,
                 timestamp,
-                uuid); // users/{userId}/profiles/{timestamp}/{uuid}
+                uuid); // users/{userId}/{timestamp}/{uuid}
+    }
+
+    public static String buildFoodTruckDocumentImageKey(Long userId) {
+        String timestamp = LocalDateTime.now().format(DATE_TIME_FORMATTER); // ex) 20250923-163045
+        String uuid = UUID.randomUUID().toString();
+        return String.format("foodtruck-documents/%d//%s/%s",
+                userId,
+                timestamp,
+                uuid); // foodtruck-documents/{userId}/{timestamp}/{uuid}
     }
 }

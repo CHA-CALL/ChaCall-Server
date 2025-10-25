@@ -1,5 +1,6 @@
 package konkuk.chacall.domain.owner.application;
 
+import jakarta.validation.Valid;
 import konkuk.chacall.domain.owner.application.myfoodtruckmenu.MyFoodTruckMenuService;
 import konkuk.chacall.domain.owner.presentation.dto.request.MyFoodTruckMenuRequest;
 import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckMenuResponse;
@@ -14,6 +15,10 @@ import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.dto.SortType;
+import konkuk.chacall.global.common.storage.dto.ImageRequest;
+import konkuk.chacall.global.common.storage.dto.ImageResponse;
+import konkuk.chacall.global.common.storage.presign.PresignedUrlService;
+import konkuk.chacall.global.common.storage.util.KeyUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +35,9 @@ public class OwnerService {
     private final OwnerReservationService ownerReservationService;
     private final MyFoodTruckService myFoodTruckService;
     private final MyFoodTruckMenuService myFoodTruckMenuService;
+    private final PresignedUrlService presignedUrlService;
+
+    private static final int FOOD_TRUCK_DOCUMENT_IMAGE_MAX_COUNT = 6;
 
     // 파사드에서 사장님 검증을 거침으로써 서비스 로직에서는 사장님 검증에 신경쓰지 않도록 책임 분리
     private final OwnerValidator ownerValidator;
@@ -199,5 +207,17 @@ public class OwnerService {
 
         // 푸드트럭 최초 등록
         myFoodTruckService.createNewFoodTruck(owner, request);
+    }
+
+    public ImageResponse createFoodTruckDocumentPresignedUrls(ImageRequest request, Long ownerId) {
+        // 사장님인지 먼저 검증
+        User owner = ownerValidator.validateAndGetOwner(ownerId);
+
+        return presignedUrlService.generatePresignedUrls(
+                request,
+                owner.getUserId(),
+                FOOD_TRUCK_DOCUMENT_IMAGE_MAX_COUNT,
+                KeyUtils::buildFoodTruckDocumentImageKey
+        );
     }
 }

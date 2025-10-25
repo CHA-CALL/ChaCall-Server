@@ -71,7 +71,7 @@ public class UserController {
             summary = "프로필 변경을 위한 presigned URL 발급",
             description = "프로필 변경을 위한 presigned URL을 발급합니다."
     )
-    @ExceptionDescription(SwaggerResponseDescription.GET_PROFILE_PRESIGNED_URL)
+    @ExceptionDescription(SwaggerResponseDescription.GET_USER_PROFILE_PRESIGEND_URL)
     @PostMapping("/me/images")
     public BaseResponse<ImageResponse> getProfilePresignedUrl(
             @Valid @RequestBody final ImageRequest request,

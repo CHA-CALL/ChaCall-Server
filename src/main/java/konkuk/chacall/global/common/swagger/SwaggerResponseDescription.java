@@ -29,6 +29,11 @@ public enum SwaggerResponseDescription {
     UPDATE_USER_INFO(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND
     ))),
+    GET_USER_PROFILE_PRESIGEND_URL(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            INVALID_IMAGE_COUNT,
+            INVALID_FILE_EXTENSION
+    ))),
 
     // Owner
     OWNER_REGISTER_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
