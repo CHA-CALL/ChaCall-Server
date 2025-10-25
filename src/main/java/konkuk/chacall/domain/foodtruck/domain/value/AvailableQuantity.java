@@ -14,6 +14,7 @@ public enum AvailableQuantity implements EnumValue {
     LESS_THAN_50("50인분 미만"),
     LESS_THAN_100("100인분 미만"),
     LESS_THAN_150("150인분 미만"),
+    LESS_THAN_200("200인분 미만"),
     MORE_THAN_200("200인분 이상"),
     NEED_DISCUSSION("논의 필요");
 
@@ -39,11 +40,13 @@ public enum AvailableQuantity implements EnumValue {
 
         return switch (req) {
             case LESS_THAN_50  ->
-                    EnumSet.of(LESS_THAN_50, LESS_THAN_100, LESS_THAN_150, MORE_THAN_200, NEED_DISCUSSION);
+                    EnumSet.of(LESS_THAN_50, LESS_THAN_100, LESS_THAN_150, LESS_THAN_200, MORE_THAN_200, NEED_DISCUSSION);
             case LESS_THAN_100 ->
-                    EnumSet.of(LESS_THAN_100, LESS_THAN_150, MORE_THAN_200, NEED_DISCUSSION);
+                    EnumSet.of(LESS_THAN_100, LESS_THAN_150, LESS_THAN_200, MORE_THAN_200, NEED_DISCUSSION);
             case LESS_THAN_150 ->
-                    EnumSet.of(LESS_THAN_150, MORE_THAN_200, NEED_DISCUSSION);
+                    EnumSet.of(LESS_THAN_150, LESS_THAN_200, MORE_THAN_200, NEED_DISCUSSION);
+            case LESS_THAN_200 ->
+                    EnumSet.of(LESS_THAN_200, MORE_THAN_200, NEED_DISCUSSION);
             case MORE_THAN_200 ->
                     EnumSet.of(MORE_THAN_200, NEED_DISCUSSION);
             case NEED_DISCUSSION ->

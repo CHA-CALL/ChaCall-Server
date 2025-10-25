@@ -47,6 +47,7 @@ public record UpdateFoodTruckInfoRequest (
                 "50인분 미만",
                 "100인분 미만",
                 "150인분 미만",
+                "200인분 미만",
                 "200인분 이상",
                 "논의 필요"
         })
