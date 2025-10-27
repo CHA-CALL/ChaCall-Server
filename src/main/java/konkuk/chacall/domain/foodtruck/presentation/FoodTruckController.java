@@ -108,8 +108,8 @@ public class FoodTruckController {
     }
 
     @Operation(
-            summary = "S3에서 푸드트럭 이미지 객체(메뉴 포함 x) 삭제",
-            description = "S3에서 푸드트럭 이미지 객체를 삭제합니다. 사용자가 기존 푸드트럭 이미지를 삭제했을 경우 나의 푸드트럭 정보 등록/수정 API 호출 이후 호출해주세요."
+            summary = "S3에서 푸드트럭 이미지 객체 삭제",
+            description = "S3에서 푸드트럭/메뉴 이미지 객체를 삭제합니다. 사용자가 기존 푸드트럭/메뉴 이미지를 삭제했을 경우 호출해주세요."
     )
     @ExceptionDescription(SwaggerResponseDescription.DELETE_FOOD_TRUCK_IMAGES)
     @DeleteMapping("{foodTruckId}/images")
