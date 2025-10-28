@@ -7,6 +7,7 @@ import konkuk.chacall.global.common.domain.BaseEntity;
 import konkuk.chacall.global.common.exception.DomainRuleException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,9 +45,8 @@ public class FoodTruck extends BaseEntity {
     @Column(nullable = false, length = 3)
     private FoodTruckViewedStatus foodTruckViewedStatus = FoodTruckViewedStatus.OFF;
 
-    //todo 컬럼 추가 후 기존 데이터 변경한 다음 다시 주석 해제할 예정
     @Builder.Default
-//    @Column(nullable = false)
+    @ColumnDefault("false")
     private Boolean canChangeViewedStatus = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

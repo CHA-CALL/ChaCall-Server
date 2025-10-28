@@ -2,6 +2,7 @@ package konkuk.chacall.domain.member.presentation.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckInfo;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public record SavedFoodTruckResponse(
                 foodTruckInfo.getName(),
                 foodTruckInfo.getFoodTruckPhotoList().getMainPhotoUrl(), // 대표 사진 (첫 번째 사진)
                 foodTruckInfo.getDescription(),
-                foodTruck.getMenuCategoryList().getMenuCategoryLabelList(),
+                foodTruckInfo.getMenuCategoryList().getMenuCategoryLabelList(),
                 foodTruck.getRatingInfo().getAverageRating(),
                 foodTruck.getRatingInfo().getRatingCount()
         );
