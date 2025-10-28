@@ -114,12 +114,12 @@ public class MyFoodTruckMenuService {
         Menu menu = menuRepository.findByMenuIdAndFoodTruckId(menuId, foodTruckId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND));
 
-        String key = cdnUrlResolver.extractKeyFromUrl(menu.getImageUrl());
+//        String key = cdnUrlResolver.extractKeyFromUrl(menu.getImageUrl());
 
-        // 메뉴 이미지를 S3 에서 삭제
-        if (key != null) {
-            s3Service.delete(key);
-        }
+//        // 메뉴 이미지를 S3 에서 삭제
+//        if (key != null) {
+//            s3Service.delete(key);
+//        }
 
         menuRepository.delete(menu);
     }

@@ -78,6 +78,11 @@ public enum ErrorCode implements ResponseCode {
     FOOD_TRUCK_NOT_OWNED(HttpStatus.FORBIDDEN, 110002, "해당 푸드트럭의 소유자가 아닙니다."),
     FOOD_TRUCK_NOT_APPROVED(HttpStatus.FORBIDDEN, 110003, "승인된 푸드트럭이 아닙니다."),
     INVALID_FOOD_TRUCK_STATUS_TRANSITION(HttpStatus.BAD_REQUEST, 110004, "허용되지 않은 푸드트럭 상태 변경입니다."),
+    FOOD_TRUCK_VIEWED_STATUS_CHANGE_NOT_PERMITTED(HttpStatus.BAD_REQUEST, 110005, "푸드트럭 노출 상태 변경이 허용되지 않았습니다."),
+    MENU_CATEGORY_MISMATCH(HttpStatus.BAD_REQUEST, 110006, "메뉴 카테고리 값이 올바르지 않습니다."),
+    AVAILABLE_QUANTITY_MISMATCH(HttpStatus.BAD_REQUEST, 110007, "제조 가능 수량 값이 올바르지 않습니다."),
+    NEED_ELECTRICITY_MISMATCH(HttpStatus.BAD_REQUEST, 110008, "전기 사용 여부 값이 올바르지 않습니다."),
+    PAYMENT_METHOD_MISMATCH(HttpStatus.BAD_REQUEST, 110009, "결제 수단 값이 올바르지 않습니다."),
 
     INVALID_IMAGE_COUNT(HttpStatus.BAD_REQUEST, 115001, "이미지 개수가 유효하지 않습니다."),
     INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, 115002, "허용되지 않는 파일 확장자입니다."),
@@ -99,6 +104,11 @@ public enum ErrorCode implements ResponseCode {
      */
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, 140001, "메뉴를 찾을 수 없습니다."),
     INVALID_MENU_STATUS_TRANSITION(HttpStatus.BAD_REQUEST, 140002, "허용되지 않은 메뉴 상태 변경입니다."),
+
+    /**
+     * FoodTruckServiceArea
+     */
+    FOOD_TRUCK_SERVICE_AREA_NOT_FOUND(HttpStatus.NOT_FOUND, 150001, "푸드트럭 서비스 지역을 찾을 수 없습니다.")
     ;
 
     private final HttpStatus httpStatus;

@@ -39,6 +39,7 @@ public record FoodTruckSearchRequest(
                                 "50인분 미만",
                                 "100인분 미만",
                                 "150인분 미만",
+                                "200인분 미만",
                                 "200인분 이상",
                                 "논의 필요"
                         }
@@ -59,7 +60,7 @@ public record FoodTruckSearchRequest(
                 schema = @Schema(
                         type = "string",
                         example = "논의 필요",
-                        allowableValues = {"가능", "불가능", "논의 필요"}
+                        allowableValues = {"필요", "불필요", "논의 필요"}
                 )
         )
         NeedElectricity needElectricity,

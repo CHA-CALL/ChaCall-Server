@@ -48,7 +48,7 @@ public record OwnerReservationDetailResponse(
         // boolean 값을 화면에 표시할 문자열로 변환
 
         return new OwnerReservationDetailResponse(
-                reservation.getFoodTruck().getName(),
+                reservation.getFoodTruck().getFoodTruckInfo().getName(),
                 member.getProfileImageUrl(),
                 member.getName(),
                 reservation.getReservationInfo().getFullAddress(),

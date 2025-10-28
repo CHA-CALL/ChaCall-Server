@@ -1,6 +1,9 @@
 package konkuk.chacall.domain.foodtruck.domain.value;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import konkuk.chacall.global.common.dto.EnumValue;
+import konkuk.chacall.global.common.exception.DomainRuleException;
+import konkuk.chacall.global.common.exception.code.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -22,12 +25,13 @@ public enum MenuCategory implements EnumValue {
 
     private final String value;
 
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static MenuCategory from(String value) {
         for (MenuCategory category : MenuCategory.values()) {
             if (category.getValue().equals(value)) {
                 return category;
             }
         }
-        throw new IllegalArgumentException("Unknown MenuCategory value: " + value);
+        throw new DomainRuleException(ErrorCode.MENU_CATEGORY_MISMATCH);
     }
 }

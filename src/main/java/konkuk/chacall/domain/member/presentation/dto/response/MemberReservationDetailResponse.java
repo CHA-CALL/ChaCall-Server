@@ -2,6 +2,7 @@ package konkuk.chacall.domain.member.presentation.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckInfo;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 
@@ -38,15 +39,18 @@ public record MemberReservationDetailResponse(
                 example = "음식을 많이 주세요, 늦지말아주세요")
         String etcRequest,
         @Schema(description = "예약 상태", example = "예약 확정")
-        String reservationStatus
+        String reservationStatus,
+        @Schema(description = "리뷰 작성 필요 여부", example = "true")
+        boolean reviewRequired
 ) {
 
-    public static MemberReservationDetailResponse of(Reservation reservation, FoodTruck foodTruck) {
+    public static MemberReservationDetailResponse of(Reservation reservation, FoodTruck foodTruck, boolean reviewRequired) {
         List<String> dateTimeList = reservation.getReservationInfo().getFormattedDateTimeInfos();
+        FoodTruckInfo foodTruckInfo = foodTruck.getFoodTruckInfo();
 
         return new MemberReservationDetailResponse(
-                foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(),
-                foodTruck.getName(),
+                foodTruckInfo.getFoodTruckPhotoList().getMainPhotoUrl(),
+                foodTruckInfo.getName(),
                 reservation.getReservationInfo().getFullAddress(),
                 dateTimeList,
                 reservation.getReservationStatus() == ReservationStatus.CANCELLED ?  // 예약 취소 상태이면 null 반환
@@ -55,7 +59,8 @@ public record MemberReservationDetailResponse(
                 reservation.getReservationInfo().getDeposit(),
                 reservation.getReservationInfo().parsingIsUserElectricity(),
                 reservation.getReservationInfo().getEtcRequest(),
-                reservation.getReservationStatus().getValue()
+                reservation.getReservationStatus().getValue(),
+                reviewRequired
         );
     }
 }

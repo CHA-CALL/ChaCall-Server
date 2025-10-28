@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FoodTruckServiceAreaRepository extends JpaRepository<FoodTruckServiceArea, Long> {
 
@@ -18,4 +19,14 @@ public interface FoodTruckServiceAreaRepository extends JpaRepository<FoodTruckS
     @Modifying
     @Query("DELETE FROM FoodTruckServiceArea ftsa WHERE ftsa.foodTruck.foodTruckId = :foodTruckId")
     void deleteAllByFoodTruckId(@Param("foodTruckId") Long foodTruckId);
+
+    @Query("SELECT ftsa FROM FoodTruckServiceArea ftsa " +
+            "WHERE ftsa.foodTruck.foodTruckId = :foodTruckId")
+    List<FoodTruckServiceArea> findAllByFoodTruckId(Long foodTruckId);
+
+
+    @Query("SELECT ftsa FROM FoodTruckServiceArea ftsa " +
+            "WHERE ftsa.foodTruck.foodTruckId = :foodTruckId " +
+            "AND ftsa.region.regionId = :regionId")
+    Optional<FoodTruckServiceArea> findByFoodTruckIdAndRegionId(Long foodTruckId, Long regionId);
 }

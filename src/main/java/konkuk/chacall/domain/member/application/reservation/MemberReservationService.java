@@ -1,6 +1,6 @@
 package konkuk.chacall.domain.member.application.reservation;
 
-import konkuk.chacall.domain.member.presentation.dto.request.GetReservationHistoryRequest;
+import konkuk.chacall.domain.member.domain.repository.RatingRepository;
 import konkuk.chacall.domain.member.presentation.dto.response.MemberReservationDetailResponse;
 import konkuk.chacall.domain.member.presentation.dto.response.MemberReservationHistoryResponse;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
@@ -22,6 +22,7 @@ import java.util.List;
 public class MemberReservationService {
 
     private final ReservationRepository reservationRepository;
+    private final RatingRepository ratingRepository;
 
     public CursorPagingResponse<MemberReservationHistoryResponse> getMemberReservations(User member, ReservationViewType viewType, Long lastCursor, int pageSize) {
         Slice<Reservation> memberReservationSlice = reservationRepository
@@ -41,6 +42,8 @@ public class MemberReservationService {
 
         reservation.validateReservedBy(member.getUserId());
 
-        return MemberReservationDetailResponse.of(reservation, reservation.getFoodTruck());
+        boolean reviewRequired = ratingRepository.existsByMemberAndReservation(member, reservation);
+
+        return MemberReservationDetailResponse.of(reservation, reservation.getFoodTruck(), reviewRequired);
     }
 }

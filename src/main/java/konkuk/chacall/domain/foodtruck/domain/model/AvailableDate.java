@@ -2,14 +2,14 @@ package konkuk.chacall.domain.foodtruck.domain.model;
 
 import jakarta.persistence.*;
 import konkuk.chacall.global.common.domain.BaseEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
+@Builder
 @Entity
 @Table(name = "available_dates")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class AvailableDate extends BaseEntity {
@@ -29,4 +29,11 @@ public class AvailableDate extends BaseEntity {
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
 
+    public static AvailableDate createAvailableDate(LocalDate startDate, LocalDate endDate, FoodTruck foodTruck) {
+        return AvailableDate.builder()
+                .startAt(startDate)
+                .endAt(endDate)
+                .foodTruck(foodTruck)
+                .build();
+    }
 }
