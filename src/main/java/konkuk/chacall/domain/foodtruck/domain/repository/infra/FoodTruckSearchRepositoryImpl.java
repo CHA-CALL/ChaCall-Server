@@ -34,6 +34,7 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
     @Override
     public Slice<FoodTruck> getFoodTrucks(FoodTruckSearchRequest request) {
         BooleanBuilder where = new BooleanBuilder();
+        QFoodTruckInfo foodTruckInfo = foodTruck.foodTruckInfo;
 
         // 지역 - prefix
         if (request.regionCodes() != null && !request.regionCodes().isEmpty()) {
@@ -74,7 +75,7 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
 
         // 수량
         if (request.availableQuantity() != null) {
-            where.and(foodTruck.availableQuantity.in(
+            where.and(foodTruckInfo.availableQuantity.in(
                     AvailableQuantity.acceptableFor(request.availableQuantity())
             ));
         }
@@ -85,7 +86,7 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
             for (MenuCategory category : request.categories()) {
                 any.or(Expressions.booleanTemplate(
                         "concat(',', {0}, ',') like concat('%,', {1}, ',%')",
-                        foodTruck.menuCategoryList,
+                        foodTruckInfo.menuCategoryList,
                         Expressions.constant(category.getValue())
                 ));
             }
@@ -94,12 +95,12 @@ public class FoodTruckSearchRepositoryImpl implements FoodTruckSearchRepository{
 
         // 전기
         if(request.needElectricity() != null) {
-            where.and(foodTruck.needElectricity.eq(request.needElectricity()));
+            where.and(foodTruckInfo.needElectricity.eq(request.needElectricity()));
         }
 
         // 결제방법
         if (request.paymentMethod() != null && request.paymentMethod() != PaymentMethod.ANY) {
-            where.and(foodTruck.paymentMethod.eq(request.paymentMethod()));
+            where.and(foodTruckInfo.paymentMethod.eq(request.paymentMethod()));
         }
 
         // 푸드트럭 상태

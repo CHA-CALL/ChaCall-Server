@@ -22,11 +22,12 @@ public record SavedFoodTruckResponse(
         Integer ratingCount
 ) {
     public static SavedFoodTruckResponse of(FoodTruck foodTruck) {
+        FoodTruckInfo foodTruckInfo = foodTruck.getFoodTruckInfo();
         return new SavedFoodTruckResponse(
                 foodTruck.getFoodTruckId(),
-                foodTruck.getName(),
-                foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(), // 대표 사진 (첫 번째 사진)
-                foodTruck.getDescription(),
+                foodTruckInfo.getName(),
+                foodTruckInfo.getFoodTruckPhotoList().getMainPhotoUrl(), // 대표 사진 (첫 번째 사진)
+                foodTruckInfo.getDescription(),
                 foodTruck.getMenuCategoryList().getMenuCategoryLabelList(),
                 foodTruck.getRatingInfo().getAverageRating(),
                 foodTruck.getRatingInfo().getRatingCount()

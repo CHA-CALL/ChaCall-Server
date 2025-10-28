@@ -13,6 +13,8 @@ import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckMenuRe
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckNameDuplicateCheckResponse;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckResponse;
 import konkuk.chacall.global.common.storage.dto.ImageResponse;
+import konkuk.chacall.domain.foodtruck.presentation.dto.request.*;
+import konkuk.chacall.domain.foodtruck.presentation.dto.response.*;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
@@ -98,4 +100,35 @@ public class FoodTruckController {
             @Parameter(hidden = true) @UserId final Long memberId) {
         return BaseResponse.ok(foodTruckService.getFoodTruckMenus(memberId, foodTruckId, request));
     }
+
+    @Operation(
+            summary = "나의 푸드트럭 정보 등록/수정",
+            description = "승인이 완료된 나의 푸드트럭 정보를 기입하거나 수정합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.UPDATE_FOOD_TRUCK_INFO)
+    @PutMapping("{foodTruckId}")
+    public BaseResponse<FoodTruckIdResponse> updateMyFoodTruckInfo(
+            @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,
+            @Valid @RequestBody final UpdateFoodTruckInfoRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(foodTruckService.updateMyFoodTruckInfo(ownerId, foodTruckId, request));
+    }
+
+    @Operation(
+            summary = "S3에서 푸드트럭 이미지 객체 삭제",
+            description = "S3에서 푸드트럭/메뉴 이미지 객체를 삭제합니다. 사용자가 기존 푸드트럭/메뉴 이미지를 삭제했을 경우 호출해주세요."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.DELETE_FOOD_TRUCK_IMAGES)
+    @DeleteMapping("{foodTruckId}/images")
+    public BaseResponse<Void> deleteFoodTruckImagesFromS3(
+            @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,
+            @Valid @RequestBody final DeleteFoodTruckImagesRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        foodTruckService.deleteFoodTruckImagesFromS3(ownerId, foodTruckId, request);
+        return BaseResponse.ok(null);
+    }
+
+
 }

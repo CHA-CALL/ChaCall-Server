@@ -1,7 +1,7 @@
 package konkuk.chacall.domain.foodtruck.application;
 
 import konkuk.chacall.domain.foodtruck.application.image.FoodTruckImageService;
-import konkuk.chacall.domain.foodtruck.application.command.FoodTruckCommandService;
+import konkuk.chacall.domain.foodtruck.application.info.FoodTruckInfoService;
 import konkuk.chacall.domain.foodtruck.application.menu.FoodTruckMenuService;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckMenuRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckNameDuplicateCheckRequest;
@@ -11,6 +11,8 @@ import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckMenuRe
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckNameDuplicateCheckResponse;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckResponse;
 import konkuk.chacall.global.common.storage.dto.ImageResponse;
+import konkuk.chacall.domain.foodtruck.presentation.dto.request.*;
+import konkuk.chacall.domain.foodtruck.presentation.dto.response.*;
 import konkuk.chacall.domain.owner.application.validator.OwnerValidator;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.member.application.validator.MemberValidator;
@@ -24,10 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class FoodTruckService {
 
-    private final FoodTruckCommandService foodTruckCommandService;
+    private final FoodTruckInfoService foodTruckInfoService;
     private final FoodTruckMenuService foodTruckMenuService;
     private final FoodTruckImageService foodTruckImageService;
-
 
     private final MemberValidator memberValidator;
     private final OwnerValidator ownerValidator;
@@ -35,14 +36,14 @@ public class FoodTruckService {
     public CursorPagingResponse<FoodTruckResponse> getFoodTrucks(Long memberId, FoodTruckSearchRequest request) {
         memberValidator.validateAndGetMember(memberId);
 
-        return foodTruckCommandService.getFoodTrucks(memberId, request);
+        return foodTruckInfoService.getFoodTrucks(memberId, request);
     }
 
     public FoodTruckNameDuplicateCheckResponse isNameDuplicated(Long ownerId, FoodTruckNameDuplicateCheckRequest request) {
         ownerValidator.validateAndGetOwner(ownerId);
 
         return FoodTruckNameDuplicateCheckResponse.of(
-                foodTruckCommandService.isNameDuplicated(request.name()));
+                foodTruckInfoService.isNameDuplicated(request.name()));
     }
 
     public CursorPagingResponse<FoodTruckMenuResponse> getFoodTruckMenus(Long memberId, Long foodTruckId, FoodTruckMenuRequest request) {
@@ -63,7 +64,18 @@ public class FoodTruckService {
         return foodTruckImageService.createMenuImagePresignedUrl(request, owner);
     }
 
+    @Transactional
+    public FoodTruckIdResponse updateMyFoodTruckInfo(Long ownerId, Long foodTruckId, UpdateFoodTruckInfoRequest request) {
+        User owner = ownerValidator.validateAndGetOwner(ownerId);
 
+        return FoodTruckIdResponse.of(
+                foodTruckInfoService.updateMyFoodTruckInfo(owner, foodTruckId, request)
+        );
+    }
 
+    public void deleteFoodTruckImagesFromS3(Long ownerId, Long foodTruckId, DeleteFoodTruckImagesRequest request) {
+        User owner = ownerValidator.validateAndGetOwner(ownerId);
 
+        foodTruckImageService.deleteFoodTruckImagesFromS3(owner, foodTruckId, request);
+    }
 }

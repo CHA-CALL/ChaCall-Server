@@ -3,6 +3,7 @@ package konkuk.chacall.domain.owner.presentation.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruckServiceArea;
+import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckInfo;
 
 import java.util.List;
 
@@ -29,15 +30,16 @@ public record MyFoodTruckResponse(
          * @return MyFoodTruckResponse DTO
          */
         public static MyFoodTruckResponse of(FoodTruck foodTruck, List<FoodTruckServiceArea> serviceAreas) {
+                FoodTruckInfo foodTruckInfo = foodTruck.getFoodTruckInfo();
                 // 대표 이미지
-                String mainImageUrl = foodTruck.getFoodTruckPhotoList().getMainPhotoUrl();
+                String mainImageUrl = foodTruckInfo.getFoodTruckPhotoList().getMainPhotoUrl();
 
                 return new MyFoodTruckResponse(
                         foodTruck.getFoodTruckId(),
                         mainImageUrl,
-                        foodTruck.getName(),
-                        foodTruck.getDescription(),
-                        foodTruck.getActiveTime(),
+                        foodTruckInfo.getName(),
+                        foodTruckInfo.getDescription(),
+                        foodTruckInfo.getActiveTime(),
                         foodTruck.getServiceAreas(serviceAreas),
                         foodTruck.getFoodTruckViewedStatus().name()
                 );

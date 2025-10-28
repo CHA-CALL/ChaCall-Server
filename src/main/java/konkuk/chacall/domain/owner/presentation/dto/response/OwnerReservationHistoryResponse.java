@@ -33,7 +33,7 @@ public record OwnerReservationHistoryResponse(
                 member.getName(),
                 reservation.getReservationInfo().getFullAddress(),
                 dateTimeList,
-                reservation.getFoodTruck().getName(),
+                reservation.getFoodTruck().getFoodTruckInfo().getName(),
                 reservation.getReservationStatus().getValue()
         );
     }

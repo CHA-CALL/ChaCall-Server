@@ -2,6 +2,7 @@ package konkuk.chacall.domain.member.presentation.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
+import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckInfo;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 
 import java.util.List;
@@ -24,11 +25,12 @@ public record MemberReservationHistoryResponse(
 
     public static MemberReservationHistoryResponse of(Reservation reservation, FoodTruck foodTruck) {
         List<String> dateTimeList = reservation.getReservationInfo().getFormattedDateTimeInfos();
+        FoodTruckInfo foodTruckInfo = foodTruck.getFoodTruckInfo();
 
         return new MemberReservationHistoryResponse(
                 reservation.getReservationId(),
-                foodTruck.getFoodTruckPhotoList().getMainPhotoUrl(),
-                foodTruck.getName(),
+                foodTruckInfo.getFoodTruckPhotoList().getMainPhotoUrl(),
+                foodTruckInfo.getName(),
                 reservation.getReservationInfo().getFullAddress(),
                 dateTimeList,
                 reservation.getReservationStatus().getValue()
