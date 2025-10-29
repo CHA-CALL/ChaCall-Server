@@ -21,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -83,5 +85,11 @@ public class FoodTruckService {
         User member = memberValidator.validateAndGetMember(memberId);
 
         return foodTruckInfoService.getFoodTruckDetails(member, foodTruckId);
+    }
+
+    public List<FoodTruckMenuResponse> searchFoodTruckMenus(Long foodTruckId, String keyword, Long memberId) {
+        User member = memberValidator.validateAndGetMember(memberId);
+
+        return foodTruckMenuService.searchFoodTruckMenus(foodTruckId, keyword, member);
     }
 }

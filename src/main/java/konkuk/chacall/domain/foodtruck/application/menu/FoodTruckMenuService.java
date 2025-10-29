@@ -3,10 +3,9 @@ package konkuk.chacall.domain.foodtruck.application.menu;
 import konkuk.chacall.domain.foodtruck.domain.model.Menu;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.foodtruck.domain.repository.MenuRepository;
-import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckMenuRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckMenuResponse;
-import konkuk.chacall.domain.owner.presentation.dto.response.MyFoodTruckMenuResponse;
+import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.dto.SortType;
@@ -47,5 +46,17 @@ public class FoodTruckMenuService {
                 .toList();
 
         return CursorPagingResponse.of(content, FoodTruckMenuResponse::menuId, menuSlice.hasNext());
+    }
+
+    public List<FoodTruckMenuResponse> searchFoodTruckMenus(Long foodTruckId, String keyword, User member) {
+        if(!foodTruckRepository.existsById(foodTruckId)) {
+            throw new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND);
+        }
+
+        List<Menu> menus = menuRepository.searchByKeyword(foodTruckId, keyword);
+
+        return menus.stream()
+                .map(FoodTruckMenuResponse::from)
+                .toList();
     }
 }

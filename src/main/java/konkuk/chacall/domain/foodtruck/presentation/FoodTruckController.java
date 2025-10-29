@@ -25,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "FoodTruck API", description = "푸드트럭 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -106,7 +108,7 @@ public class FoodTruckController {
             description = "승인이 완료된 나의 푸드트럭 정보를 기입하거나 수정합니다."
     )
     @ExceptionDescription(SwaggerResponseDescription.UPDATE_FOOD_TRUCK_INFO)
-    @PutMapping("{foodTruckId}")
+    @PutMapping("/{foodTruckId}")
     public BaseResponse<FoodTruckIdResponse> updateMyFoodTruckInfo(
             @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,
             @Valid @RequestBody final UpdateFoodTruckInfoRequest request,
@@ -120,7 +122,7 @@ public class FoodTruckController {
             description = "S3에서 푸드트럭/메뉴 이미지 객체를 삭제합니다. 사용자가 기존 푸드트럭/메뉴 이미지를 삭제했을 경우 호출해주세요."
     )
     @ExceptionDescription(SwaggerResponseDescription.DELETE_FOOD_TRUCK_IMAGES)
-    @DeleteMapping("{foodTruckId}/images")
+    @DeleteMapping("/{foodTruckId}/images")
     public BaseResponse<Void> deleteFoodTruckImagesFromS3(
             @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,
             @Valid @RequestBody final DeleteFoodTruckImagesRequest request,
@@ -143,5 +145,17 @@ public class FoodTruckController {
         return BaseResponse.ok(foodTruckService.getFoodTruckDetails(memberId, foodTruckId));
     }
 
-
+    @Operation(
+            summary = "푸드트럭 메뉴 검색",
+            description = "푸드트럭 메뉴를 이름으로 검색합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.SEARCH_FOOD_TRUCK_MENUS)
+    @GetMapping("/{foodTruckId}/menus/search")
+    public BaseResponse<List<FoodTruckMenuResponse>> searchFoodTruckMenus(
+            @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,
+            @Parameter(description = "검색 키워드", example = "치킨") @RequestParam("keyword") final String keyword,
+            @Parameter(hidden = true) @UserId final Long memberId
+    ) {
+        return BaseResponse.ok(foodTruckService.searchFoodTruckMenus(foodTruckId, keyword, memberId));
+    }
 }
