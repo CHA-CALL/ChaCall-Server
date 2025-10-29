@@ -143,6 +143,13 @@ public class FoodTruck extends BaseEntity {
                 .collect(Collectors.joining(", "));
     }
 
+    // 푸드트럭의 운영 기간을 반환해주는 메서드
+    public List<String> getAvailableDates(List<AvailableDate> availableDateList) {
+        return availableDateList.stream()
+                .map(AvailableDate::formatDate)
+                .collect(Collectors.toList());
+    }
+
     public void changeViewedStatus(FoodTruckViewedStatus targetViewedStatus) {
         if(this.foodTruckViewedStatus == targetViewedStatus) {
             throw new DomainRuleException(ErrorCode.INVALID_FOOD_TRUCK_STATUS_TRANSITION);
@@ -154,5 +161,11 @@ public class FoodTruck extends BaseEntity {
         }
 
         this.foodTruckViewedStatus = targetViewedStatus;
+    }
+
+    public void validateViewableStatusForMember() {
+        if (this.foodTruckViewedStatus != FoodTruckViewedStatus.ON) {
+            throw new DomainRuleException(ErrorCode.FOOD_TRUCK_NOT_VIEWABLE);
+        }
     }
 }
