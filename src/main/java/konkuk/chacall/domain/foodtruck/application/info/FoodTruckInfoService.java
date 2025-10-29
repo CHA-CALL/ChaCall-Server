@@ -139,6 +139,8 @@ public class FoodTruckInfoService {
         FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND));
 
+        foodTruck.validateApprovedStatus();
+
         switch(member.getRole()) {
             case MEMBER -> foodTruck.validateViewableStatusForMember();
             case OWNER -> foodTruck.vaildateViewableStatusForOwner(member.getUserId());
