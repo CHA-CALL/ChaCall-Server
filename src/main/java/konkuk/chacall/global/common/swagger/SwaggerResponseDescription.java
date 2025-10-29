@@ -246,6 +246,13 @@ public enum SwaggerResponseDescription {
             FOOD_TRUCK_NOT_FOUND,
             FOOD_TRUCK_NOT_OWNED
     ))),
+    GET_FOOD_TRUCK_DETAILS(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_FOUND,
+            FOOD_TRUCK_NOT_OWNED,
+            FOOD_TRUCK_NOT_VIEWABLE
+    ))),
 
     // Default
     DEFAULT(new LinkedHashSet<>())
