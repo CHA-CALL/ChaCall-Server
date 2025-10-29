@@ -168,4 +168,12 @@ public class FoodTruck extends BaseEntity {
             throw new DomainRuleException(ErrorCode.FOOD_TRUCK_NOT_VIEWABLE);
         }
     }
+
+    public void vaildateViewableStatusForOwner(Long userId) {
+        if(!isOwnedBy(userId)) { // 자신이 소유한 푸드트럭이 아니면
+            validateViewableStatusForMember();
+        } else { // 자신이 소유한 푸드트럭이면
+            validateOwner(userId);
+        }
+    }
 }

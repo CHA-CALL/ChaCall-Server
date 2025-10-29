@@ -141,7 +141,7 @@ public class FoodTruckInfoService {
 
         switch(member.getRole()) {
             case MEMBER -> foodTruck.validateViewableStatusForMember();
-            case OWNER -> foodTruck.validateOwner(member.getUserId());
+            case OWNER -> foodTruck.vaildateViewableStatusForOwner(member.getUserId());
             case ADMIN -> {}
         }
 
