@@ -1,11 +1,13 @@
 package konkuk.chacall.domain.user.application;
 
+import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckResponse;
 import konkuk.chacall.domain.user.application.admin.AdminService;
 import konkuk.chacall.domain.user.application.validator.AdminValidator;
 import konkuk.chacall.domain.user.presentation.dto.request.ApproveFoodTruckStatusRequest;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.domain.user.domain.repository.UserRepository;
 import konkuk.chacall.domain.user.presentation.dto.request.UpdateUserInfoRequest;
+import konkuk.chacall.domain.user.presentation.dto.response.FoodTruckForAdminResponse;
 import konkuk.chacall.domain.user.presentation.dto.response.UserResponse;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
@@ -16,6 +18,8 @@ import konkuk.chacall.global.common.storage.util.KeyUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -61,5 +65,11 @@ public class UserService {
                 USER_PROFILE_IMAGE_MAX_COUNT,
                 KeyUtils::buildUserProfileImageKey
         );
+    }
+
+    public List<FoodTruckForAdminResponse> getAllFoodTrucks(Long userId, String status) {
+        adminValidator.validateAdmin(userId);
+
+        return adminService.getAllFoodTrucks(status);
     }
 }
