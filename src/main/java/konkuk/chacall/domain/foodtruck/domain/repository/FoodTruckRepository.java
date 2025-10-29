@@ -5,10 +5,12 @@ import konkuk.chacall.domain.foodtruck.domain.repository.infra.FoodTruckSearchRe
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, FoodTruckSearchRepository {
@@ -46,4 +48,6 @@ public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, Foo
 
     boolean existsByFoodTruckInfo_Name(String name);
 
+    @EntityGraph(attributePaths = {"owner"})
+    List<FoodTruck> findAllByFoodTruckStatus(FoodTruckStatus foodTruckStatus);
 }
