@@ -76,7 +76,8 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
             from Menu m
             where m.foodTruck.foodTruckId = :foodTruckId
               and m.name like concat('%', :keyword, '%')
-              and m.menuViewedStatus = konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus.ON
+              and m.menuViewedStatus = konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus.ON 
+            order by m.menuId desc
             """)
     List<Menu> searchByKeyword(Long foodTruckId, String keyword);
 }
