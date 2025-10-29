@@ -52,9 +52,10 @@ public interface SavedFoodTruckRepository extends JpaRepository<SavedFoodTruck, 
                 select exists (
                     select s
                       from SavedFoodTruck s
-                     where s.member.userId = :memberId
+                     where s.member.userId = :userId
                        and s.foodTruck.foodTruckId = :foodTruckId
                 )
             """)
-    boolean existsByMemberIdAndFoodTruckId(Long userId, Long foodTruckId);
+    boolean existsByMemberIdAndFoodTruckId(@Param("userId") Long userId,
+                                           @Param("foodTruckId") Long foodTruckId);
 }
