@@ -78,4 +78,10 @@ public class FoodTruckService {
 
         foodTruckImageService.deleteFoodTruckImagesFromS3(owner, foodTruckId, request);
     }
+
+    public FoodTruckDetailResponse getFoodTruckDetails(Long memberId, Long foodTruckId) {
+        User member = memberValidator.validateAndGetMember(memberId);
+
+        return foodTruckInfoService.getFoodTruckDetails(member, foodTruckId);
+    }
 }
