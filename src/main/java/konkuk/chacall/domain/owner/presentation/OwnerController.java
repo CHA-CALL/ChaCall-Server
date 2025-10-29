@@ -12,6 +12,8 @@ import konkuk.chacall.global.common.annotation.UserId;
 import konkuk.chacall.global.common.dto.BaseResponse;
 import konkuk.chacall.global.common.dto.CursorPagingRequest;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
+import konkuk.chacall.global.common.storage.dto.ImageRequest;
+import konkuk.chacall.global.common.storage.dto.ImageResponse;
 import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -298,5 +300,18 @@ public class OwnerController {
     ) {
         ownerService.createNewFoodTruck(ownerId, request);
         return BaseResponse.ok(null);
+    }
+
+    @Operation(
+            summary = "푸드트럭 관련 서류 업로드를 위한 presigned URL 발급",
+            description = "푸드트럭 관련 서류 업로드를 위한 presigned URL을 발급받습니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.OWNER_GET_FOOD_TRUCK_DOCUMENT_PRESIGEND_URL)
+    @PostMapping("/me/food-truck-documents/images")
+    public BaseResponse<ImageResponse> createFoodTruckDocumentPresignedUrls(
+            @Valid @RequestBody final ImageRequest request,
+            @Parameter(hidden = true) @UserId final Long ownerId
+    ) {
+        return BaseResponse.ok(ownerService.createFoodTruckDocumentPresignedUrls(request, ownerId));
     }
 }

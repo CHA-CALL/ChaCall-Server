@@ -1,7 +1,8 @@
-package konkuk.chacall.global.common.storage;
+package konkuk.chacall.global.common.storage.pdf;
 
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.global.common.annotation.HelperService;
+import konkuk.chacall.global.common.storage.S3Service;
 import konkuk.chacall.global.common.storage.util.CdnUrlResolver;
 import konkuk.chacall.global.common.storage.util.PdfGenerator;
 import konkuk.chacall.global.common.storage.util.PdfTemplateRenderer;

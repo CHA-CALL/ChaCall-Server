@@ -84,6 +84,9 @@ public enum ErrorCode implements ResponseCode {
     NEED_ELECTRICITY_MISMATCH(HttpStatus.BAD_REQUEST, 110008, "전기 사용 여부 값이 올바르지 않습니다."),
     PAYMENT_METHOD_MISMATCH(HttpStatus.BAD_REQUEST, 110009, "결제 수단 값이 올바르지 않습니다."),
 
+    /**
+     * Image
+     */
     INVALID_IMAGE_COUNT(HttpStatus.BAD_REQUEST, 115001, "이미지 개수가 유효하지 않습니다."),
     INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, 115002, "허용되지 않는 파일 확장자입니다."),
 

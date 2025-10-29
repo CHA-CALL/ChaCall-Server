@@ -7,7 +7,7 @@ import konkuk.chacall.domain.reservation.presentation.dto.response.ReservationSt
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import konkuk.chacall.global.common.exception.code.ErrorCode;
-import konkuk.chacall.global.common.storage.PdfService;
+import konkuk.chacall.global.common.storage.pdf.PdfService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

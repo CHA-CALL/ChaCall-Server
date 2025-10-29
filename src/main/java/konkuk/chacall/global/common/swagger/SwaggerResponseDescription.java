@@ -29,6 +29,11 @@ public enum SwaggerResponseDescription {
     UPDATE_USER_INFO(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND
     ))),
+    GET_USER_PROFILE_PRESIGEND_URL(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            INVALID_IMAGE_COUNT,
+            INVALID_FILE_EXTENSION
+    ))),
 
     // Owner
     OWNER_REGISTER_BANK_ACCOUNT(new LinkedHashSet<>(Set.of(
@@ -129,6 +134,12 @@ public enum SwaggerResponseDescription {
     CREATE_NEW_FOOD_TRUCK(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
             USER_FORBIDDEN
+    ))),
+    OWNER_GET_FOOD_TRUCK_DOCUMENT_PRESIGEND_URL(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            INVALID_IMAGE_COUNT,
+            INVALID_FILE_EXTENSION
     ))),
 
 
