@@ -50,4 +50,7 @@ public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, Foo
 
     @EntityGraph(attributePaths = {"owner"})
     List<FoodTruck> findAllByFoodTruckStatus(FoodTruckStatus foodTruckStatus);
+
+    @EntityGraph(attributePaths = {"owner"})
+    List<FoodTruck> findAll();
 }
