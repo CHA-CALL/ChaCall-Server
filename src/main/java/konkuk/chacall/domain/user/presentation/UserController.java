@@ -91,7 +91,7 @@ public class UserController {
     @GetMapping("/admin/food-trucks")
     public BaseResponse<List<FoodTruckForAdminResponse>> getAllFoodTrucks (
             @Parameter(hidden = true) @UserId final Long userId,
-            @Parameter(description = "푸드트럭 승인 상태 필터링 (APPROVED, PENDING, REJECTED) / 안 보낼 경우 전체", example = "APPROVED")
+            @Parameter(description = "푸드트럭 승인 상태 필터링 (승인 대기, 승인 완료, 승인 거절)", example = "승인 대기")
             @RequestParam(required = false) final String status
     ) {
         return BaseResponse.ok(userService.getAllFoodTrucks(userId, status));
