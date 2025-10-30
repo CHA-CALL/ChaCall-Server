@@ -137,7 +137,7 @@ public class FoodTruckController {
             description = "푸드트럭의 상세 정보를 조회합니다."
     )
     @ExceptionDescription(SwaggerResponseDescription.GET_FOOD_TRUCK_DETAILS)
-    @GetMapping("/{foodTruckId}/details")
+    @GetMapping("/{foodTruckId}")
     public BaseResponse<FoodTruckDetailResponse> getFoodTruckDetails(
             @Parameter(description = "푸드트럭 ID", example = "1") @PathVariable final Long foodTruckId,
             @Parameter(hidden = true) @UserId final Long memberId
