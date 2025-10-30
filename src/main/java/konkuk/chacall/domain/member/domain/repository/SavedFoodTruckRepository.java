@@ -48,4 +48,14 @@ public interface SavedFoodTruckRepository extends JpaRepository<SavedFoodTruck, 
     Set<Long> findSavedTruckIdsIn(@Param("userId") Long userId,
                                   @Param("foodTruckIds") List<Long> foodTruckIds);
 
+    @Query("""
+                select exists (
+                    select s
+                      from SavedFoodTruck s
+                     where s.member.userId = :userId
+                       and s.foodTruck.foodTruckId = :foodTruckId
+                )
+            """)
+    boolean existsByMemberIdAndFoodTruckId(@Param("userId") Long userId,
+                                           @Param("foodTruckId") Long foodTruckId);
 }

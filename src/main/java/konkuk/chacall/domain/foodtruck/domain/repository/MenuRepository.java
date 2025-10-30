@@ -1,7 +1,6 @@
 package konkuk.chacall.domain.foodtruck.domain.repository;
 
 import konkuk.chacall.domain.foodtruck.domain.model.Menu;
-import konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
@@ -70,4 +70,14 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
             """)
     Optional<Menu> findByMenuIdAndFoodTruckId(@Param("menuId") Long menuId,
                                               @Param("foodTruckId") Long foodTruckId);
+
+    @Query("""
+            select m
+            from Menu m
+            where m.foodTruck.foodTruckId = :foodTruckId
+              and m.name like concat('%', :keyword, '%')
+              and m.menuViewedStatus = konkuk.chacall.domain.foodtruck.domain.value.MenuViewedStatus.ON 
+            order by m.menuId desc
+            """)
+    List<Menu> searchByKeyword(Long foodTruckId, String keyword);
 }

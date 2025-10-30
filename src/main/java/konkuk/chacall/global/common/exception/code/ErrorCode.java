@@ -83,6 +83,7 @@ public enum ErrorCode implements ResponseCode {
     AVAILABLE_QUANTITY_MISMATCH(HttpStatus.BAD_REQUEST, 110007, "제조 가능 수량 값이 올바르지 않습니다."),
     NEED_ELECTRICITY_MISMATCH(HttpStatus.BAD_REQUEST, 110008, "전기 사용 여부 값이 올바르지 않습니다."),
     PAYMENT_METHOD_MISMATCH(HttpStatus.BAD_REQUEST, 110009, "결제 수단 값이 올바르지 않습니다."),
+    FOOD_TRUCK_NOT_VIEWABLE(HttpStatus.FORBIDDEN, 110010, "노출 가능한 상태의 푸드트럭이 아닙니다."),
 
     /**
      * Image
