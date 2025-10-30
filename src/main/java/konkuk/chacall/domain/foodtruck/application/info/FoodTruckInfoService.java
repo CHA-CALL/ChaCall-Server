@@ -9,6 +9,7 @@ import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckServiceAreaRep
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.DateRangeRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.UpdateFoodTruckInfoRequest;
+import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckDetailResponse;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckResponse;
 import konkuk.chacall.domain.member.domain.repository.SavedFoodTruckRepository;
 import konkuk.chacall.domain.region.domain.model.Region;
@@ -132,5 +133,25 @@ public class FoodTruckInfoService {
 
             foodTruckServiceAreaRepository.deleteAll(serviceAreasToRemove);
         }
+    }
+
+    public FoodTruckDetailResponse getFoodTruckDetails(User member, Long foodTruckId) {
+        FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND));
+
+        foodTruck.validateApprovedStatus();
+
+        switch(member.getRole()) {
+            case MEMBER -> foodTruck.validateViewableStatusForMember();
+            case OWNER -> foodTruck.validateViewableStatusForOwner(member.getUserId());
+            case ADMIN -> {}
+        }
+
+        List<FoodTruckServiceArea> foodTruckServiceAreas = foodTruckServiceAreaRepository.findAllByFoodTruckId(foodTruckId);
+        List<AvailableDate> availableDates = availableDateRepository.findAllByFoodTruckId(foodTruckId);
+
+        boolean isSaved = savedFoodTruckRepository.existsByMemberIdAndFoodTruckId(member.getUserId(), foodTruckId);
+
+        return FoodTruckDetailResponse.from(foodTruck, foodTruckServiceAreas, availableDates, isSaved);
     }
 }

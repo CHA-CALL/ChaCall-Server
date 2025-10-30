@@ -36,4 +36,10 @@ public class AvailableDate extends BaseEntity {
                 .foodTruck(foodTruck)
                 .build();
     }
+
+    public String formatDate() {
+        return startAt + " ~ " + endAt;
+    }
+
+
 }
