@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import konkuk.chacall.domain.user.presentation.dto.request.ApproveFoodTruckStatusRequest;
 import konkuk.chacall.domain.user.application.UserService;
 import konkuk.chacall.domain.user.presentation.dto.request.UpdateUserInfoRequest;
+import konkuk.chacall.domain.user.presentation.dto.response.FoodTruckForAdminResponse;
 import konkuk.chacall.domain.user.presentation.dto.response.UserResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
 import konkuk.chacall.global.common.annotation.UserId;
@@ -16,6 +17,8 @@ import konkuk.chacall.global.common.storage.dto.ImageResponse;
 import konkuk.chacall.global.common.swagger.SwaggerResponseDescription;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "User API", description = "전체 사용자(마이페이지) 관련 API")
 @RestController
@@ -53,7 +56,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "푸드트럭 승인 상태 변경",
+            summary = "[운영자용] 푸드트럭 승인 상태 변경",
             description = "운영자 - 푸드트럭 승인 상태를 변경합니다."
     )
     @ExceptionDescription(SwaggerResponseDescription.APPROVE_FOOD_TRUCK_STATUS)
@@ -78,5 +81,19 @@ public class UserController {
             @Parameter(hidden = true) @UserId final Long userId
     ) {
         return BaseResponse.ok(userService.createUserImagePresignedUrl(userId, request));
+    }
+
+    @Operation(
+            summary = "[운영자용] 서비스내에 모든 푸드트럭 조회",
+            description = "운영자 - 서비스내에 모든 푸드트럭을 조회합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.GET_ALL_FOOD_TRUCKS)
+    @GetMapping("/admin/food-trucks")
+    public BaseResponse<List<FoodTruckForAdminResponse>> getAllFoodTrucks (
+            @Parameter(hidden = true) @UserId final Long userId,
+            @Parameter(description = "푸드트럭 승인 상태 필터링 (승인 대기, 승인 완료, 승인 거부)", example = "승인 대기")
+            @RequestParam(required = false) final String status
+    ) {
+        return BaseResponse.ok(userService.getAllFoodTrucks(userId, status));
     }
 }
