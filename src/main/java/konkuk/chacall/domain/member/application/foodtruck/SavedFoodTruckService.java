@@ -61,10 +61,12 @@ public class SavedFoodTruckService {
 
         // 응답 DTO로 변환
         List<SavedFoodTruckResponse> responses = savedFoodTrucks.stream()
-                .map(SavedFoodTruck::getFoodTruck)
                 .map(SavedFoodTruckResponse::of)
                 .toList();
 
-        return CursorPagingResponse.of(responses, SavedFoodTruckResponse::foodTruckId, savedFoodTruckSlice.hasNext());
+        // 전체 저장 푸드트럭 갯수 조회
+        long totalSize = savedFoodTruckRepository.countByMemberAndFoodTruckViewedStatus(member, FoodTruckViewedStatus.ON);
+
+        return CursorPagingResponse.of(responses, SavedFoodTruckResponse::savedFoodTruckId, savedFoodTruckSlice.hasNext(), totalSize);
     }
 }

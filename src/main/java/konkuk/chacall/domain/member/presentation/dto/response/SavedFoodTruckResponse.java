@@ -1,8 +1,10 @@
 package konkuk.chacall.domain.member.presentation.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckInfo;
+import konkuk.chacall.domain.member.domain.SavedFoodTruck;
 
 import java.util.List;
 
@@ -20,9 +22,14 @@ public record SavedFoodTruckResponse(
         @Schema(description = "푸드트럭 평균 평점", example = "4.5")
         Double averageRating,
         @Schema(description = "푸드트럭 평점 수", example = "100")
-        Integer ratingCount
+        Integer ratingCount,
+
+        @JsonIgnore
+        @Schema(hidden = true, description = "커서 계산용 내부 필드 (응답에 미포함)")
+        Long savedFoodTruckId
 ) {
-    public static SavedFoodTruckResponse of(FoodTruck foodTruck) {
+    public static SavedFoodTruckResponse of(SavedFoodTruck savedFoodTruck) {
+        FoodTruck foodTruck = savedFoodTruck.getFoodTruck();
         FoodTruckInfo foodTruckInfo = foodTruck.getFoodTruckInfo();
         return new SavedFoodTruckResponse(
                 foodTruck.getFoodTruckId(),
@@ -31,7 +38,8 @@ public record SavedFoodTruckResponse(
                 foodTruckInfo.getDescription(),
                 foodTruckInfo.getMenuCategoryList().getMenuCategoryLabelList(),
                 foodTruck.getRatingInfo().getAverageRating(),
-                foodTruck.getRatingInfo().getRatingCount()
+                foodTruck.getRatingInfo().getRatingCount(),
+                savedFoodTruck.getSavedFoodTruckId()
         );
     }
 }

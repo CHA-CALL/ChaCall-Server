@@ -58,4 +58,10 @@ public interface SavedFoodTruckRepository extends JpaRepository<SavedFoodTruck, 
             """)
     boolean existsByMemberIdAndFoodTruckId(@Param("userId") Long userId,
                                            @Param("foodTruckId") Long foodTruckId);
+
+    @Query("SELECT COUNT(sft) FROM SavedFoodTruck sft " +
+           "WHERE sft.member = :member " +
+           "AND sft.foodTruck.foodTruckViewedStatus = :status")
+    long countByMemberAndFoodTruckViewedStatus(@Param("member") User member,
+                                               @Param("status") FoodTruckViewedStatus status);
 }
