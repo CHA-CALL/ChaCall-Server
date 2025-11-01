@@ -1,10 +1,10 @@
 package konkuk.chacall.domain.member.presentation.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckInfo;
 import konkuk.chacall.domain.member.domain.SavedFoodTruck;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
