@@ -5,39 +5,35 @@ import konkuk.chacall.domain.chat.domain.value.MessageContentType;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.domain.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "chat_messages")
+@Getter
+@Document(collection = "chat_messages")
+@CompoundIndex(name = "room_sender_idx", def = "{'roomId': 1, 'senderId': 1}")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatMessage extends BaseEntity {
+public class ChatMessage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    private Long chatMessageId;
+    private Long id;
 
-    @Column(name = "content", nullable = false, length = 1000)
+    private Long roomId;
+    private Long senderId;
     private String content;
-
-    @Column(nullable = false)
+    private String contentType;
     private LocalDateTime sendTime;
+    private boolean read;
 
-    @Column(name = "is_read", nullable = false)
-    private boolean isRead;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "chat_room_id", nullable = false)
-    private ChatRoom chatRoom;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User senderUser;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private MessageContentType contentType;
-
+    public ChatMessage(Long roomId, Long senderId, String content, String contentType) {
+        this.roomId = roomId;
+        this.senderId = senderId;
+        this.content = content;
+        this.contentType = contentType;
+        this.sendTime = LocalDateTime.now();
+        this.read = false;
+    }
 }
