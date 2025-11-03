@@ -11,6 +11,7 @@ import konkuk.chacall.domain.foodtruck.presentation.dto.request.FoodTruckSearchR
 import konkuk.chacall.domain.foodtruck.presentation.dto.request.UpdateFoodTruckInfoRequest;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckDetailResponse;
 import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckResponse;
+import konkuk.chacall.domain.foodtruck.presentation.dto.response.FoodTruckTopRateResponse;
 import konkuk.chacall.domain.member.domain.repository.SavedFoodTruckRepository;
 import konkuk.chacall.domain.region.domain.model.Region;
 import konkuk.chacall.domain.region.domain.repository.RegionRepository;
@@ -36,6 +37,8 @@ public class FoodTruckInfoService {
     private final FoodTruckServiceAreaRepository foodTruckServiceAreaRepository;
     private final AvailableDateRepository availableDateRepository;
     private final RegionRepository regionRepository;
+
+    private static final int TOP_RATED_FOOD_TRUCK_LIMIT = 7;
 
     public CursorPagingResponse<FoodTruckResponse> getFoodTrucks(Long memberId, FoodTruckSearchRequest request) {
 
@@ -153,5 +156,11 @@ public class FoodTruckInfoService {
         boolean isSaved = savedFoodTruckRepository.existsByMemberIdAndFoodTruckId(member.getUserId(), foodTruckId);
 
         return FoodTruckDetailResponse.from(foodTruck, foodTruckServiceAreas, availableDates, isSaved);
+    }
+
+    public List<FoodTruckTopRateResponse> getTopRatedFoodTrucks() {
+        return foodTruckRepository.findTopRatedFoodTrucks(TOP_RATED_FOOD_TRUCK_LIMIT).stream()
+                .map(FoodTruckTopRateResponse::from)
+                .toList();
     }
 }
