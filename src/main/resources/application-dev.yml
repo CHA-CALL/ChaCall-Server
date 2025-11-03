@@ -21,6 +21,9 @@ spring:
     redis:
       host: ${REDIS_HOST}
       port: 6379
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: ${MONGODB_DATABASE}
 
 logging:
   level:
