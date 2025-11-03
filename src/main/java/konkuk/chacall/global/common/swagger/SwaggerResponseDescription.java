@@ -265,6 +265,13 @@ public enum SwaggerResponseDescription {
             FOOD_TRUCK_STATUS_MISMATCH
     ))),
 
+    // Chat
+    CREATE_CHAT_ROOM(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_FOUND
+    ))),
+
     // Default
     DEFAULT(new LinkedHashSet<>())
     ;
