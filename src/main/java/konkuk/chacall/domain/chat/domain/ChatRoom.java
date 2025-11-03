@@ -1,6 +1,7 @@
 package konkuk.chacall.domain.chat.domain;
 
 import jakarta.persistence.*;
+import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.user.domain.model.User;
 import lombok.*;
 
@@ -18,17 +19,17 @@ public class ChatRoom {
     private Long chatRoomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false, referencedColumnName = "user_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private User member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", nullable = false, referencedColumnName = "user_id")
-    private User owner;
+    @JoinColumn(name = "food_truck_id", nullable = false)
+    private FoodTruck foodTruck;
 
-    public static ChatRoom createChatRoom(User member, User owner) {
+    public static ChatRoom createChatRoom(User member, FoodTruck foodTruck) {
         return ChatRoom.builder()
                 .member(member)
-                .owner(owner)
+                .foodTruck(foodTruck)
                 .build();
     }
 }
