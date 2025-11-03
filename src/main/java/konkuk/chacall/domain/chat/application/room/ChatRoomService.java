@@ -6,6 +6,7 @@ import konkuk.chacall.domain.chat.presentation.dto.response.ChatOpponentResponse
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomIdResponse;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
+import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
@@ -37,15 +38,15 @@ public class ChatRoomService {
         );
     }
 
-    public ChatOpponentResponse getChatOpponentName(User user, Long roomId) {
+    public ChatOpponentResponse getChatOpponentName(User user, Long roomId, boolean isOwner) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException(CHAT_ROOM_NOT_FOUND));
 
-        String name = switch (user.getRole()) {
-            case MEMBER -> chatRoom.getFoodTruck().getFoodTruckInfo().getName();
-            case OWNER -> chatRoom.getMember().getName();
-            default -> throw new BusinessException(USER_FORBIDDEN);
-        };
+        if(isOwner && user.getRole() != Role.OWNER) {
+            throw new BusinessException(USER_FORBIDDEN);
+        }
+
+        String name = isOwner ? chatRoom.getMember().getName() : chatRoom.getFoodTruck().getFoodTruckInfo().getName();
 
         return ChatOpponentResponse.of(name);
     }

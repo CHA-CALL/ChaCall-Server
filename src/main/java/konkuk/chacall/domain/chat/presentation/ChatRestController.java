@@ -47,10 +47,12 @@ public class ChatRestController {
     @GetMapping("/rooms/{roomId}")
     public BaseResponse<ChatOpponentResponse> getChatOpponentName(
             @Parameter(hidden = true) @UserId final Long memberId,
-            @Parameter(description = "채팅방 ID", example = "1") @PathVariable final Long roomId
+            @Parameter(description = "채팅방 ID", example = "1") @PathVariable final Long roomId,
+            @Parameter(description = "현재 채팅방 기준 푸드트럭 사장인지 여부", example = "false")
+            @RequestParam final Boolean isOwner
     ) {
         return BaseResponse.ok(
-                chatService.getChatOpponentName(memberId, roomId)
+                chatService.getChatOpponentName(memberId, roomId, isOwner)
         );
     }
 
