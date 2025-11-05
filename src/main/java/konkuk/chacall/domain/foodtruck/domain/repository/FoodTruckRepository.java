@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +60,6 @@ public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, Foo
                 where f.foodTruckStatus = 'APPROVED'
                 and f.foodTruckViewedStatus = 'ON'
                 order by f.ratingInfo.averageRating desc, f.ratingInfo.ratingCount desc
-                limit :limit
             """)
-    List<FoodTruck> findTopRatedFoodTrucks(@Param("limit") int limit);
+    List<FoodTruck> findTopRatedFoodTrucks(Pageable pageable);
 }
