@@ -19,7 +19,7 @@ import static konkuk.chacall.global.common.swagger.SwaggerResponseDescription.*;
 @Tag(name = "Chat API", description = "채팅 관련 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/chats")
+@RequestMapping("/chat")
 public class ChatRestController {
 
     private final ChatService chatService;

@@ -46,8 +46,11 @@ public class ChatRoomService {
             throw new BusinessException(USER_FORBIDDEN);
         }
 
-        String name = isOwner ? chatRoom.getMember().getName() : chatRoom.getFoodTruck().getFoodTruckInfo().getName();
+        // 푸드트럭 사장일 경우 예약자 이름 반환
+        if(isOwner) return ChatOpponentResponse.of(chatRoom.getMember().getName(), null);
 
-        return ChatOpponentResponse.of(name);
+        // 예약자일 경우 푸드트럭 사장 이름 및 푸드트럭 이름 반환
+        FoodTruck foodTruck = chatRoom.getFoodTruck();
+        return ChatOpponentResponse.of(foodTruck.getOwner().getName(), foodTruck.getFoodTruckInfo().getName());
     }
 }
