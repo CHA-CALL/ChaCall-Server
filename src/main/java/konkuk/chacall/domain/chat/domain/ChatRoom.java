@@ -39,12 +39,5 @@ public class ChatRoom {
                 .foodTruck(foodTruck)
                 .build();
     }
-
-    public void validateParticipant(User user) {
-        if(!this.member.getUserId().equals(user.getUserId()) &&
-           !this.foodTruck.getOwner().getUserId().equals(user.getUserId())) {
-            throw new DomainRuleException(ErrorCode.CHAT_ROOM_FORBIDDEN);
-        }
-    }
 }
 
