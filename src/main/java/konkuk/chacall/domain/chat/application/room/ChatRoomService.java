@@ -18,6 +18,8 @@ import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static konkuk.chacall.global.common.exception.code.ErrorCode.*;
 
 @Service
@@ -32,15 +34,10 @@ public class ChatRoomService {
                 .orElseThrow(() -> new EntityNotFoundException(FOOD_TRUCK_NOT_FOUND));
 
         // 채팅방이 이미 존재하는지 확인
-        if(chatRoomRepository.existsByMemberAndFoodTruck(member, foodTruck)) {
-            throw new EntityNotFoundException(CHAT_ROOM_ALREADY_EXISTS);
-        }
+        ChatRoom chatRoom = chatRoomRepository.findByMemberAndFoodTruck(member, foodTruck)
+                .orElseGet(() -> chatRoomRepository.save(ChatRoom.createChatRoom(member, foodTruck)));
 
-        ChatRoom chatRoom = ChatRoom.createChatRoom(member, foodTruck);
-
-        return ChatRoomIdResponse.of(
-                chatRoomRepository.save(chatRoom)
-        );
+        return ChatRoomIdResponse.of(chatRoom);
     }
 
     public ChatOpponentResponse getChatOpponentName(User user, Long roomId, boolean isOwner) {
