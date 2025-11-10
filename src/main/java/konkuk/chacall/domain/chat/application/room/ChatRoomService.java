@@ -1,9 +1,10 @@
 package konkuk.chacall.domain.chat.application.room;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import konkuk.chacall.domain.chat.domain.ChatRoom;
+import konkuk.chacall.domain.chat.domain.ChatRoomMetaData;
+import konkuk.chacall.domain.chat.domain.repository.ChatRoomMetaDataRepository;
 import konkuk.chacall.domain.chat.domain.repository.ChatRoomRepository;
+import konkuk.chacall.domain.chat.domain.repository.dto.ChatRoomMetaDataProjection;
 import konkuk.chacall.domain.chat.presentation.dto.request.ChatRoomFilter;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatOpponentResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomIdResponse;
@@ -18,7 +19,10 @@ import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static konkuk.chacall.global.common.exception.code.ErrorCode.*;
 
@@ -28,6 +32,7 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final FoodTruckRepository foodTruckRepository;
+    private final ChatRoomMetaDataRepository chatRoomMetaDataRepository;
 
     public ChatRoomIdResponse createChatRoom(User member, Long foodTruckId) {
         FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
@@ -36,6 +41,14 @@ public class ChatRoomService {
         // 채팅방이 이미 존재하는지 확인
         ChatRoom chatRoom = chatRoomRepository.findByMemberAndFoodTruck(member, foodTruck)
                 .orElseGet(() -> chatRoomRepository.save(ChatRoom.createChatRoom(member, foodTruck)));
+
+        // MongoDB 메타데이터 존재 여부 확인
+        chatRoomMetaDataRepository.findByRoomId(chatRoom.getChatRoomId())
+                .orElseGet(() -> {
+                    // 없을 경우 새로 생성
+                    ChatRoomMetaData metaData = ChatRoomMetaData.from(chatRoom);
+                    return chatRoomMetaDataRepository.save(metaData);
+                });
 
         return ChatRoomIdResponse.of(chatRoom);
     }
@@ -56,7 +69,42 @@ public class ChatRoomService {
         return ChatOpponentResponse.of(foodTruck.getOwner().getName(), foodTruck.getFoodTruckInfo().getName());
     }
 
-    public CursorPagingResponse<ChatRoomResponse> getChatRooms(User member, ChatRoomFilter filter, Boolean owner, Long cursor, Integer size) {
+    public CursorPagingResponse<ChatRoomResponse> getChatRooms(User member, ChatRoomFilter filter, Boolean isOwner, Long cursor, Integer size) {
+        int pageSize = (size == null || size < 1) ? 20 : size;
 
+        Long cursorSortKey = (cursor != null) ? cursor : Long.MAX_VALUE;
+        int limit = pageSize + 1;
+
+        // 1. MongoDB에서 메타데이터 + unreadCount 조회
+        List<ChatRoomMetaDataProjection> metaList =
+                chatRoomMetaDataRepository.findChatRoomsForUser(member.getUserId(), isOwner, cursorSortKey, limit);
+
+        boolean hasNext = metaList.size() > pageSize;
+        if (hasNext) {
+            metaList = metaList.subList(0, pageSize);
+        }
+
+        // 2. roomId 리스트로 RDB에서 ChatRoom 배치 조회
+        List<Long> roomIds = metaList.stream()
+                .map(ChatRoomMetaDataProjection::getRoomId)
+                .toList();
+
+        List<ChatRoom> chatRooms = chatRoomRepository.findByChatRoomIdIn(roomIds);
+        Map<Long, ChatRoom> chatRoomMap = chatRooms.stream()
+                .collect(Collectors.toMap(ChatRoom::getChatRoomId, Function.identity()));
+
+        // 3. 메타데이터 + RDB 정보 조합해서 ChatRoomResponse 생성
+        List<ChatRoomResponse> responses = metaList.stream()
+                .map(meta -> ChatRoomResponse.from(chatRoomMap.get(meta.getRoomId()), meta, isOwner))
+                .toList();
+
+        // 4. CursorPagingResponse 생성
+        Long lastCursor = responses.isEmpty() ? null : metaList.get(metaList.size() - 1).getSortKey();
+        return new CursorPagingResponse<>(
+                responses,
+                lastCursor,
+                hasNext,
+                null
+        );
     }
 }

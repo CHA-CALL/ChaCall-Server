@@ -6,11 +6,13 @@ import konkuk.chacall.domain.chat.presentation.dto.request.SendChatMessageReques
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatMessageResponse;
 import konkuk.chacall.global.common.annotation.UserId;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class ChatController {
@@ -27,6 +29,4 @@ public class ChatController {
         ChatMessageResponse chatMessageResponse = chatService.sendMessage(roomId, userId, request);
         messagingTemplate.convertAndSend("/sub/rooms/" + roomId, chatMessageResponse);
     }
-
-
 }
