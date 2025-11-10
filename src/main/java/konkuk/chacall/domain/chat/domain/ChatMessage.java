@@ -1,9 +1,9 @@
 package konkuk.chacall.domain.chat.domain;
 
-import jakarta.persistence.*;
 import konkuk.chacall.domain.chat.domain.value.MessageContentType;
 import konkuk.chacall.domain.user.domain.model.User;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
