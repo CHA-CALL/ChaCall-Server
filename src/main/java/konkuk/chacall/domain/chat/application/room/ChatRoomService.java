@@ -1,13 +1,18 @@
 package konkuk.chacall.domain.chat.application.room;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import konkuk.chacall.domain.chat.domain.ChatRoom;
 import konkuk.chacall.domain.chat.domain.repository.ChatRoomRepository;
+import konkuk.chacall.domain.chat.presentation.dto.request.ChatRoomFilter;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatOpponentResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomIdResponse;
+import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomResponse;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
+import konkuk.chacall.global.common.dto.CursorPagingResponse;
 import konkuk.chacall.global.common.exception.BusinessException;
 import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -52,5 +57,9 @@ public class ChatRoomService {
         // 예약자일 경우 푸드트럭 사장 이름 및 푸드트럭 이름 반환
         FoodTruck foodTruck = chatRoom.getFoodTruck();
         return ChatOpponentResponse.of(foodTruck.getOwner().getName(), foodTruck.getFoodTruckInfo().getName());
+    }
+
+    public CursorPagingResponse<ChatRoomResponse> getChatRooms(User member, ChatRoomFilter filter, Boolean owner, Long cursor, Integer size) {
+
     }
 }
