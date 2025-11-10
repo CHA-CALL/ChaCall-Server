@@ -58,7 +58,7 @@ public class ChatRoomMetaData {
                 .ownerId(chatRoom.getFoodTruck().getOwner().getUserId())
                 .lastMessage(null)
                 .lastMessageSendTime(null)
-                .sortKey(Long.MAX_VALUE) // 메시지 없는 방은 가장 뒤로 밀리도록 초기값
+                .sortKey(Long.MAX_VALUE - chatRoom.getChatRoomId()) // 메시지 없는 방은 가장 뒤로 밀리도록 초기값
                 .build();
     }
 
