@@ -59,7 +59,7 @@ public class ChatService {
         User member = memberValidator.validateAndGetMember(memberId);
 
         CursorPagingRequest cursorPagingRequest = request.pagingOrDefault(SortType.NEWEST);
-        return chatRoomService.getChatRooms(member, request.filter(), request.isOwner(), cursorPagingRequest.cursor(), cursorPagingRequest.size());
+        return chatRoomService.getChatRooms(member, request.isOwner(), cursorPagingRequest.cursor(), cursorPagingRequest.size());
     }
 
     @Transactional

@@ -5,7 +5,6 @@ import konkuk.chacall.domain.chat.domain.ChatRoomMetaData;
 import konkuk.chacall.domain.chat.domain.repository.ChatRoomMetaDataRepository;
 import konkuk.chacall.domain.chat.domain.repository.ChatRoomRepository;
 import konkuk.chacall.domain.chat.domain.repository.dto.ChatRoomMetaDataProjection;
-import konkuk.chacall.domain.chat.presentation.dto.request.ChatRoomFilter;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatOpponentResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomIdResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomResponse;
@@ -69,7 +68,7 @@ public class ChatRoomService {
         return ChatOpponentResponse.of(foodTruck.getOwner().getName(), foodTruck.getFoodTruckInfo().getName());
     }
 
-    public CursorPagingResponse<ChatRoomResponse> getChatRooms(User member, ChatRoomFilter filter, Boolean isOwner, Long cursor, Integer size) {
+    public CursorPagingResponse<ChatRoomResponse> getChatRooms(User member, Boolean isOwner, Long cursor, Integer size) {
         int pageSize = (size == null || size < 1) ? 20 : size;
 
         Long cursorSortKey = (cursor != null) ? cursor : Long.MAX_VALUE;
