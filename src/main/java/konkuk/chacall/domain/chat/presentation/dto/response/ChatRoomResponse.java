@@ -21,6 +21,7 @@ public record ChatRoomResponse(
         String lastMessage,
         @Schema(description = "마지막 메시지 전송 시간", example = "오후 5:49 or 어제 or 9월 30일 or 2023년 10월")
         String lastMessageSendTime,
+        @Schema(description = "읽지 않은 메시지 수", example = "3")
         long unreadCount
 ) {
 
