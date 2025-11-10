@@ -119,7 +119,9 @@ public enum ErrorCode implements ResponseCode {
      * ChatRoom
      */
     CHAT_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 160001, "채팅방을 찾을 수 없습니다."),
-    CHAT_ROOM_ALREADY_EXISTS(HttpStatus.CONFLICT, 160002, "이미 존재하는 채팅방입니다.")
+    CHAT_ROOM_ALREADY_EXISTS(HttpStatus.CONFLICT, 160002, "이미 존재하는 채팅방입니다."),
+    CHAT_ROOM_FORBIDDEN(HttpStatus.FORBIDDEN, 160003, "채팅방 접근 권한이 없습니다."),
+    CHAT_ROOM_FILTER_MISMATCH(HttpStatus.BAD_REQUEST, 160004, "채팅방 필터 값이 올바르지 않습니다."),
     ;
 
     private final HttpStatus httpStatus;
