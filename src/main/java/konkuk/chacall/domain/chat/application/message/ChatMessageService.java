@@ -1,9 +1,9 @@
 package konkuk.chacall.domain.chat.application.message;
 
 import konkuk.chacall.domain.chat.domain.ChatMessage;
-import konkuk.chacall.domain.chat.domain.ChatRoom;
+import konkuk.chacall.domain.chat.domain.ChatRoomMetaData;
 import konkuk.chacall.domain.chat.domain.repository.ChatMessageRepository;
-import konkuk.chacall.domain.chat.domain.repository.ChatRoomRepository;
+import konkuk.chacall.domain.chat.domain.repository.ChatRoomMetaDataRepository;
 import konkuk.chacall.domain.chat.presentation.dto.request.SendChatMessageRequest;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatMessageResponse;
 import konkuk.chacall.domain.user.domain.model.User;
@@ -22,39 +22,49 @@ import static konkuk.chacall.global.common.exception.code.ErrorCode.*;
 public class ChatMessageService {
 
     private final ChatMessageRepository chatMessageRepository;
-    private final ChatRoomRepository chatRoomRepository;
+    private final ChatRoomMetaDataRepository chatRoomMetaDataRepository;
 
     public ChatMessageResponse sendMessage(Long roomId, User senderUser, SendChatMessageRequest request) {
 
-        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
+        ChatRoomMetaData chatRoomMetaData = chatRoomMetaDataRepository.findByRoomId(roomId)
                 .orElseThrow(() -> new EntityNotFoundException(CHAT_ROOM_NOT_FOUND));
 
-        //todo 채팅방 참여자 검증 (쿼리가 최대 3개 호출되는데 추후 캐싱 고려)
-        chatRoom.validateParticipant(senderUser);
+        chatRoomMetaData.validateParticipant(senderUser);
 
         ChatMessage chatMessage = ChatMessage.createChatMessage(
-                chatRoom.getChatRoomId(),
+                chatRoomMetaData.getRoomId(),
                 senderUser,
                 request.content(),
                 request.contentType()
         );
 
-        chatMessageRepository.save(chatMessage);
+        ChatMessage savedMessage = chatMessageRepository.save(chatMessage);
+        chatRoomMetaData.updateLastMessage(savedMessage.getContent(), savedMessage.getSendTime());
+        chatRoomMetaDataRepository.save(chatRoomMetaData);
 
-        return ChatMessageResponse.from(chatMessage);
+        return ChatMessageResponse.from(savedMessage);
     }
 
     public List<ChatMessageResponse> getChatMessages(Long roomId, User user, int page, int size) {
-        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
+        ChatRoomMetaData chatRoomMetaData = chatRoomMetaDataRepository.findByRoomId(roomId)
                 .orElseThrow(() -> new EntityNotFoundException(CHAT_ROOM_NOT_FOUND));
 
-        //todo 채팅방 참여자 검증해야되는데.. 캐싱 고려해서 나중에
+        chatRoomMetaData.validateParticipant(user);
 
         var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "sendTime"));
 
-        return chatMessageRepository.findByRoomId(chatRoom.getChatRoomId(), pageable)
+        return chatMessageRepository.findByRoomId(chatRoomMetaData.getRoomId(), pageable)
                 .stream()
                 .map(ChatMessageResponse::from)
                 .toList();
+    }
+
+    public void markMessagesAsRead(User user, Long roomId) {
+        ChatRoomMetaData chatRoomMetaData = chatRoomMetaDataRepository.findByRoomId(roomId)
+                .orElseThrow(() -> new EntityNotFoundException(CHAT_ROOM_NOT_FOUND));
+
+        chatRoomMetaData.validateParticipant(user);
+
+        chatMessageRepository.markMessagesAsReadByUserInRoom(user.getUserId(), roomId);
     }
 }

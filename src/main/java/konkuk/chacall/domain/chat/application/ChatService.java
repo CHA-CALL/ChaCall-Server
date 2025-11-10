@@ -1,6 +1,5 @@
 package konkuk.chacall.domain.chat.application;
 
-import jakarta.validation.Valid;
 import konkuk.chacall.domain.chat.application.message.ChatMessageService;
 import konkuk.chacall.domain.chat.application.room.ChatRoomService;
 import konkuk.chacall.domain.chat.presentation.dto.request.GetChatRoomRequest;
@@ -43,6 +42,7 @@ public class ChatService {
         return chatRoomService.getChatOpponentName(user, roomId, isOwner);
     }
 
+    @Transactional
     public ChatMessageResponse sendMessage(Long roomId, Long userId, SendChatMessageRequest request) {
         User senderUser = memberValidator.validateAndGetMember(userId);
 
@@ -60,5 +60,12 @@ public class ChatService {
 
         CursorPagingRequest cursorPagingRequest = request.pagingOrDefault(SortType.NEWEST);
         return chatRoomService.getChatRooms(member, request.filter(), request.isOwner(), cursorPagingRequest.cursor(), cursorPagingRequest.size());
+    }
+
+    @Transactional
+    public void markMessagesAsRead(Long userId, Long roomId) {
+        User user = memberValidator.validateAndGetMember(userId);
+
+        chatMessageService.markMessagesAsRead(user, roomId);
     }
 }

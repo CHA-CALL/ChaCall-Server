@@ -96,5 +96,15 @@ public class ChatRestController {
         );
     }
 
-
+    @Operation(
+            summary = "채팅방 내 메시지 읽음 처리"
+    )
+    @PatchMapping("/rooms/{roomId}/read")
+    public BaseResponse<Void> markMessagesAsRead(
+            @Parameter(hidden = true) @UserId final Long userId,
+            @Parameter(description = "채팅방 ID", example = "1") @PathVariable final Long roomId
+    ) {
+        chatService.markMessagesAsRead(userId, roomId);
+        return BaseResponse.ok(null);
+    }
 }
