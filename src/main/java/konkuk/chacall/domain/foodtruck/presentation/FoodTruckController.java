@@ -158,4 +158,16 @@ public class FoodTruckController {
     ) {
         return BaseResponse.ok(foodTruckService.searchFoodTruckMenus(foodTruckId, keyword, memberId));
     }
+
+    @Operation(
+            summary = "[홈화면용] 평점 높은 푸드트럭 조회",
+            description = "평점이 높은 푸드트럭을 조회합니다."
+    )
+    @ExceptionDescription(SwaggerResponseDescription.GET_TOP_RATED_FOOD_TRUCKS)
+    @GetMapping("/top-rated")
+    public BaseResponse<List<FoodTruckTopRateResponse>> getTopRatedFoodTrucks(
+            @Parameter(hidden = true) @UserId final Long memberId
+    ) {
+        return BaseResponse.ok(foodTruckService.getTopRatedFoodTrucks(memberId));
+    }
 }

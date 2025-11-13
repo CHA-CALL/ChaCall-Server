@@ -53,4 +53,13 @@ public interface FoodTruckRepository extends JpaRepository<FoodTruck, Long>, Foo
 
     @EntityGraph(attributePaths = {"owner"})
     List<FoodTruck> findAll();
+
+    @Query("""
+                select f
+                from FoodTruck f
+                where f.foodTruckStatus = 'APPROVED'
+                and f.foodTruckViewedStatus = 'ON'
+                order by f.ratingInfo.averageRating desc, f.ratingInfo.ratingCount desc
+            """)
+    List<FoodTruck> findTopRatedFoodTrucks(Pageable pageable);
 }

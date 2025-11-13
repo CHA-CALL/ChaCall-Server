@@ -92,4 +92,10 @@ public class FoodTruckService {
 
         return foodTruckMenuService.searchFoodTruckMenus(foodTruckId, keyword, member);
     }
+
+    public List<FoodTruckTopRateResponse> getTopRatedFoodTrucks(Long memberId) {
+        memberValidator.validateAndGetMember(memberId);
+
+        return foodTruckInfoService.getTopRatedFoodTrucks();
+    }
 }
