@@ -9,7 +9,7 @@ import konkuk.chacall.domain.chat.application.ChatService;
 import konkuk.chacall.domain.chat.presentation.dto.request.CreateChatRoomRequest;
 import konkuk.chacall.domain.chat.presentation.dto.request.GetChatRoomRequest;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatMessageResponse;
-import konkuk.chacall.domain.chat.presentation.dto.response.ChatOpponentResponse;
+import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomMetaDataResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomIdResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomResponse;
 import konkuk.chacall.global.common.annotation.ExceptionDescription;
@@ -48,19 +48,19 @@ public class ChatRestController {
     }
 
     @Operation(
-            summary = "채팅 상대 이름 조회",
-            description = "채팅 상단에 표시되는 채팅 상대의 이름을 조회합니다."
+            summary = "채팅방 메타데이터 조회",
+            description = "채팅 상단에 표시되는 채팅 상대의 이름과 관련된 예약 ID(있는 경우)를 조회합니다."
     )
-    @ExceptionDescription(GET_CHAT_OPPONENT_NAME)
+    @ExceptionDescription(GET_CHAT_ROOM_META_DATA)
     @GetMapping("/rooms/{roomId}")
-    public BaseResponse<ChatOpponentResponse> getChatOpponentName(
+    public BaseResponse<ChatRoomMetaDataResponse> getChatRoomMetaData(
             @Parameter(hidden = true) @UserId final Long memberId,
             @Parameter(description = "채팅방 ID", example = "1") @PathVariable final Long roomId,
             @Parameter(description = "현재 채팅방 기준 푸드트럭 사장인지 여부", example = "false")
             @RequestParam final Boolean isOwner
     ) {
         return BaseResponse.ok(
-                chatService.getChatOpponentName(memberId, roomId, isOwner)
+                chatService.getChatRoomMetaData(memberId, roomId, isOwner)
         );
     }
 
