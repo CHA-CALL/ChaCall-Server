@@ -5,11 +5,13 @@ import konkuk.chacall.domain.chat.domain.ChatRoomMetaData;
 import konkuk.chacall.domain.chat.domain.repository.ChatRoomMetaDataRepository;
 import konkuk.chacall.domain.chat.domain.repository.ChatRoomRepository;
 import konkuk.chacall.domain.chat.domain.repository.dto.ChatRoomMetaDataProjection;
-import konkuk.chacall.domain.chat.presentation.dto.response.ChatOpponentResponse;
+import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomMetaDataResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomIdResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomResponse;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
+import konkuk.chacall.domain.reservation.domain.model.Reservation;
+import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
 import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
@@ -32,6 +34,7 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final FoodTruckRepository foodTruckRepository;
     private final ChatRoomMetaDataRepository chatRoomMetaDataRepository;
+    private final ReservationRepository reservationRepository;
 
     public ChatRoomIdResponse createChatRoom(User member, Long foodTruckId) {
         FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
@@ -52,20 +55,24 @@ public class ChatRoomService {
         return ChatRoomIdResponse.of(chatRoom);
     }
 
-    public ChatOpponentResponse getChatOpponentName(User user, Long roomId, boolean isOwner) {
+    public ChatRoomMetaDataResponse getChatRoomMetaData(User user, Long roomId, boolean isOwner) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException(CHAT_ROOM_NOT_FOUND));
+
+        Long reservationId = reservationRepository.findByChatRoom(chatRoom)
+                .map(Reservation::getReservationId)
+                .orElse(null);             // 없으면 null
 
         if(isOwner && user.getRole() != Role.OWNER) {
             throw new BusinessException(USER_FORBIDDEN);
         }
 
         // 푸드트럭 사장일 경우 예약자 이름 반환
-        if(isOwner) return ChatOpponentResponse.of(chatRoom.getMember().getName(), null);
+        if(isOwner) return ChatRoomMetaDataResponse.of(chatRoom.getMember().getName(), null, reservationId);
 
         // 예약자일 경우 푸드트럭 사장 이름 및 푸드트럭 이름 반환
         FoodTruck foodTruck = chatRoom.getFoodTruck();
-        return ChatOpponentResponse.of(foodTruck.getOwner().getName(), foodTruck.getFoodTruckInfo().getName());
+        return ChatRoomMetaDataResponse.of(foodTruck.getOwner().getName(), foodTruck.getFoodTruckInfo().getName(), reservationId);
     }
 
     public CursorPagingResponse<ChatRoomResponse> getChatRooms(User member, Boolean isOwner, Long cursor, Integer size) {

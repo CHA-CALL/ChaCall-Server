@@ -272,7 +272,7 @@ public enum SwaggerResponseDescription {
             FOOD_TRUCK_NOT_FOUND,
             CHAT_ROOM_ALREADY_EXISTS
     ))),
-    GET_CHAT_OPPONENT_NAME(new LinkedHashSet<>(Set.of(
+    GET_CHAT_ROOM_META_DATA(new LinkedHashSet<>(Set.of(
             USER_NOT_FOUND,
             USER_FORBIDDEN,
             CHAT_ROOM_NOT_FOUND

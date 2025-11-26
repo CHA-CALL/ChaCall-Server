@@ -1,5 +1,6 @@
 package konkuk.chacall.domain.reservation.domain.repository;
 
+import konkuk.chacall.domain.chat.domain.ChatRoom;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import org.springframework.data.domain.Pageable;
@@ -48,4 +49,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Modifying
     @Query("DELETE FROM Reservation r WHERE r.foodTruck.foodTruckId = :foodTruckId")
     void deleteAllByFoodTruckId(@Param("foodTruckId") Long foodTruckId);
+
+    Optional<Reservation> findByChatRoom(ChatRoom chatRoom);
 }

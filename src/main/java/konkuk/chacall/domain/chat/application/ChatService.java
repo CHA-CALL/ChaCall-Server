@@ -5,7 +5,7 @@ import konkuk.chacall.domain.chat.application.room.ChatRoomService;
 import konkuk.chacall.domain.chat.presentation.dto.request.GetChatRoomRequest;
 import konkuk.chacall.domain.chat.presentation.dto.request.SendChatMessageRequest;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatMessageResponse;
-import konkuk.chacall.domain.chat.presentation.dto.response.ChatOpponentResponse;
+import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomMetaDataResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomIdResponse;
 import konkuk.chacall.domain.chat.presentation.dto.response.ChatRoomResponse;
 import konkuk.chacall.domain.member.application.validator.MemberValidator;
@@ -36,10 +36,10 @@ public class ChatService {
         return chatRoomService.createChatRoom(member, foodTruckId);
     }
 
-    public ChatOpponentResponse getChatOpponentName(Long memberId, Long roomId, boolean isOwner) {
+    public ChatRoomMetaDataResponse getChatRoomMetaData(Long memberId, Long roomId, boolean isOwner) {
         User user = memberValidator.validateAndGetMember(memberId);
 
-        return chatRoomService.getChatOpponentName(user, roomId, isOwner);
+        return chatRoomService.getChatRoomMetaData(user, roomId, isOwner);
     }
 
     @Transactional
