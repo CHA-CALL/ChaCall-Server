@@ -7,7 +7,7 @@ public record ChatRoomMetaDataResponse(
         String name,
         @Schema(description = "푸드트럭 이름 (일반 유저 -> null)", example = "맛있는푸드트럭")
         String foodTruckName,
-        @Schema(description = "채팅방과 관련된 예약 ID (있는 경우: ID 반환, 없는 경우: null", example = "1")
+        @Schema(description = "채팅방과 관련된 예약 ID (있는 경우: ID 반환, 없는 경우: null)", example = "1")
         Long reservationId
 ) {
     public static ChatRoomMetaDataResponse of(String name, String foodTruckName, Long reservationId) {

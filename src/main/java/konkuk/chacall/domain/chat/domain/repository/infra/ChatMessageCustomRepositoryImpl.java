@@ -2,6 +2,7 @@ package konkuk.chacall.domain.chat.domain.repository.infra;
 
 import konkuk.chacall.domain.chat.domain.ChatMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -13,17 +14,30 @@ public class ChatMessageCustomRepositoryImpl implements ChatMessageCustomReposit
 
     @Override
     public void markMessagesAsReadByUserInRoom(Long userId, Long roomId) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("roomId").is(roomId));
-        // 내가 보낸 메시지는 읽음 처리 대상이 아님
-        query.addCriteria(Criteria.where("senderId").ne(userId));
-        // 아직 읽지 않은 메시지만
-        query.addCriteria(Criteria.where("read").is(false));
+        // 1) 가장 최근의 읽음 메시지 1개 찾기
+        Query lastReadQuery = new Query();
+        lastReadQuery.addCriteria(Criteria.where("roomId").is(roomId));
+        lastReadQuery.addCriteria(Criteria.where("senderId").ne(userId));
+        lastReadQuery.addCriteria(Criteria.where("read").is(true));
+        lastReadQuery.with(Sort.by(Sort.Direction.DESC, "sendTime"));
+        lastReadQuery.limit(1);
 
-        Update update = new Update();
-        update.set("read", true);
+        ChatMessage lastReadMessage =
+                mongoTemplate.findOne(lastReadQuery, ChatMessage.class);
 
-        // 조건에 맞는 모든 문서를 한 번에 업데이트
-        mongoTemplate.updateMulti(query, update, ChatMessage.class);
+        Update update = new Update().set("read", true);
+
+        Query updateQuery = new Query();
+        updateQuery.addCriteria(Criteria.where("roomId").is(roomId));
+        updateQuery.addCriteria(Criteria.where("senderId").ne(userId));
+        updateQuery.addCriteria(Criteria.where("read").is(false));
+
+        // 2) 마지막 읽음 메시지가 있다면 sendTime 조건 추가
+        if (lastReadMessage != null) {
+            updateQuery.addCriteria(Criteria.where("sendTime").gt(lastReadMessage.getSendTime()));
+        }
+
+        // 3) 일괄 업데이트
+        mongoTemplate.updateMulti(updateQuery, update, ChatMessage.class);
     }
 }
