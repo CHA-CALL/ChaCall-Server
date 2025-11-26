@@ -1,5 +1,7 @@
 package konkuk.chacall.domain.reservation.application.info;
 
+import konkuk.chacall.domain.chat.domain.ChatRoom;
+import konkuk.chacall.domain.chat.domain.repository.ChatRoomRepository;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
@@ -20,10 +22,14 @@ public class ReservationInfoService {
 
     private final FoodTruckRepository foodTruckRepository;
     private final ReservationRepository reservationRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     public Long createReservation(CreateReservationRequest request, User owner, User member) {
         FoodTruck foodTruck = foodTruckRepository.findById(request.foodTruckId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FOOD_TRUCK_NOT_FOUND));
+
+        ChatRoom chatRoom = chatRoomRepository.findById(request.chatRoomId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CHAT_ROOM_NOT_FOUND));
 
         Reservation reservation = Reservation.create(
                 request.address(),
@@ -36,7 +42,9 @@ public class ReservationInfoService {
                 request.etcRequest(),
                 owner,
                 member,
-                foodTruck);
+                foodTruck,
+                chatRoom
+                );
 
         return reservationRepository.save(reservation).getReservationId();
     }

@@ -10,6 +10,10 @@ public record CreateReservationRequest(
         @NotNull(message = "푸드트럭 ID는 필수 입력 값입니다.")
         Long foodTruckId,
 
+        @Schema(description = "채팅방 ID", example = "1")
+        @NotNull(message = "채팅방 ID는 필수 입력 값입니다.")
+        Long chatRoomId,
+
         @Schema(description = "예약자(일반 유저) ID", example = "2")
         @NotNull(message = "예약자 ID는 필수 입력 값입니다.")
         Long reservationUserId,

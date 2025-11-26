@@ -29,10 +29,6 @@ public class ChatRoom {
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reservation_id")
-    private Reservation reservation;
-
     public static ChatRoom createChatRoom(User member, FoodTruck foodTruck) {
         return ChatRoom.builder()
                 .member(member)
