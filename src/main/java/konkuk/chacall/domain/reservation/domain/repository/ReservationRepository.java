@@ -1,6 +1,8 @@
 package konkuk.chacall.domain.reservation.domain.repository;
 
+import konkuk.chacall.domain.chat.domain.ChatRoom;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
+import konkuk.chacall.domain.reservation.domain.repository.dto.ReservationConfirmedProjection;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -10,6 +12,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -48,4 +51,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Modifying
     @Query("DELETE FROM Reservation r WHERE r.foodTruck.foodTruckId = :foodTruckId")
     void deleteAllByFoodTruckId(@Param("foodTruckId") Long foodTruckId);
+
+    Optional<Reservation> findByChatRoom(ChatRoom chatRoom);
+
+    @Query("SELECT r.chatRoom.chatRoomId AS roomId, " +
+            "CASE WHEN r.reservationStatus = 'CONFIRMED' THEN true ELSE false END AS confirmed " +
+            "FROM Reservation r " +
+            "WHERE r.chatRoom.chatRoomId IN :roomIds")
+    List<ReservationConfirmedProjection> findReservationConfirmedByChatRoomIds(@Param("roomIds") List<Long> roomIds);
 }

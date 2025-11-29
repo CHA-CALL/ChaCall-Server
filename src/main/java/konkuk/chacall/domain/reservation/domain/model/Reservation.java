@@ -1,6 +1,7 @@
 package konkuk.chacall.domain.reservation.domain.model;
 
 import jakarta.persistence.*;
+import konkuk.chacall.domain.chat.domain.ChatRoom;
 import konkuk.chacall.domain.reservation.domain.value.ReservationDateList;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.reservation.domain.value.ReservationInfo;
@@ -46,6 +47,11 @@ public class Reservation extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_truck_id", nullable = false)
     private FoodTruck foodTruck;
+
+    // 추후에 nullable = false 로 변경할 예정
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_room_id", unique = true)
+    private ChatRoom chatRoom;
 
     // 해당 예약과 연관된 사람인지 검증 (사장님, 예약자)
     public void validateAccessibleBy(Long userId) {
@@ -99,7 +105,8 @@ public class Reservation extends BaseEntity {
             String etcRequest,
             User owner,
             User member,
-            FoodTruck foodTruck
+            FoodTruck foodTruck,
+            ChatRoom chatRoom
     ) {
         validateCreateReservation(owner, member, foodTruck);
 
@@ -121,6 +128,7 @@ public class Reservation extends BaseEntity {
                 .pdfUrl(null)
                 .member(member)
                 .foodTruck(foodTruck)
+                .chatRoom(chatRoom)
                 .build();
     }
 

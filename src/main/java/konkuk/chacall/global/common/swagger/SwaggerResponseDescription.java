@@ -269,6 +269,19 @@ public enum SwaggerResponseDescription {
             USER_FORBIDDEN
     ))),
 
+    // Chat
+    CREATE_CHAT_ROOM(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            FOOD_TRUCK_NOT_FOUND,
+            CHAT_ROOM_ALREADY_EXISTS
+    ))),
+    GET_CHAT_ROOM_META_DATA(new LinkedHashSet<>(Set.of(
+            USER_NOT_FOUND,
+            USER_FORBIDDEN,
+            CHAT_ROOM_NOT_FOUND
+    ))),
+
     // Default
     DEFAULT(new LinkedHashSet<>())
     ;

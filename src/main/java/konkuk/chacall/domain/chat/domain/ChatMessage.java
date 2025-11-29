@@ -1,43 +1,45 @@
 package konkuk.chacall.domain.chat.domain;
 
-import jakarta.persistence.*;
 import konkuk.chacall.domain.chat.domain.value.MessageContentType;
 import konkuk.chacall.domain.user.domain.model.User;
-import konkuk.chacall.global.common.domain.BaseEntity;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "chat_messages")
+@Getter
+@Document(collection = "chat_messages")
+@CompoundIndex(
+        name = "room_sender_read_time_idx",
+        def = "{'roomId': 1, 'senderId': 1, 'read': 1, 'sendTime': 1}"
+)
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatMessage extends BaseEntity {
+public class ChatMessage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    private Long chatMessageId;
+    private String id;
 
-    @Column(name = "content", nullable = false, length = 1000)
+    private Long roomId;
+    private Long senderId;
     private String content;
+    private String contentType;
 
-    @Column(nullable = false)
-    private LocalDateTime sendTime;
+    @Builder.Default
+    private LocalDateTime sendTime = LocalDateTime.now();
 
-    @Column(name = "is_read", nullable = false)
-    private boolean isRead;
+    @Builder.Default
+    private boolean read = false;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "chat_room_id", nullable = false)
-    private ChatRoom chatRoom;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User senderUser;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private MessageContentType contentType;
-
+    public static ChatMessage createChatMessage(Long roomId, User sender, String content, MessageContentType contentType) {
+        return ChatMessage.builder()
+                .roomId(roomId)
+                .senderId(sender.getUserId())
+                .content(content)
+                .contentType(contentType.name())
+                .build();
+    }
 }
