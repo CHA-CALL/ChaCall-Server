@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -51,4 +53,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     void deleteAllByFoodTruckId(@Param("foodTruckId") Long foodTruckId);
 
     Optional<Reservation> findByChatRoom(ChatRoom chatRoom);
+
+    @Query("SELECT r.chatRoom.chatRoomId AS roomId, " +
+            "CASE WHEN r.reservationStatus = 'CONFIRMED' THEN true ELSE false END AS confirmed " +
+            "FROM Reservation r " +
+            "WHERE r.chatRoom.chatRoomId IN :roomIds")
+    Map<Long, Boolean> findReservationConfirmedByChatRoomIds(List<Long> roomIds);
 }

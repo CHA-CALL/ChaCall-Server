@@ -99,12 +99,16 @@ public class ChatRoomService {
         Map<Long, ChatRoom> chatRoomMap = chatRooms.stream()
                 .collect(Collectors.toMap(ChatRoom::getChatRoomId, Function.identity()));
 
-        // 3. 메타데이터 + RDB 정보 조합해서 ChatRoomResponse 생성
+        // 3. 예약 확정 여부 조회
+        Map<Long, Boolean> reservationConfirmedMap = reservationRepository.findReservationConfirmedByChatRoomIds(roomIds);
+
+        // 4. 메타데이터 + RDB 정보 조합해서 ChatRoomResponse 생성
         List<ChatRoomResponse> responses = metaList.stream()
-                .map(meta -> ChatRoomResponse.from(chatRoomMap.get(meta.getRoomId()), meta, isOwner))
+                .map(meta -> ChatRoomResponse.from(chatRoomMap.get(meta.getRoomId()), meta, isOwner,
+                        reservationConfirmedMap.getOrDefault(meta.getRoomId(), false)))
                 .toList();
 
-        // 4. CursorPagingResponse 생성
+        // 5. CursorPagingResponse 생성
         Long lastCursor = responses.isEmpty() ? null : metaList.get(metaList.size() - 1).getSortKey();
         return new CursorPagingResponse<>(
                 responses,

@@ -22,10 +22,12 @@ public record ChatRoomResponse(
         @Schema(description = "마지막 메시지 전송 시간", example = "오후 5:49 or 어제 or 9월 30일 or 2023년 10월")
         String lastMessageSendTime,
         @Schema(description = "읽지 않은 메시지 수", example = "3")
-        long unreadCount
+        long unreadCount,
+        @Schema(description = "예약 확정 여부", example = "true")
+        boolean isReservationConfirmed
 ) {
 
-    public static ChatRoomResponse from(ChatRoom chatRoom, ChatRoomMetaDataProjection meta, boolean isOwner) {
+    public static ChatRoomResponse from(ChatRoom chatRoom, ChatRoomMetaDataProjection meta, boolean isOwner, boolean isReservationConfirmed) {
         // 현재 뷰 기준 상대방 정보
         User oppenent = isOwner ? chatRoom.getMember() : chatRoom.getFoodTruck().getOwner();
         String name = oppenent.getName();
@@ -47,7 +49,8 @@ public record ChatRoomResponse(
                 profileImageUrl,
                 lastMessage,
                 lastMessageSendTime,
-                unreadCount
+                unreadCount,
+                isReservationConfirmed
         );
     }
 }
