@@ -2,6 +2,7 @@ package konkuk.chacall.domain.reservation.domain.repository;
 
 import konkuk.chacall.domain.chat.domain.ChatRoom;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
+import konkuk.chacall.domain.reservation.domain.repository.dto.ReservationConfirmedProjection;
 import konkuk.chacall.domain.reservation.domain.value.ReservationStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -58,5 +59,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "CASE WHEN r.reservationStatus = 'CONFIRMED' THEN true ELSE false END AS confirmed " +
             "FROM Reservation r " +
             "WHERE r.chatRoom.chatRoomId IN :roomIds")
-    Map<Long, Boolean> findReservationConfirmedByChatRoomIds(List<Long> roomIds);
+    List<ReservationConfirmedProjection> findReservationConfirmedByChatRoomIds(List<Long> roomIds);
 }

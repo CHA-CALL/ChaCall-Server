@@ -12,6 +12,7 @@ import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.repository.FoodTruckRepository;
 import konkuk.chacall.domain.reservation.domain.model.Reservation;
 import konkuk.chacall.domain.reservation.domain.repository.ReservationRepository;
+import konkuk.chacall.domain.reservation.domain.repository.dto.ReservationConfirmedProjection;
 import konkuk.chacall.domain.user.domain.model.Role;
 import konkuk.chacall.domain.user.domain.model.User;
 import konkuk.chacall.global.common.dto.CursorPagingResponse;
@@ -20,6 +21,7 @@ import konkuk.chacall.global.common.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -100,7 +102,18 @@ public class ChatRoomService {
                 .collect(Collectors.toMap(ChatRoom::getChatRoomId, Function.identity()));
 
         // 3. 예약 확정 여부 조회
-        Map<Long, Boolean> reservationConfirmedMap = reservationRepository.findReservationConfirmedByChatRoomIds(roomIds);
+        Map<Long, Boolean> reservationConfirmedMap;
+        if (roomIds.isEmpty()) {
+            reservationConfirmedMap = Collections.emptyMap();
+        } else {
+            List<ReservationConfirmedProjection> confirmedList = reservationRepository.findReservationConfirmedByChatRoomIds(roomIds);
+
+            reservationConfirmedMap = confirmedList.stream()
+                    .collect(Collectors.toMap(
+                            ReservationConfirmedProjection::getRoomId,
+                            ReservationConfirmedProjection::getConfirmed
+                    ));
+        }
 
         // 4. 메타데이터 + RDB 정보 조합해서 ChatRoomResponse 생성
         List<ChatRoomResponse> responses = metaList.stream()
