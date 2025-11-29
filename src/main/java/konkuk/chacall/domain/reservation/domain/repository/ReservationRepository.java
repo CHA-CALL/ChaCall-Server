@@ -59,5 +59,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "CASE WHEN r.reservationStatus = 'CONFIRMED' THEN true ELSE false END AS confirmed " +
             "FROM Reservation r " +
             "WHERE r.chatRoom.chatRoomId IN :roomIds")
-    List<ReservationConfirmedProjection> findReservationConfirmedByChatRoomIds(List<Long> roomIds);
+    List<ReservationConfirmedProjection> findReservationConfirmedByChatRoomIds(@Param("roomIds") List<Long> roomIds);
 }
