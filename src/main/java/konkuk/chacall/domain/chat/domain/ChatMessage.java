@@ -11,7 +11,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @Document(collection = "chat_messages")
-@CompoundIndex(name = "room_time_idx", def = "{'roomId': 1, 'sendTime': 1}")
+@CompoundIndex(
+        name = "room_sender_read_time_idx",
+        def = "{'roomId': 1, 'senderId': 1, 'read': 1, 'sendTime': 1}"
+)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
