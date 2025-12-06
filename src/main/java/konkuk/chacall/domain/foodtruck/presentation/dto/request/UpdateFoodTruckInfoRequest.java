@@ -70,7 +70,10 @@ public record UpdateFoodTruckInfoRequest (
         @NotNull(message = "결제 수단은 필수 입력 값입니다.")
         PaymentMethod paymentMethod,
 
-        @Schema(description = "운영 가능 날짜 리스트", example = "[{\"startDate\":\"2024.10.01\",\"endDate\":\"2024.10.10\"}]")
+        @Schema(
+                description = "운영 가능 날짜 리스트 (형식: \"yyyy.MM.dd ~ yyyy.MM.dd\")",
+                example = "[\"2025.10.11 ~ 2025.11.10\", \"2025.11.20 ~ 2025.11.22\"]"
+        )
         @Size(min = 1, max = 4, message = "운영 가능 날짜는 최소 1개, 최대 4개까지 등록 가능합니다.")
         List<DateRangeRequest> availableDates,
 
