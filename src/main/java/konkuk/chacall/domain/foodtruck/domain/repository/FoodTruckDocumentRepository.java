@@ -2,6 +2,7 @@ package konkuk.chacall.domain.foodtruck.domain.repository;
 
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruckDocument;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
@@ -14,4 +15,13 @@ public interface FoodTruckDocumentRepository extends JpaRepository<FoodTruckDocu
             WHERE ftd.foodTruck.foodTruckId IN :foodTruckIds
             """)
     List<FoodTruckDocument> findAllInFoodTruckIds(List<Long> foodTruckIds);
+
+    @Modifying
+    @Query(
+            """
+            DELETE FROM FoodTruckDocument ftd
+            WHERE ftd.foodTruck.foodTruckId = :foodTruckId
+            """
+    )
+    void deleteAllByFoodTruckId(Long foodTruckId);
 }

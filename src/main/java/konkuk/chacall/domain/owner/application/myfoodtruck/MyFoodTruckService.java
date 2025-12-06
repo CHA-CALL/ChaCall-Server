@@ -61,6 +61,9 @@ public class MyFoodTruckService {
 
         foodTruck.validateOwner(ownerId);
 
+        // 푸드트럭 관련 서류 삭제
+        foodTruckDocumentRepository.deleteAllByFoodTruckId(foodTruckId);
+
         // 푸드트럭 호출 가능 지역 삭제
         foodTruckServiceAreaRepository.deleteAllByFoodTruckId(foodTruckId);
 
