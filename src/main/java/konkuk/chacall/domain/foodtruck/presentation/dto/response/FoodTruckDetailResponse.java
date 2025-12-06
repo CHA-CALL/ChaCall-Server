@@ -5,6 +5,7 @@ import konkuk.chacall.domain.foodtruck.domain.model.AvailableDate;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruck;
 import konkuk.chacall.domain.foodtruck.domain.model.FoodTruckServiceArea;
 import konkuk.chacall.domain.foodtruck.domain.value.FoodTruckInfo;
+import konkuk.chacall.domain.region.domain.model.Region;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public record FoodTruckDetailResponse(
         Boolean timeDiscussRequired,
         @Schema(description = "호출 가능 지역", example = "서울 광진구, 서울 강남구, 서울 영등포구")
         String serviceAreas,
+        @Schema(description = "호출 가능 지역 코드", example = "[1, 2]")
+        List<Long> regionCodes,
         @Schema(description = "푸드트럭 메뉴 카테고리 (라벨 리스트)", example = "[\"한식\",\"분식\"]")
         List<String> menuCategories,
         @Schema(description = "푸드트럭 제공 가능 수량", example = "200인분 미만")
@@ -54,6 +57,7 @@ public record FoodTruckDetailResponse(
                 foodTruckInfo.getActiveTime(),
                 foodTruckInfo.getTimeDiscussRequired(),
                 foodTruck.getServiceAreas(serviceAreas),
+                serviceAreas.stream().map(FoodTruckServiceArea::getRegion).map(Region::getRegionCode).toList(),
                 foodTruckInfo.getMenuCategoryList().getMenuCategoryLabelList(),
                 foodTruckInfo.getAvailableQuantity().getValue(),
                 foodTruckInfo.getNeedElectricity().getValue(),
