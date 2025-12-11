@@ -69,12 +69,13 @@ public class ChatRoomService {
             throw new BusinessException(USER_FORBIDDEN);
         }
 
+        FoodTruck foodTruck = chatRoom.getFoodTruck();
+
         // 푸드트럭 사장일 경우 예약자 이름 반환
-        if(isOwner) return ChatRoomMetaDataResponse.of(chatRoom.getMember().getName(), null, reservationId);
+        if(isOwner) return ChatRoomMetaDataResponse.of(chatRoom.getMember().getName(), null, foodTruck.getFoodTruckId(), reservationId, chatRoom.getMember().getUserId());
 
         // 예약자일 경우 푸드트럭 사장 이름 및 푸드트럭 이름 반환
-        FoodTruck foodTruck = chatRoom.getFoodTruck();
-        return ChatRoomMetaDataResponse.of(foodTruck.getOwner().getName(), foodTruck.getFoodTruckInfo().getName(), reservationId);
+        return ChatRoomMetaDataResponse.of(foodTruck.getOwner().getName(), foodTruck.getFoodTruckInfo().getName(), foodTruck.getFoodTruckId(), reservationId, chatRoom.getMember().getUserId());
     }
 
     public CursorPagingResponse<ChatRoomResponse> getChatRooms(User member, Boolean isOwner, Long cursor, Integer size) {
