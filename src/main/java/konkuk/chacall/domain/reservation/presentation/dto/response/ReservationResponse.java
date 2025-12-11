@@ -20,7 +20,7 @@ public record ReservationResponse(
                 message = "예약 날짜 형식이 올바르지 않습니다. (예: 2025.09.20 ~ 2025.09.20)"
         ) String> reservationDates,
 
-        @Schema(description = "운영 시간 (형식: HH:MM ~ HH:MM)", example = "15:00 ~ 16:00")
+        @Schema(description = "운영 시간 (형식: HH:MM-HH:MM)", example = "15:00-16:00")
         String operationHour,
 
         @Schema(description = "메뉴", example = "떡볶이, 순대, 튀김")

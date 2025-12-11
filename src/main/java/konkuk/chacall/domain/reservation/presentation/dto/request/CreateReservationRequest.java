@@ -36,10 +36,10 @@ public record CreateReservationRequest(
                     message = "예약 날짜 형식이 올바르지 않습니다. (예: 2025.09.20 ~ 2025.09.20)"
         ) String> reservationDates,
 
-        @Schema(description = "운영 시간 (형식: HH:MM ~ HH:MM)", example = "15:00 ~ 16:00")
+        @Schema(description = "운영 시간 (형식: HH:MM-HH:MM)", example = "15:00-16:00")
         @NotBlank(message = "운영 시간은 필수 입력 값입니다.")
-        @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d) ~ ([01]\\d|2[0-3]):([0-5]\\d)$",
-                message = "운영 시간 형식이 올바르지 않습니다. (예: 15:00 ~ 16:00)")
+        @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d)-([01]\\d|2[0-3]):([0-5]\\d)$",
+                message = "운영 시간 형식이 올바르지 않습니다. (예: 15:00-16:00)")
         String operationHour,
 
         @Schema(description = "메뉴", example = "떡볶이, 순대, 튀김")
