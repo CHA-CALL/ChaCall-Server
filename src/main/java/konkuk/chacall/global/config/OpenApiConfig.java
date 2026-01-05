@@ -52,8 +52,8 @@ public class OpenApiConfig {
     public OpenAPI openAPI() {
         List<Server> serverList = switch (profile) {
             case "dev" -> List.of(
-                    new Server().url(httpsUrl).description("HTTPS 개발 서버"),
                     new Server().url(httpUrl).description("HTTP 개발 서버"),
+                    new Server().url(httpsUrl).description("HTTPS 개발 서버"),
                     new Server().url("http://localhost:8080").description("로컬 개발 서버")
             );
             default -> List.of(
