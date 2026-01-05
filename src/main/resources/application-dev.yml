@@ -44,8 +44,9 @@ server:
   https-url: ${HTTPS_URL}
   http-url: ${HTTP_URL}
   web-domain-urls:
+    - "${HTTPS_URL}"
+    - "${HTTP_URL}"
     - "http://localhost:5173"
-    - "https://chacall.co.kr"
     - "http://localhost:8080"
 
 ---
