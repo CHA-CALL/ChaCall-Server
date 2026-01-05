@@ -42,6 +42,8 @@ import static java.util.stream.Collectors.groupingBy;
 public class OpenApiConfig {
     private final String securitySchemaName = "JWT";
 
+    @Value("${server.https-url}") private String httpsUrl;
+
     @Value("${server.http-url}") private String httpUrl;
 
     @Value(("${server.profile}")) private String profile;
@@ -50,6 +52,7 @@ public class OpenApiConfig {
     public OpenAPI openAPI() {
         List<Server> serverList = switch (profile) {
             case "dev" -> List.of(
+                    new Server().url(httpsUrl).description("HTTPS 개발 서버"),
                     new Server().url(httpUrl).description("HTTP 개발 서버"),
                     new Server().url("http://localhost:8080").description("로컬 개발 서버")
             );
