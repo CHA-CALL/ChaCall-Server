@@ -35,7 +35,7 @@ public record FoodTruckDetailResponse(
         String needElectricity,
         @Schema(description = "결제 방법", example = "무관")
         String paymentMethod,
-        @Schema(description = "푸드트럭 제공 가능 날짜 리스트", example = "[\"2025-10-01 ~ 2025-10-10\",\"2025-11-01 ~ 2025-11-10\"]")
+        @Schema(description = "푸드트럭 제공 가능 날짜 리스트", example = "[\"2025.10.01 ~ 2025.10.10\",\"2025.11.01 ~ 2025.11.10\"]")
         List<String> availableDates,
         @Schema(description = "푸드트럭 사진 URL 리스트", example = "[\"http://image.png\",\"http://image2.png\",\"http://image3.png\"]")
         List<String> photoUrl,

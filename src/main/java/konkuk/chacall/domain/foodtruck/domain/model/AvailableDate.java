@@ -38,7 +38,9 @@ public class AvailableDate extends BaseEntity {
     }
 
     public String formatDate() {
-        return startAt + " ~ " + endAt;
+        return String.format("%d.%02d.%02d ~ %d.%02d.%02d",
+                startAt.getYear(), startAt.getMonthValue(), startAt.getDayOfMonth(),
+                endAt.getYear(), endAt.getMonthValue(), endAt.getDayOfMonth());
     }
 
 
